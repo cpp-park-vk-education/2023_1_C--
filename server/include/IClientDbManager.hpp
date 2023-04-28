@@ -1,0 +1,9 @@
+#pragma once
+
+#include "IDbManager.hpp"
+
+class IClientDbManager : public IDbManager
+{
+public:
+    virtual std::string GetClient(const std::string& login, const std::string& password) = 0;
+};
