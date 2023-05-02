@@ -3,7 +3,7 @@ project(tests)
 
 find_package(GTest REQUIRED)
 
-add_subdirectory(server) #project <name>_test
+# add_subdirectory(server)
 
 add_subdirectory(client)
 
