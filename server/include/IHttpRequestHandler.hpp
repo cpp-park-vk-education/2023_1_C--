@@ -5,9 +5,6 @@
 #include "IHttpRequest.hpp"
 #include "IHttpResponse.hpp"
 
-template <typename T>
-using Shared = std::shared_ptr<T>;
-
 class IHttpRequestHandler
 {
 public:

@@ -14,8 +14,6 @@ class IHttpRequest
 {
 public:
 
-    virtual int getStatus() const = 0;
-
     virtual HttpMethods getMethod() const = 0;
 
     virtual std::string getPath() const = 0;

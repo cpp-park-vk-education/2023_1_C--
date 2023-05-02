@@ -1,6 +1,8 @@
 project (server_test)
 
-include_directories(server ../../server/include ./mocks/include)
+set(INC_DIR ../../server/include)
+
+include_directories(server ${INC_DIR} ${INC_DIR}/HttpRequest ./mocks/include)
 
 add_executable(server_test tests.cpp)
 

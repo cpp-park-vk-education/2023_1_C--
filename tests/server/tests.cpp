@@ -5,28 +5,6 @@
 #include "HttpResponseMock.hpp"
 #include "HttpRequestHandlerMock.hpp"
 
-TEST(HttpRequestTest, GetSomeStatuses)
-{
-    HttpRequestMock request;
-
-    EXPECT_CALL(request, getStatus()).Times(1).WillOnce(testing::Return(200));
-
-    EXPECT_EQ(request.getStatus(), 200);
-
-    EXPECT_CALL(request, getStatus()).Times(1).WillOnce(testing::Return(400));
-
-    EXPECT_EQ(request.getStatus(), 400);
-}
-
-TEST(HttpRequestTest, GetMethods)
-{
-    HttpRequestMock request;
-
-    EXPECT_CALL(request, getMethod()).Times(1).WillOnce(testing::Return(HttpMethods::POST));
-
-    EXPECT_EQ(request.getMethod(), HttpMethods::POST);
-}
-
 TEST(HttpRequestHandlerTest, LoginControllerSimulation)
 {
     HttpRequestHandlerMock requestMapper;

@@ -2,7 +2,7 @@
 
 #include "IDbManager.hpp"
 
-class IRoomDbManager : public IDbManager
+class IRoomDbManager
 {
 public:
     virtual void insertRoom(const std::string&) = 0; // Предполагается, что будет передан JSON с описанием комнаты

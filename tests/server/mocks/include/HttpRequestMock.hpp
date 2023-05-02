@@ -7,7 +7,6 @@
 class HttpRequestMock : public IHttpRequest
 {
 public:
-    MOCK_METHOD(int, getStatus, (), (const, override));
 
     MOCK_METHOD(HttpMethods, getMethod, (), (const, override));
 
