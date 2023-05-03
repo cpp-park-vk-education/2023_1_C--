@@ -1,22 +1,20 @@
 #pragma once
 
-#include <QObject>
 #include <map>
 #include <memory>
 
 #include "IHttpRequestHandler.hpp"
 
-class HttpRequestMapper : public QObject, public IHttpRequestHandler
+class HttpRequestMapper : public IHttpRequestHandler
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(HttpRequestMapper)
+    using UniqueHandler = std::unique_ptr<IHttpRequestHandler>;
 public:
-    HttpRequestMapper(QObject* parent = nullptr) : QObject(parent){}
+    HttpRequestMapper(std::map<std::string, UniqueHandler>&& controllerMap) : controllerMap(std::move(controllerMap)){}
 
-    ~HttpRequestMapper(){};
+    ~HttpRequestMapper(){}
 
     void service(IHttpRequest* request, IHttpResponse* response) override;
 
 private:
-    std::map<std::string, std::unique_ptr<IHttpRequestHandler>> controllerMap;
+    std::map<std::string, UniqueHandler> controllerMap;
 };

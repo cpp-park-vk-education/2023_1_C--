@@ -17,11 +17,13 @@ include_directories(
 
 add_executable(server
     main.cpp
-    HttpRequest/HttpRequest.cpp
-    HttpResponse/HttpResponse.cpp
     HttpHandlers/HttpRequestMapper.cpp
 )
 
+set(WEB_DIR ../QtWebApp)
+
+target_link_libraries(server /usr/local/lib/libQtWebApp.so.1.8.6)
+target_include_directories(server PUBLIC ${WEB_DIR}/httpserver ${WEB_DIR}/logging ${WEB_DIR}/templateengine)
 target_link_libraries(server Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
 
 install(TARGETS server
