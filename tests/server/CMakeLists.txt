@@ -1,8 +1,15 @@
 project (server_test)
 
-set(INC_DIR ../../server/include)
+set(MAIN_DIR ../../server)
 
-include_directories(server ${INC_DIR} ${INC_DIR}/HttpRequest ./mocks/include)
+include_directories(
+    ${MAIN_DIR}/HttpRequest
+    ${MAIN_DIR}/HttpRequest
+    ${MAIN_DIR}/HttpResponse
+    ${MAIN_DIR}/HttpListener
+    ${MAIN_DIR}/HttpHandlers
+    ${MAIN_DIR}/HttpControllers
+    ./mocks/include)
 
 add_executable(server_test tests.cpp)
 

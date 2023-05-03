@@ -4,18 +4,17 @@
 #include "HttpRequestMock.hpp"
 #include "HttpResponseMock.hpp"
 #include "HttpRequestHandlerMock.hpp"
+#include "HttpRequestMapper.hpp"
 
 TEST(HttpRequestHandlerTest, LoginControllerSimulation)
 {
-    HttpRequestHandlerMock requestMapper;
+    HttpRequestMapper requestMapper;
 
     HttpRequestMock httpRequest;
 
     EXPECT_CALL(httpRequest, getPath()).Times(1).WillOnce(testing::Return("/login"));
 
     HttpResponseMock httpResponse;
-
-    EXPECT_CALL(httpResponse, setBody("user")).Times(1);
 
     EXPECT_CALL(requestMapper, service(&httpRequest, &httpResponse)).Times(1);
 

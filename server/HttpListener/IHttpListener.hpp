@@ -1,6 +1,6 @@
 #pragma once
 
-class HttpListener
+class IHttpListener
 {
 public:
     virtual void listen() = 0;
