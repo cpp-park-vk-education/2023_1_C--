@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "IHttpRequest.hpp"
 #include "IHttpResponse.hpp"
 

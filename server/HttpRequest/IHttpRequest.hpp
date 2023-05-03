@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <map>
+
 
 enum class HttpMethods
 {
@@ -18,7 +20,7 @@ public:
 
     virtual std::string getPath() const = 0;
 
-    virtual std::string getHeader() const = 0;
+    virtual std::map<std::string, std::string> getHeader() const = 0;
 
     virtual std::string getBody() const = 0;
 };
