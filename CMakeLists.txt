@@ -3,4 +3,8 @@ project(teamgram)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_subdirectory(lib)
+include_directories(DB)
+
+add_subdirectory(DB)
+
+add_subdirectory(tests)

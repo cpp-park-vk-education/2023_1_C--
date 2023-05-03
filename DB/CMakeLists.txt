@@ -14,9 +14,9 @@ include_directories(
 )
 
 add_executable(DB
-  src/dbmanager.cpp
-  src/clientdbmanager.cpp
-  src/roomdbmanager.cpp
+  src/DBManager.cpp
+  src/ClientDBManager.cpp
+  src/RoomDBManager.cpp
 )
 
 install(TARGETS DB
