@@ -1,6 +1,7 @@
 add_library(account src/AccountNetwork.cpp
                     src/AccountReplyHandler.cpp
                     src/AccountUseCase.cpp
+                    src/AccountPagesSwitcher.cpp
                     src/Forms.cpp)
 target_include_directories(account PUBLIC include)
 

@@ -3,7 +3,7 @@
 #include "IAccountReplyHandler.hpp"
 #include "IAccountUi.hpp"
 #include "IWidgetController.hpp"
-#include "IRoomPage.hpp"
+#include "IRoomUi.hpp"
 
 class AccountReplyHandler : public IAccountReplyHandler {
 public:
@@ -11,7 +11,7 @@ public:
     void OnLoginResponse(unsigned int statusCode, IUserDataUPtr userData) override;
     void OnSignupResponse(unsigned int statusCode, IUserDataUPtr userData) override;
     void OnUserSettingResponse(unsigned int statusCode, IUserDataUPtr userData) override;
-    // void OnLogOutResponse() override;
+    void OnLogoutResponse(unsigned int statusCode) override;
 
     void SetAccountUi(IAccountUiUPtr accountUi) {
         accountUi_ = std::move(accountUi);

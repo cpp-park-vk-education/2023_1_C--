@@ -1,7 +1,7 @@
 #pragma once
 #include "IAccountNetwork.hpp"
 #include "INetworkManager.hpp"
-#include "ITextSerializer.hpp"
+#include "IAccountSerializer.hpp"
 #include "IAccountReplyHandler.hpp"
 
 using Headers = std::unordered_map<std::string, std::string>;
@@ -22,16 +22,16 @@ private:
     std::vector<char> body_;
 };
 
-
 class AccountNetwork : public IAccountNetwork {
 public:
-    void Login(const TextData& textData) override;
-    void Signup(const TextData& textData) override;
-    void UserSetting(const TextData& textData) override;
-    void Logout() override;
+    void Login(const LoginData& data) override;
+    void Signup(const SignupData& data) override;
+    void UserSetting(const UserSettingData& data) override;
+    void Logout(const LogoutData& data) override;
     void OnLoginResponse(IResponseUPtr response);
     void OnSignupResponse(IResponseUPtr response);
     void OnUserSettingResponse(IResponseUPtr response);
+    void OnLogoutResponse(IResponseUPtr response);
     
     void SetNetworkManager(INetworkManagerUPtr networkManager) {
         networkManager_ = std::move(networkManager);
@@ -41,14 +41,19 @@ public:
         replyHandler_ = std::move(replyHandler);
     }
 
-    void SetSerializer(ITextSerializerUPtr serializer) {
-        serializer_ = std::move(serializer);
+    void SetRequestSerializer(IAccountRequestSerializerUPtr serializer) {
+        requestSerializer_ = std::move(serializer);
+    }
+
+    void SetResponseSerializer(IAccountResponseSerializerUPtr serializer) {
+        responseSerializer_ = std::move(serializer);
     }
 
 private:
     INetworkManagerUPtr networkManager_;
     IAccountReplyHandlerUPtr replyHandler_;
-    ITextSerializerUPtr serializer_;
+    IAccountRequestSerializerUPtr requestSerializer_;
+    IAccountResponseSerializerUPtr responseSerializer_;
     Request CreateRequest(const std::string& url, 
                           const Headers& headers);
 };

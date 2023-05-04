@@ -4,10 +4,10 @@
 class IAccountUseCase {
 public:
     virtual ~IAccountUseCase() {}
-    virtual void Login(IFormUPtr form) = 0;
-    virtual void Signup(IFormUPtr form) = 0;
-    virtual void UserSetting(IFormUPtr form) = 0;
-    virtual void Logout() = 0;
+    virtual void Login(ILoginFormUPtr form) = 0;
+    virtual void Signup(ISignupFormUPtr form) = 0;
+    virtual void UserSetting(IUserSettingFormUPtr form) = 0;
+    virtual void Logout(const std::string& token) = 0;
 };
 
 using IAccountUseCaseUPtr = std::unique_ptr<IAccountUseCase>;

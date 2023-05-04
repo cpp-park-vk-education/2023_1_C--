@@ -1,17 +1,17 @@
 #pragma once
+#include "AccountData.hpp"
+#include "IAccountNetwork.hpp"
 #include <string>
 #include <unordered_map>
 #include <memory>
 
-using TextData = std::unordered_map<std::string, std::string>;
-
 class IAccountNetwork {
 public:
     virtual ~IAccountNetwork() {}
-    virtual void Login(const TextData& textData) = 0;
-    virtual void Signup(const TextData& textData) = 0;
-    virtual void UserSetting(const TextData& textData) = 0;
-    virtual void Logout() = 0;
+    virtual void Login(const LoginData& data) = 0;
+    virtual void Signup(const SignupData& data) = 0;
+    virtual void UserSetting(const UserSettingData& data) = 0;
+    virtual void Logout(const LogoutData& data) = 0;
 };
 
 using IAccountNetworkUPtr = std::unique_ptr<IAccountNetwork>;

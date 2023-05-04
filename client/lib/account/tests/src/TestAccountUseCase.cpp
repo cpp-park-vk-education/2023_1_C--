@@ -1,39 +1,46 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "AccountUseCase.hpp"
+#include "MockNetwork.hpp"
+#include "MockAccountUi.hpp"
 #include "Errors.hpp"
 
-struct StubCorrectForm : public IForm {
+struct StubCorrectLoginForm : public ILoginForm {
     void validate() const override {}
-    TextData getTextData() const override { return TextData{}; }
+    LoginData getLoginData() const override { return LoginData{}; }
 };
 
-struct StubIncorrectForm : public IForm {
-    void validate() const override { throw FormError{"Error message"}; }
-    TextData getTextData() const override { return TextData{}; }
+struct StubCorrectSignupForm : public ISignupForm {
+    void validate() const override {}
+    SignupData getSignupData() const override { return SignupData{}; }
 };
 
-struct MockAccountUi : public IAccountUi {
-    MOCK_METHOD(void, ShowError, (const std::string& error_message), (override));
+struct StubCorrectUserSettingForm : public IUserSettingForm {
+    void validate() const override {}
+    UserSettingData getUserSettingData() const override { return UserSettingData{}; }
 };
 
-struct MockAccountNetwork : public IAccountNetwork {
-    MOCK_METHOD(void, Login, (const TextData& textData), (override));
-    MOCK_METHOD(void, Signup, (const TextData& textData), (override));
-    MOCK_METHOD(void, UserSetting, (const TextData& textData), (override));
-    MOCK_METHOD(void, Logout, (), (override));
+struct StubIncorrectLoginForm : public ILoginForm {
+    void validate() const override {}
+    LoginData getLoginData() const override { throw FormError{"Error"}; }
+};
+
+struct StubIncorrectSignupForm : public ISignupForm {
+    void validate() const override {}
+    SignupData getSignupData() const override { throw FormError{"Error"}; }
+};
+
+struct StubIncorrectUserSettingForm : public IUserSettingForm {
+    void validate() const override {}
+    UserSettingData getUserSettingData() const override { throw FormError{"Error"}; }
 };
 
 class AccountUseCaseTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        correctForm = std::make_unique<StubCorrectForm>();
-        incorrectForm = std::make_unique<StubIncorrectForm>();
-
         auto networkMock = std::make_unique<MockAccountNetwork>();
         networkMockAddr = networkMock.get();
         useCase.SetNetwork(std::move(networkMock));
-
+        
         auto uiMock = std::make_unique<MockAccountUi>();
         uiMockAddr = uiMock.get();
         useCase.SetAccountUi(std::move(uiMock));
@@ -41,45 +48,42 @@ protected:
     
     void TearDown() override {}
 
-protected:
-    std::unique_ptr<StubCorrectForm> correctForm;
-    std::unique_ptr<StubIncorrectForm> incorrectForm;
     AccountUseCase useCase;
     MockAccountNetwork* networkMockAddr;
     MockAccountUi* uiMockAddr;  
 };
 
-TEST_F(AccountUseCaseTest, CallLogiLnForCorrectForm) {
+TEST_F(AccountUseCaseTest, CallLoginForCorrectForm) {
     EXPECT_CALL(*networkMockAddr, Login(::testing::_));
-    useCase.Login(std::move(correctForm));
+    useCase.Login(std::make_unique<StubCorrectLoginForm>());
 }
 
 TEST_F(AccountUseCaseTest, CallLoginForIncorrectForm) {
     EXPECT_CALL(*uiMockAddr, ShowError(::testing::_));
-    useCase.Login(std::move(incorrectForm));
+    useCase.Login(std::make_unique<StubIncorrectLoginForm>());
 }
 
 TEST_F(AccountUseCaseTest, CallSignupForCorrectForm) {
     EXPECT_CALL(*networkMockAddr, Signup(::testing::_));
-    useCase.Signup(std::move(correctForm));
+    useCase.Signup(std::make_unique<StubCorrectSignupForm>());
 }
 
 TEST_F(AccountUseCaseTest, CallSignupForIncorrectForm) {
     EXPECT_CALL(*uiMockAddr, ShowError(::testing::_));
-    useCase.Signup(std::move(incorrectForm));
+    useCase.Signup(std::make_unique<StubIncorrectSignupForm>());
 }
 
 TEST_F(AccountUseCaseTest, CallUserSettingForCorrectForm) {
     EXPECT_CALL(*networkMockAddr, UserSetting(::testing::_));
-    useCase.UserSetting(std::move(correctForm));
+    useCase.UserSetting(std::make_unique<StubCorrectUserSettingForm>());
 }
 
 TEST_F(AccountUseCaseTest, CallUserSettingForIncorrectForm) {
     EXPECT_CALL(*uiMockAddr, ShowError(::testing::_));
-    useCase.UserSetting(std::move(incorrectForm));
+    useCase.UserSetting(std::make_unique<StubIncorrectUserSettingForm>());
 }
 
 TEST_F(AccountUseCaseTest, CallLogout) {
-    EXPECT_CALL(*networkMockAddr, Logout());
-    useCase.Logout();
+    EXPECT_CALL(*networkMockAddr, Logout(::testing::_));
+    useCase.Logout(std::string{});
 }

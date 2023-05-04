@@ -1,15 +1,15 @@
 #pragma once
-#include "Forms.hpp"
+#include "IForms.hpp"
 #include "IAccountUi.hpp"
 #include "IAccountUseCase.hpp"
 #include "IAccountNetwork.hpp"
 
 class AccountUseCase : public IAccountUseCase {
 public:
-    void Login(IFormUPtr form) override;
-    void Signup(IFormUPtr form) override;
-    void UserSetting(IFormUPtr form) override;
-    void Logout() override;
+    void Login(ILoginFormUPtr form) override;
+    void Signup(ISignupFormUPtr form) override;
+    void UserSetting(IUserSettingFormUPtr form) override;
+    void Logout(const std::string& token) override;
 
     void SetNetwork(IAccountNetworkUPtr network) {
         network_ = std::move(network);

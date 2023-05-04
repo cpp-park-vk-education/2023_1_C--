@@ -1,5 +1,5 @@
 #pragma once
-#include "IRoomPage.hpp"
+#include "IRoomUi.hpp"
 #include <string>
 #include <vector>
 #include <memory>
