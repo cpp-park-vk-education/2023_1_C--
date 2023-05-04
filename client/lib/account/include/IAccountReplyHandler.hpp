@@ -1,7 +1,6 @@
 #pragma once
 #include "UserData.hpp"
 #include <memory>
-// #include <optional>
 
 class IAccountReplyHandler {
 public:

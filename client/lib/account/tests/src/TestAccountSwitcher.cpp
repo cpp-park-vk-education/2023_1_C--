@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "AccountPagesSwitcher.hpp"
+#include "AccountSwitcher.hpp"
 #include "MockWidgetController.hpp"
 
 class AccountPagesSwitcherTest : public ::testing::Test {
@@ -13,7 +13,7 @@ protected:
     void TearDown() override {}
 
     MockWidgetController* mockAddr;
-    AccountPagesSwitcher pageSwitcher;
+    AccountSwitcher pageSwitcher;
 
 };
 

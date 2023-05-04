@@ -1,8 +1,8 @@
 #pragma once
 #include "IAccountNetwork.hpp"
 #include "INetworkManager.hpp"
-#include "IAccountSerializer.hpp"
 #include "IAccountReplyHandler.hpp"
+#include "IClientSerializer.hpp"
 
 using Headers = std::unordered_map<std::string, std::string>;
 
@@ -45,7 +45,7 @@ public:
         requestSerializer_ = std::move(serializer);
     }
 
-    void SetResponseSerializer(IAccountResponseSerializerUPtr serializer) {
+    void SetResponseSerializer(IAccountResponseDeserializerUPtr serializer) {
         responseSerializer_ = std::move(serializer);
     }
 
@@ -53,7 +53,7 @@ private:
     INetworkManagerUPtr networkManager_;
     IAccountReplyHandlerUPtr replyHandler_;
     IAccountRequestSerializerUPtr requestSerializer_;
-    IAccountResponseSerializerUPtr responseSerializer_;
+    IAccountResponseDeserializerUPtr responseSerializer_;
     Request CreateRequest(const std::string& url, 
                           const Headers& headers);
 };

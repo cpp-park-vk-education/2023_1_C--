@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 
-class IAccountPagesSwitcher {
+class IAccountSwitcher {
 public:
-    ~IAccountPagesSwitcher() {}
+    ~IAccountSwitcher() {}
     virtual void ShowLoginPage() = 0;
     virtual void ShowSignupPage() = 0;
     virtual void ShowUserSettingPage() = 0;
 };
 
-using IAccountPagesSwitcherUPtr = std::unique_ptr<IAccountPagesSwitcher>;
+using IAccountSwitcherUPtr = std::unique_ptr<IAccountSwitcher>;

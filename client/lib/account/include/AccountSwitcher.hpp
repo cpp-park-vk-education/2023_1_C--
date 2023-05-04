@@ -1,7 +1,7 @@
-#include "IAccountPagesSwitcher.hpp"
+#include "IAccountSwitcher.hpp"
 #include "IWidgetController.hpp"
 
-class AccountPagesSwitcher : public IAccountPagesSwitcher {
+class AccountSwitcher : public IAccountSwitcher {
 public:
     void ShowLoginPage() override;
 

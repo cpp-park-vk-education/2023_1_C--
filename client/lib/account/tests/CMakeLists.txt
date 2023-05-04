@@ -1,7 +1,7 @@
 add_executable(TestAccountUseCase src/TestAccountUseCase.cpp)
 add_executable(TestAccountNetwork src/TestAccountNetwork.cpp)
 add_executable(TestAccountReplyHandler src/TestAccountReplyHandler.cpp)
-add_executable(TestAccountPagesSwitcher src/TestAccountPagesSwitcher.cpp)
+add_executable(TestAccountSwitcher src/TestAccountSwitcher.cpp)
 add_executable(TestForms src/TestForms.cpp)
 
 
@@ -19,7 +19,7 @@ target_link_libraries(TestAccountReplyHandler account
                                               GTest::gtest_main
                                               GTest::gmock)
 
-target_link_libraries(TestAccountPagesSwitcher account
+target_link_libraries(TestAccountSwitcher account
                                                GTest::gtest_main
                                                GTest::gmock)
 
@@ -30,5 +30,5 @@ target_link_libraries(TestForms account
 add_test(TestAccountUseCase TestAccountUseCase)
 add_test(TestAccountNetwork TestAccountNetwork)
 add_test(TestAccountReplyHandler TestAccountReplyHandler)
-add_test(TestAccountPagesSwitcher TestAccountPagesSwitcher)
+add_test(TestAccountSwitcher TestAccountSwitcher)
 add_test(TestForms TestForms)
