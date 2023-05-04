@@ -6,7 +6,7 @@
 #include "IHttpRequest.hpp"
 #include "IHttpResponse.hpp"
 
-class HttpRequestHandlerMock : IHttpRequestHandler
+class HttpRequestHandlerMock : public IHttpRequestHandler
 {
 public:
     MOCK_METHOD(void, service, (IHttpRequest*, IHttpResponse*));
