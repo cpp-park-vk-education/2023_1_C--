@@ -1,7 +1,24 @@
 #include "DBManager.hpp"
 
-DBManager::DBManager(){}
+DBManager::DBManager() {
+    db = QSqlDatabase::addDatabase(DBType, connectionName);
+    connect();
+}
 
-int DBManager::connect(const std::string& dsn){}
+int DBManager::connect() {
+    db.setHostName    (hostName);
+    db.setPort        (port);
+    db.setDatabaseName(DBName);
+    db.setUserName    (username);
+    db.setPassword    (password);
+    if(!db.open())
+        qDebug() << db.lastError().text();
+}
 
-std::vector<std::vector<std::string>> DBManager::exec(const std::string& sqlQuery){}
+QSqlQuery DBManager::execute(const QString& queryStr) {
+    QSqlQuery query(db);
+    if(!query.exec(queryStr))
+        qDebug() << db.lastError().text();
+    else
+        return query;
+}

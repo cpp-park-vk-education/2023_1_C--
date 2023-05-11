@@ -1,20 +1,28 @@
 #pragma once
 
 #include "IClientDBManager.hpp"
+#include "DBManager.hpp"
+#include "Client.hpp"
 
 class ClientDBManager: public IClientDBManager {
 public:
     ClientDBManager();
 
-    Client getClient(const std::string& login)                                    override;
+    Client getClient(const QString& login) override;
 
-    int changeLogin(const std::string& old_login, const std::string& new_login)   override;
+    Client createClient(const QString&, const QString&, const QString&) override;
 
-    int changePassword(const std::string& login, const std::string& new_password) override;
+    Client changeLogin(const QString& old_login, const QString& new_login) override;
 
-    int setFirstname(const std::string& login, const std::string& firstname)      override;
+    Client changePassword(const QString& login, const QString& new_password) override;
 
-    int setLastname(const std::string& login, const std::string& lastname)        override;
+    Client setFirstname(const QString& login, const QString& firstname) override;
 
+    Client setLastname(const QString& login, const QString& lastname) override;
+
+    QList<Client> getClientsInRoom(const int roomID) override;
+
+private:
+    std::unique_ptr<DBManager> dbManager;
 };
 
