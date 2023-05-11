@@ -9,3 +9,5 @@ include_directories(DB)
 add_subdirectory(DB)
 
 add_subdirectory(tests)
+
+enable_testing()
