@@ -9,7 +9,8 @@ enum class HttpMethods
     GET = 0,
     POST,
     PUT,
-    DELETE
+    DELETE,
+    UNK
 };
 
 class IHttpRequest
@@ -20,7 +21,7 @@ public:
 
     virtual std::string getPath() const = 0;
 
-    virtual std::string getHeader() const = 0;
+    virtual std::string getHeader(const std::string&) const = 0;
 
     virtual std::string getBody() const = 0;
 };

@@ -5,5 +5,5 @@
 
 class LoginController : public IHttpRequestHandler
 {
-    // not implemented, because mocks
+    void service(IHttpRequest*, IHttpResponse*) override;
 };
