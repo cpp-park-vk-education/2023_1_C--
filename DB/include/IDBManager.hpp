@@ -2,10 +2,11 @@
 
 #include <string>
 #include <vector>
+#include <QSqlQuery>
 
 class IDBManager {
 public:
-    virtual int connect(const std::string&) = 0;
+    virtual int connect() = 0;
 
-    virtual std::vector<std::vector<std::string>> exec(const std::string&) = 0;
+    virtual QSqlQuery execute(const QString&) = 0;
 };

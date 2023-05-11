@@ -1,27 +1,31 @@
 #pragma once
 
 #include <string>
-
-struct Room{};
-struct Message{};
+#include "Message.hpp"
+#include "Room.hpp"
 
 class IRoomDBManager {
 public:
+    virtual QList<Room> getRooms(const QString&) = 0;
+
+    virtual QList<Message> getMessages(const int, const QString&) = 0;
+
     virtual Room getRoom(const int room_ID) = 0;
 
-    virtual int insertRoom(const std::string& name) = 0;
+    virtual Room insertRoom(const QString&, const QString&) = 0;
 
-    virtual int insertNewMessage(const int room_ID, const std::string& text) = 0;
+    virtual Message insertNewMessage(const int room_ID, const QString& username, const QString& text) = 0;
 
     virtual Message getNewMessage(const int room_ID) = 0;
 
-    virtual int deleteRoom(const int room_ID) = 0;
+    virtual void deleteRoom(const int room_ID) = 0;
 
-    virtual int renameRoom(const int room_ID, const std::string& new_name) = 0;
+    virtual Room renameRoom(const int room_ID, const QString& new_name) = 0;
 
-    virtual int addClientToRoom(const int room_ID, const std::string& login) = 0;
+    virtual void addClientToRoom(const int room_ID, const QString& login) = 0;
 
-    virtual int deleteClientFromRoom(const int room_ID, const std::string& login) = 0;
+    virtual void deleteClientFromRoom(const int room_ID, const QString& login) = 0;
 
-    virtual int changeMessageContext(const int room_ID, const int message_ID, const std::string& new_context) = 0;
+    virtual Message changeMessageContext(const int message_ID, const QString& new_context) = 0;
+
 };
