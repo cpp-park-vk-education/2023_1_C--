@@ -2,8 +2,8 @@
 
 void AccountReplyHandler::OnLoginResponse(unsigned int statusCode, IUserDataUPtr userData) {
     if (statusCode == 200) {
-        widgetController_->ShowAllRoomsPage();
-        roomSwitcher_->ShowMainPage(std::move(userData));
+        widgetController_->ShowMainPage();
+        roomSwitcher_->ShowMainPage(userData->GetUserRooms(), userData->GetUserInfo());
     } else {
         accountUi_->ShowError("Error:" + std::to_string(statusCode) + " status code");
     }
@@ -11,8 +11,8 @@ void AccountReplyHandler::OnLoginResponse(unsigned int statusCode, IUserDataUPtr
 
 void AccountReplyHandler::OnSignupResponse(unsigned int statusCode, IUserDataUPtr userData) {
     if (statusCode == 200) {
-        widgetController_->ShowAllRoomsPage();
-        roomSwitcher_->ShowMainPage(std::move(userData));
+        widgetController_->ShowMainPage();
+        roomSwitcher_->ShowMainPage(userData->GetUserRooms(), userData->GetUserInfo());
     } else {
         accountUi_->ShowError("Error:" + std::to_string(statusCode) + " status code");
     }
@@ -20,8 +20,8 @@ void AccountReplyHandler::OnSignupResponse(unsigned int statusCode, IUserDataUPt
 
 void AccountReplyHandler::OnUserSettingResponse(unsigned int statusCode, IUserDataUPtr userData) {
     if (statusCode == 200) {
-        widgetController_->ShowAllRoomsPage();
-        roomSwitcher_->ShowMainPage(std::move(userData));
+        widgetController_->ShowMainPage();
+        roomSwitcher_->ShowMainPage(userData->GetUserRooms(), userData->GetUserInfo());
     } else {
         accountUi_->ShowError("Error:" + std::to_string(statusCode) + " status code");
     }

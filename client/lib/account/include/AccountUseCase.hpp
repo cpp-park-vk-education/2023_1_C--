@@ -19,6 +19,7 @@ public:
         accountUi_ = std::move(accountUi);
     }
     
+    
 private:
     IAccountUiUPtr accountUi_;
     IAccountNetworkUPtr network_;

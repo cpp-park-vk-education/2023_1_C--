@@ -9,6 +9,9 @@ if(BUILD_TESTS)
 endif()
 
 add_subdirectory(lib/account)
+add_subdirectory(lib/room)
+
+target_link_libraries(account room)
 
 # find_package(Qt6 REQUIRED COMPONENTS Widgets Network Core)
 # target_link_libraries(account PRIVATE Qt6::Widgets Qt6::Network Qt6::Core)

@@ -6,7 +6,7 @@ add_library(account src/AccountNetwork.cpp
 target_include_directories(account PUBLIC include)
 
 include_directories(../network_manager/include)
-include_directories(../room/include)
+# include_directories(../room/include)
 include_directories(../controller/include)
 
 if (BUILD_TESTS)

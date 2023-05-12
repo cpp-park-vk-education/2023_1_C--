@@ -1,9 +1,19 @@
 #pragma once
 #include <memory>
+#include <string>
 #include <vector>
 
-struct RoomInfo {};
-struct Message {};
+struct RoomInfo {
+    std::vector<std::string> members;
+    std::string name;
+};
+
+struct Message {
+    size_t id;
+    std::string content;
+    std::string author;
+    std::string sendingData;
+};
 
 class IRoom {
 public:
