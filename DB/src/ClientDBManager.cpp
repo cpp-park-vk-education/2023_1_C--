@@ -4,8 +4,8 @@ ClientDBManager::ClientDBManager(std::shared_ptr<DBManager>& manager) {
     dbManager = manager;
 }
 
-Client ClientDBManager::getClient(const QString& username) {
-    const QString queryStr = "SELECT * FROM users WHERE username = '" + username + "'";
+Client ClientDBManager::getClient(const QString& login) {
+    const QString queryStr = "SELECT * FROM users WHERE login = '" + login + "'";
     QSqlQuery query = dbManager->execute(queryStr);
     Client client = Client(query);
     return client;
