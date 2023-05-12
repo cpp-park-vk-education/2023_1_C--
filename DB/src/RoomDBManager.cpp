@@ -1,7 +1,7 @@
 #include "RoomDBManager.hpp"
 
-RoomDBManager::RoomDBManager() {
-    dbManager = std::make_unique<DBManager>(DBManager());
+RoomDBManager::RoomDBManager(std::shared_ptr<DBManager>& manager) {
+    dbManager = manager;
 }
 
 Room RoomDBManager::getRoom(const int room_ID) {
@@ -47,8 +47,12 @@ Room RoomDBManager::insertRoom(const QString& username, const QString& roomname)
 }
 
 Message RoomDBManager::insertNewMessage(const int room_ID, const QString& username, const QString& text) {
+    QDateTime curr_DT = QDateTime::currentDateTime();
+    QString date = QString::number(curr_DT.date().year()) + "-" + QString::number(curr_DT.date().month()) +
+                   "-" + QString::number(curr_DT.date().day()) + " " + QString::number(curr_DT.time().hour()) + ":" +
+                   QString::number(curr_DT.time().minute()) + ":" + QString::number(curr_DT.time().second());
     QString queryStr = "INSERT INTO rooms VALUES (" + QString::number(room_ID) + ", '" + username +
-        ", '" + text + "'" + "date" + "');";
+        ", '" + text + "'" + date + "');";
     dbManager->execute(queryStr);
     Message message = getNewMessage(room_ID);
 }

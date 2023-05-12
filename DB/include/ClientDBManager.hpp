@@ -3,10 +3,11 @@
 #include "IClientDBManager.hpp"
 #include "DBManager.hpp"
 #include "Client.hpp"
+#include <memory>
 
 class ClientDBManager: public IClientDBManager {
 public:
-    ClientDBManager();
+    ClientDBManager(std::shared_ptr<DBManager>&);
 
     Client getClient(const QString& login) override;
 
@@ -23,6 +24,6 @@ public:
     QList<Client> getClientsInRoom(const int roomID) override;
 
 private:
-    std::unique_ptr<DBManager> dbManager;
+    std::shared_ptr<DBManager> dbManager;
 };
 

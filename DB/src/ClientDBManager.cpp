@@ -1,7 +1,7 @@
 #include "ClientDBManager.hpp"
 
-ClientDBManager::ClientDBManager() {
-    dbManager = std::make_unique<DBManager>(DBManager());
+ClientDBManager::ClientDBManager(std::shared_ptr<DBManager>& manager) {
+    dbManager = manager;
 }
 
 Client ClientDBManager::getClient(const QString& username) {

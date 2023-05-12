@@ -3,10 +3,11 @@
 #include "IRoomDBManager.hpp"
 #include "DBManager.hpp"
 #include "Client.hpp"
+#include <memory>
 
 class RoomDBManager: public IRoomDBManager {
 public:
-    RoomDBManager();
+    RoomDBManager(std::shared_ptr<DBManager>&);
 
     QList<Room> getRooms(const QString&) override;
 
@@ -27,7 +28,7 @@ public:
     Message changeMessageContext(const int message_ID, const QString& new_context) override;
 
 private:
-    std::unique_ptr<DBManager> dbManager;
+    std::shared_ptr<DBManager> dbManager;
     
     Room getRoom(const int room_ID) override;
 
