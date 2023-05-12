@@ -1,6 +1,6 @@
 #include "LoginService.hpp"
 
-void LoginService::getClient(const std::string& login)
+Client LoginService::getClient(const std::string& login) // NOT SAFE | WIP
 {
-
+    return clientManager->getClient(QString::fromStdString(login));
 }

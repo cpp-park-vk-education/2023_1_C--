@@ -52,7 +52,7 @@ add_executable(server
 
 target_include_directories(server PUBLIC ../DB/include)
 
-target_link_libraries(server DB /usr/local/lib/libQtWebApp.so.1.8.6)
+target_link_libraries(server DB /usr/local/lib/libQtWebApp.so.1.8.6) # cringe
 
 target_link_libraries(server Qt5::Core Qt5::Network Qt5::Sql)
 

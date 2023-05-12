@@ -4,6 +4,8 @@
 #include "HttpRequestMapper.hpp"
 #include "LoginController.hpp"
 #include "RequestMapperAdapter.hpp"
+#include "DBManager.hpp"
+#include <ClientDBManager.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -15,10 +17,16 @@ int main(int argc, char *argv[])
 
     settings->beginGroup("listener");
 
+    auto manager = std::make_shared<DBManager>();
+
+    auto clientDb = std::make_shared<ClientDBManager>(manager);
+
     std::map<std::string, std::unique_ptr<IHttpRequestHandler>> map;
 
     map.insert(
-        std::make_pair("/login", std::make_unique<LoginController>())
+        std::make_pair("/login", std::make_unique<LoginController>(
+            std::make_unique<LoginService>(clientDb)
+        ))
     );
 
     new HttpListener(
