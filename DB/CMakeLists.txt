@@ -12,16 +12,17 @@ find_package(Qt5 REQUIRED COMPONENTS Core Gui Sql)
 
 include_directories(
   include
-  src
 )
 
-add_executable(DB
+set(SRC
   src/DBManager.cpp
   src/ClientDBManager.cpp
   src/RoomDBManager.cpp
 )
 
-target_link_libraries(DB PRIVATE Qt5::Core)
+add_library(DB include ${SRC})
+
+target_link_libraries(DB PRIVATE Qt5::Core Qt5::Sql)
 
 install(TARGETS DB
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
