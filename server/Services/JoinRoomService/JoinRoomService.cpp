@@ -1,6 +1,6 @@
 #include "JoinRoomService.hpp"
 
-Room JoinRoomService::GetRoom(const int)
+void JoinRoomService::GetRoom(const int)
 {
-    return Room();
+    
 }

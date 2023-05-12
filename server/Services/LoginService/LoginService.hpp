@@ -9,7 +9,7 @@ class LoginService
 public:
     LoginService(std::shared_ptr<IClientDBManager> clientManager) : clientManager(clientManager){}
 
-    Client getClient(const std::string&);
+    void getClient(const std::string&);
 
 private:
     std::shared_ptr<IClientDBManager> clientManager;

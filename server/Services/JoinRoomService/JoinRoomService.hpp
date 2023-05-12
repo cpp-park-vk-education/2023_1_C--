@@ -9,7 +9,7 @@ class JoinRoomService
 public:
     JoinRoomService(std::shared_ptr<IRoomDBManager> roomManager) : roomManager(roomManager){}
 
-    Room GetRoom(const int);
+    void GetRoom(const int);
 
 private:
     std::shared_ptr<IRoomDBManager> roomManager;
