@@ -2,5 +2,5 @@
 
 Room JoinRoomService::GetRoom(const int)
 {
-    return Room{};
+    return Room();
 }

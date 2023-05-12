@@ -14,11 +14,6 @@ public:
     Client createClient(const QString&, const QString&, const QString&) override;
 
     Client changeLogin(const QString& old_login, const QString& new_login) override;
-    Client getClient(const QString& login) override;
-
-    Client createClient(const QString&, const QString&, const QString&) override;
-
-    Client changeLogin(const QString& old_login, const QString& new_login) override;
 
     Client changePassword(const QString& login, const QString& new_password) override;
 

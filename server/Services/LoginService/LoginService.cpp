@@ -2,5 +2,5 @@
 
 Client LoginService::getClient(const std::string& login)
 {
-    return Client{};
+    return Client();
 }

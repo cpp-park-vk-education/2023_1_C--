@@ -3,6 +3,7 @@
 #include "IDBManager.hpp"
 #include <utility>
 #include <QSqlError>
+#include <QDebug>
 
 class DBManager: public IDBManager {
 public:

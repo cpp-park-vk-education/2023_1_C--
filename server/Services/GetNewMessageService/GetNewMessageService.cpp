@@ -2,5 +2,5 @@
 
 Message GetNewMessageService::getNewMessage(const int)
 {
-    return Message{};
+    return Message();
 }

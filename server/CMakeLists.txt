@@ -50,6 +50,10 @@ add_executable(server
     HttpControllers/SendMessageController/SendMessageController.cpp
 )
 
+target_include_directories(server PUBLIC ../DB/include)
+
+target_link_libraries(server DB)
+
 target_link_libraries(server -lQtWebApp)
 
 target_link_libraries(server Qt5::Core Qt5::Network Qt5::Sql)
