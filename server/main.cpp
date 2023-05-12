@@ -1,10 +1,8 @@
 #include <QCoreApplication>
+#include <QtWebApp/httpserver/httplistener.h>
 
-#include "httplistener.h"
 #include "HttpRequestMapper.hpp"
-
 #include "LoginController.hpp"
-
 #include "RequestMapperAdapter.hpp"
 
 int main(int argc, char *argv[])

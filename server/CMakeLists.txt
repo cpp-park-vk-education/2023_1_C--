@@ -13,7 +13,6 @@ include_directories(
     HttpRequest
     HttpResponse
     HttpHandlers
-    DbInterface
     Services
     Adapters
     Services/CreateRoomService
@@ -33,7 +32,6 @@ include_directories(
 
 add_executable(server
     main.cpp
-    DbInterface/DBManager.cpp
     Adapters/RequestMapperAdapter.cpp
     Adapters/HttpRequestToIHttpRequestAdapter.cpp
     Adapters/HttpResponseToIHttpResponseAdapter.cpp
@@ -52,10 +50,8 @@ add_executable(server
     HttpControllers/SendMessageController/SendMessageController.cpp
 )
 
-set(WEB_DIR ../QtWebApp)
+target_link_libraries(server -lQtWebApp)
 
-target_link_libraries(server /usr/local/lib/libQtWebApp.so.1.8.6)
-target_include_directories(server PUBLIC ${WEB_DIR}/httpserver ${WEB_DIR}/logging ${WEB_DIR}/templateengine)
 target_link_libraries(server Qt5::Core Qt5::Network Qt5::Sql)
 
 install(TARGETS server

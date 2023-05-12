@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "httprequesthandler.h"
+#include <QtWebApp/httpserver/httprequesthandler.h>
 #include "IHttpRequestHandler.hpp"
 #include "HttpRequestToIHttpRequestAdapter.hpp"
 #include "HttpResponseToIHttpResponseAdapter.hpp"

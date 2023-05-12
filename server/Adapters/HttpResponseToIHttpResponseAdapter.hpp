@@ -1,7 +1,8 @@
 #pragma once
 
+#include <QtWebApp/httpserver/httpresponse.h>
 #include "IHttpResponse.hpp"
-#include "httpresponse.h"
+
 
 using namespace stefanfrings;
 

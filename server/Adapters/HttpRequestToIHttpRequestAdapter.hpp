@@ -1,6 +1,7 @@
 #pragma once
 
-#include "httprequest.h"
+#include <QtWebApp/httpserver/httprequest.h>
+
 #include "IHttpRequest.hpp"
 
 using namespace stefanfrings;
