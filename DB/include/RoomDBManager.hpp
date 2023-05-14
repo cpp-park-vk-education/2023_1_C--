@@ -9,9 +9,9 @@ class RoomDBManager: public IRoomDBManager {
 public:
     RoomDBManager(std::shared_ptr<DBManager>&);
 
-    QList<Room> getRooms(const QString&) override;
+    QVector<Room> getRooms(const QString&) override;
 
-    QList<Message> getMessages(const int) override;
+    QVector<Message> getMessages(const int) override;
 
     Room insertRoom(const QString& username, const QString& roomname) override;
 

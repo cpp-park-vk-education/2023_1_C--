@@ -6,9 +6,9 @@
 
 class IRoomDBManager {
 public:
-    virtual QList<Room> getRooms(const QString&) = 0;
+    virtual QVector<Room> getRooms(const QString&) = 0;
 
-    virtual QList<Message> getMessages(const int) = 0;
+    virtual QVector<Message> getMessages(const int) = 0;
 
     virtual Room getRoom(const int room_ID) = 0;
 
