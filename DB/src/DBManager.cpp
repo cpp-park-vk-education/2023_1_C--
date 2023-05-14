@@ -2,10 +2,10 @@
 
 DBManager::DBManager() {
     db = QSqlDatabase::addDatabase(DBType, connectionName);
-    connect(); //???
+    connect();
 }
 
- void DBManager::connect() {
+void DBManager::connect() {
     db.setHostName    (hostName);
     db.setPort        (port);
     db.setDatabaseName(DBName);
