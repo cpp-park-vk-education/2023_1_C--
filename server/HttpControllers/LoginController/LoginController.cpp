@@ -12,6 +12,8 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
 
     auto client = loginService->getClient(requestJSONObject.value("Login").toString().toStdString());
 
+    qDebug() << client.login;
+
     if (!client.login.size())
     {
         response->setStatus(401, "bad login");

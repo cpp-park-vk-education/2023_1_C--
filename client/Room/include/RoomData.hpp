@@ -4,12 +4,13 @@
 #include <vector>
 
 struct RoomInfo {
+    int id;
     std::vector<std::string> members;
     std::string name;
 };
 
 struct Message {
-    size_t id;
+    int id;
     std::string content;
     std::string author;
     std::string sendingData;

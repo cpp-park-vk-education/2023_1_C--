@@ -1,6 +1,8 @@
 #pragma once 
 #include <QWidget>
+#include <QListWidget>
 #include "IMainPageUi.hpp"
+#include "IRoomSwitcher.hpp"
 
 namespace Ui {
 class MainPage;
@@ -15,9 +17,21 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
     ~MainPage();
 
-    void ShowMainPage(const std::vector<RoomData>& rooms) override;
+    void ShowMainPage(std::vector<RoomData> rooms) override;
+
+    std::optional<RoomData> FindRoom(const int roomId);
+
+    void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
+        roomSwitcher_ = roomSwitcher;
+    }
+    
+public slots:
+    void SelectRoom(QListWidgetItem *item);
+    void OnSelectButtonClicked();
     
 private:
     Ui::MainPage *ui;
+    std::vector<RoomData> rooms_;
+    IRoomSwitcherSPtr roomSwitcher_;
 };
 
