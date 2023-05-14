@@ -6,7 +6,11 @@ ClientDBManager::ClientDBManager(std::shared_ptr<DBManager>& manager) {
 
 Client ClientDBManager::getClient(const QString& login) {
     const QString queryStr = "SELECT * FROM users WHERE login = '" + login + "'";
-    QSqlQuery query = dbManager->execute(queryStr);
+    try {
+        QSqlQuery query = dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error("There is no such user!");
+    }
     Client client = Client(query);
     return client;
 }
@@ -50,7 +54,7 @@ Client ClientDBManager::setLastname(const QString& login, const QString& lastnam
     return getClient(login);
 }
 
-QList<Client> ClientDBManager::getClientsInRoom(const int roomID) {
+QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     const QString queryStr = "SELECT * FROM users_rooms "
             "WHERE room_id = " + roomID;
     QSqlQuery query = dbManager->execute(queryStr);
@@ -59,7 +63,7 @@ QList<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     while(query.next()) {
         users.push_back(query.value(0).toString());
     }
-    QList<Client> clients;
+    QVector<Client> clients;
     for(auto name : users) {
         clients.push_back(getClient(name));
     }

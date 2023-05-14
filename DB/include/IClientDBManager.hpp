@@ -16,6 +16,6 @@ public:
 
     virtual Client setLastname(const QString& login, const QString& lastname) = 0;
 
-    virtual QList<Client> getClientsInRoom(const int roomID) = 0;
+    virtual QVector<Client> getClientsInRoom(const int roomID) = 0;
 
 };

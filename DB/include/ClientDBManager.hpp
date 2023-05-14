@@ -21,7 +21,7 @@ public:
 
     Client setLastname(const QString& login, const QString& lastname) override;
 
-    QList<Client> getClientsInRoom(const int roomID) override;
+    QVector<Client> getClientsInRoom(const int roomID) override;
 
 private:
     std::shared_ptr<DBManager> dbManager;

@@ -11,11 +11,11 @@ Room RoomDBManager::getRoom(const int room_ID) {
     return room;
 }
 
-QList<Room> RoomDBManager::getRooms(const QString& login) {
+QVector<Room> RoomDBManager::getRooms(const QString& login) {
     const QString queryStr = "SELECT * FROM rooms WHERE id IN (SELECT room_id FROM users_rooms WHERE login='" 
         + login + "');";
     QSqlQuery query = dbManager->execute(queryStr);
-    QList<Room> rooms;
+    QVector<Room> rooms;
     rooms.push_back(Room(query));
     while(query.next())
     {
@@ -24,11 +24,11 @@ QList<Room> RoomDBManager::getRooms(const QString& login) {
     return rooms;
 }
 
-QList<Message> RoomDBManager::getMessages(const int roomID) {
+QVector<Message> RoomDBManager::getMessages(const int roomID) {
     const QString queryStr = "SELECT * FROM messages "
                              "WHERE room_id = " + QString::number(roomID);
     QSqlQuery query = dbManager->execute(queryStr);
-    QList<Message> messages;
+    QVector<Message> messages;
     messages.push_back(Message(query));
     while(query.next())
     {
