@@ -6,8 +6,9 @@ ClientDBManager::ClientDBManager(std::shared_ptr<DBManager>& manager) {
 
 Client ClientDBManager::getClient(const QString& login) {
     const QString queryStr = "SELECT * FROM users WHERE login = '" + login + "'";
+    QSqlQuery query;
     try {
-        QSqlQuery query = dbManager->execute(queryStr);
+        query = dbManager->execute(queryStr);
     } catch (std::runtime_error& err) {
         throw std::runtime_error("There is no such user!");
     }
