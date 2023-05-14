@@ -2,13 +2,45 @@
 
 void LoginController::service(IHttpRequest* request, IHttpResponse* response) // WIP
 {
-    auto client = loginService->getClient("pussykiller");
 
-    QJsonObject jsonObject;
+    auto jsonStr = request->getBody();
 
-    jsonObject.insert("login", client.login);
+    auto requestJSONObject = QJsonDocument::fromJson(
+        QByteArray::fromStdString(jsonStr)
+    ).object();
 
-    jsonObject.insert("password", client.password);
 
-    response->setBody(QJsonDocument(jsonObject).toJson(QJsonDocument::Compact).toStdString());
+    auto client = loginService->getClient(requestJSONObject.value("login").toString().toStdString());
+
+    if (!client.login.size())
+    {
+        response->setStatus(401, "bad login");
+
+        return;
+    }
+
+    if (client.password != requestJSONObject.value("password").toString())
+    {
+        response->setStatus(401, "password missmatch");
+
+        return;
+    }
+
+    QJsonObject responseJSONObject;
+
+    fillJsonClient(responseJSONObject, client);
+
+    response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
+}
+
+void LoginController::fillJsonClient(QJsonObject& json, const Client& client)
+{
+    json.insert("UserInfo", QJsonValue({
+        qMakePair(QString::fromStdString("login"), QJsonValue(client.login)),
+        qMakePair(QString::fromStdString("nickname"), QJsonValue(client.username)),
+        qMakePair(QString::fromStdString("password"), QJsonValue(client.password)),
+        qMakePair(QString::fromStdString("firstName"), QJsonValue(client.firstName)),
+        qMakePair(QString::fromStdString("lastName"), QJsonValue(client.lastName)),
+        })
+    );
 }

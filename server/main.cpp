@@ -6,6 +6,7 @@
 #include "RequestMapperAdapter.hpp"
 #include "DBManager.hpp"
 #include <ClientDBManager.hpp>
+#include <RoomDBManager.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -21,14 +22,17 @@ int main(int argc, char *argv[])
 
     auto clientDb = std::make_shared<ClientDBManager>(manager);
 
+    auto roomDb = std::make_shared<RoomDBManager>(manager);
+
     std::map<std::string, std::unique_ptr<IHttpRequestHandler>> map;
 
     map.insert(
         std::make_pair("/login", std::make_unique<LoginController>(
-            std::make_unique<LoginService>(clientDb)
+            std::make_unique<LoginService>(clientDb, roomDb)
         ))
     );
 
+    
     new HttpListener(
         settings, 
         new RequestMapperAdapter(
