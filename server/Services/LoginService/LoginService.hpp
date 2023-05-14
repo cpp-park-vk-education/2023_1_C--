@@ -15,6 +15,8 @@ public:
 
     Client getClient(const std::string&);
 
+    std::vector<Client> getClients(const int);
+
     std::vector<Room> getClientRooms(const std::string&);
 
 private:

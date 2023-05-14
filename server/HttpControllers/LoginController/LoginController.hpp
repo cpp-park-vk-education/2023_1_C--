@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <algorithm>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -20,6 +21,8 @@ public:
 private:
 
     void fillJsonClient(QJsonObject& json,const Client& client);
+
+    void fillJsonRooms(QJsonObject& json,const QVector<Room>& rooms);
     
     std::unique_ptr<LoginService> loginService;
 };

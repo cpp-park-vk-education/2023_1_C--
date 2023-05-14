@@ -26,6 +26,10 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response) //
         return;
     }
 
+    auto rooms = QVector<Room>::fromStdVector(
+        loginService->getClientRooms(client.username.toStdString())
+        );
+
     QJsonObject responseJSONObject;
 
     fillJsonClient(responseJSONObject, client);
@@ -43,4 +47,24 @@ void LoginController::fillJsonClient(QJsonObject& json, const Client& client)
         qMakePair(QString::fromStdString("lastName"), QJsonValue(client.lastName)),
         })
     );
+}
+
+void LoginController::fillJsonRooms(QJsonObject& json,const QVector<Room>& rooms)
+{
+    QJsonArray roomArray;
+
+    for (const auto& room : rooms)
+    {
+        auto clientsInRoom = QVector<Client>::fromStdVector(
+            loginService->getClients(room.ID));
+        
+        QJsonArray members;
+        
+        // for (const auto& member : clientsInRoom)
+        //     members.append(member.username);
+
+        std::transform(clientsInRoom.begin(), clientsInRoom.end(), members.begin(), [](const QString& username){return username;});
+
+        QJsonObject roomInfo;
+    }
 }
