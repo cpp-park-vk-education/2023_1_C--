@@ -9,7 +9,7 @@ class DBManager: public IDBManager {
 public:
     DBManager();
 
-    int connect() override;
+    void connect() override;
 
     bool isConnected();
 
