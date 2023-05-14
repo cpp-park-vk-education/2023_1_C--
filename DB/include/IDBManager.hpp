@@ -6,7 +6,7 @@
 
 class IDBManager {
 public:
-    virtual int connect() = 0;
+    virtual void connect() = 0;
 
     virtual QSqlQuery execute(const QString&) = 0;
 };
