@@ -1,0 +1,21 @@
+{
+    "UserInfo": {
+        "Login": "login",
+        "Nickname": "nickname",
+        "Password": "password",
+        "FirstName": "firstName",
+        "LastName": "lastName"
+    },
+    "VectorOfRooms": [
+        {
+            "RoomInfo": {
+                "ID": "0",
+                "Name": "nameRoom",
+                "Members": [
+                    "memberLogin1",
+                    "memberLogin2"
+                ]
+            }
+        }
+    ]
+}
