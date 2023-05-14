@@ -14,6 +14,7 @@ std::vector<Room> LoginService::getClientRooms(const std::string& username)
 
 std::vector<Client> LoginService::getClients(const int id)
 {
-    return clientManager->
-        getClientsInRoom(id).toStdVector();
+    auto clients = clientManager->getClientsInRoom(id);
+
+    return clients.toStdVector();
 }
