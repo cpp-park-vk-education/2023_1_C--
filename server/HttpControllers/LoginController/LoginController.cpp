@@ -1,6 +1,6 @@
 #include "LoginController.hpp"
 
-void LoginController::service(IHttpRequest* request, IHttpResponse* response) // WIP
+void LoginController::service(IHttpRequest* request, IHttpResponse* response)
 {
 
     auto jsonStr = request->getBody();
@@ -10,7 +10,7 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response) //
     ).object();
 
 
-    auto client = loginService->getClient(requestJSONObject.value("login").toString().toStdString());
+    auto client = loginService->getClient(requestJSONObject.value("Login").toString().toStdString());
 
     if (!client.login.size())
     {
@@ -19,7 +19,7 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response) //
         return;
     }
 
-    if (client.password != requestJSONObject.value("password").toString())
+    if (client.password != requestJSONObject.value("Password").toString())
     {
         response->setStatus(401, "password missmatch");
 
@@ -40,11 +40,11 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response) //
 void LoginController::fillJsonClient(QJsonObject& json, const Client& client)
 {
     json.insert("UserInfo", QJsonValue({
-        qMakePair(QString::fromStdString("login"), QJsonValue(client.login)),
-        qMakePair(QString::fromStdString("nickname"), QJsonValue(client.username)),
-        qMakePair(QString::fromStdString("password"), QJsonValue(client.password)),
-        qMakePair(QString::fromStdString("firstName"), QJsonValue(client.firstName)),
-        qMakePair(QString::fromStdString("lastName"), QJsonValue(client.lastName)),
+        qMakePair(QString::fromStdString("Login"), QJsonValue(client.login)),
+        qMakePair(QString::fromStdString("Nickname"), QJsonValue(client.username)),
+        qMakePair(QString::fromStdString("Password"), QJsonValue(client.password)),
+        qMakePair(QString::fromStdString("FirstName"), QJsonValue(client.firstName)),
+        qMakePair(QString::fromStdString("LastName"), QJsonValue(client.lastName)),
         })
     );
 }
@@ -67,8 +67,9 @@ void LoginController::fillJsonRooms(QJsonObject& json, const QVector<Room>& room
         QJsonObject roomInfo;
 
         roomInfo.insert("RoomInfo", QJsonValue({
-            qMakePair(QString::fromStdString("members"), QJsonValue(members)),
-            qMakePair(QString::fromStdString("name"), QJsonValue(room.name))
+            qMakePair(QString::fromStdString("Members"), QJsonValue(members)),
+            qMakePair(QString::fromStdString("ID"), QJsonValue(room.ID)),
+            qMakePair(QString::fromStdString("Name"), QJsonValue(room.name))
             }));
 
         roomArray.append(roomInfo);
