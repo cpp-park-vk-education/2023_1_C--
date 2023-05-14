@@ -57,12 +57,12 @@ Client ClientDBManager::setLastname(const QString& login, const QString& lastnam
 
 QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     const QString queryStr = "SELECT * FROM users_rooms "
-            "WHERE room_id = " + roomID;
+            "WHERE room_id = " + QString::number(roomID);
     QSqlQuery query = dbManager->execute(queryStr);
     QStringList users;
-    users.push_back(query.value(0).toString());
+    users.push_back(query.value(1).toString());
     while(query.next()) {
-        users.push_back(query.value(0).toString());
+        users.push_back(query.value(1).toString());
     }
     QVector<Client> clients;
     for(auto name : users) {
