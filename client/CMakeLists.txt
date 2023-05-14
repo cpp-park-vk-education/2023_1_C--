@@ -6,9 +6,59 @@ if(BUILD_TESTS)
 
     add_compile_options(--coverage)
     add_link_options(--coverage)
+
+    add_subdirectory(Account/tests)
+    # add_subdirectory(Room/tests)
 endif()
+       
+find_package(Qt6 REQUIRED COMPONENTS Widgets
+                                     Network
+                                     Core)
 
-add_subdirectory(lib/account)
+include_directories(
+    Account/include
+    Network/include  
+    Room/include
+    include
+)
 
-# find_package(Qt6 REQUIRED COMPONENTS Widgets Network Core)
-# target_link_libraries(account PRIVATE Qt6::Widgets Qt6::Network Qt6::Core)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+set(ACCOUNT_SOURCES Account/src/AccountNetwork.cpp
+                    Account/src/AccountReplyHandler.cpp
+                    Account/src/AccountSwitcher.cpp
+                    Account/src/AccountUseCase.cpp
+                    Account/src/Forms.cpp)
+
+set(ROOM_SOURCES    Room/src/RoomNetwork.cpp
+                    Room/src/RoomReplyHandler.cpp
+                    Room/src/RoomSwitcher.cpp
+                    Room/src/RoomUseCase.cpp)
+
+set(NETWORK_SOURCES Network/src/NetworkManager.cpp
+                    Network/src/Communication
+                    Network/src/Serializer
+                    Network/src/Deserializer)
+
+SET(UI_SOURCES      include/MainWindow.hpp
+                    src/MainWindow.cpp
+                    src/MainWindow.ui
+                    include/LoginPage.hpp
+                    src/LoginPage.cpp
+                    src/LoginPage.ui
+                    include/MainPage.hpp
+                    src/MainPage.cpp
+                    src/MainPage.ui)
+
+add_executable(client src/main.cpp
+                      src/AppController.cpp
+                      ${ACCOUNT_SOURCES}
+                      ${ROOM_SOURCES}
+                      ${NETWORK_SOURCES}
+                      ${UI_SOURCES})
+
+target_link_libraries(client PRIVATE Qt6::Widgets
+                                     Qt6::Network
+                                     Qt6::Core)
