@@ -16,7 +16,7 @@ static UserInfo DeserializeUserInfo(const QJsonObject& infoJsonObj) {
 
 static Message DeserializeMessage(const QJsonObject& messageJsonObj) {
     Message message;
-    message.id = static_cast<size_t>(messageJsonObj["id"].toInt());
+    message.id = messageJsonObj["id"].toString().toInt();
     message.content = messageJsonObj["content"].toString().toStdString();
     message.author = messageJsonObj["author"].toString().toStdString();
     message.sendingData = messageJsonObj["sendingData"].toString().toStdString();
@@ -25,6 +25,7 @@ static Message DeserializeMessage(const QJsonObject& messageJsonObj) {
 
 static RoomInfo DeserializeRoomInfo(const QJsonObject& roomInfoJsonObj) {
     RoomInfo roomInfo;
+    roomInfo.id = roomInfoJsonObj["id"].toString().toInt();
     roomInfo.name = roomInfoJsonObj["name"].toString().toStdString();
     auto membersJsonArr = roomInfoJsonObj["members"].toArray();
     std::vector<std::string> members;
@@ -77,6 +78,7 @@ static void DebugPrintUserData(const UserData& data) {
     qDebug() << "VectorOfRooms";
     for (auto it = data.rooms.begin(); it != data.rooms.end(); ++it) {
         qDebug() << "  "<< "RoomInfo";
+        qDebug() << "   " << it->info.id;
         qDebug() << "   " << it->info.name;
         qDebug() << "   " << it->info.members.back();
         qDebug() << "  " << "LastMessages.back()";
@@ -89,7 +91,7 @@ static void DebugPrintUserData(const UserData& data) {
 
 static QJsonObject StubJsonObj() {
     QFile file;
-    file.setFileName("./client/Network/src/UserData.json");
+    file.setFileName("/home/oleg/vk-education/cpp-course/2023_1_C--/Common/StubResponse.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray byteArray = file.readAll();
     file.close();
@@ -99,13 +101,13 @@ static QJsonObject StubJsonObj() {
 
 UserData Deserializer::DeserializeUserData(std::vector<char> byteArray) {
     UserData data;
-    auto jsonObj = ByteArrayToJsonObj(byteArray);
-    // auto jsonObj = StubJsonObj();
+    // auto jsonObj = ByteArrayToJsonObj(byteArray);
+    auto jsonObj = StubJsonObj();
     auto info = DeserializeUserInfo(jsonObj["UserInfo"].toObject());
     auto rooms = DeserializeVectorOfRooms(jsonObj["VectorOfRooms"].toArray());
     data.info = info;
     data.rooms = rooms;
-    // DebugPrintUserData(data);
+    DebugPrintUserData(data);
     return data;    
 }
 

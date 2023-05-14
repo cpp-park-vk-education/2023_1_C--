@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.14)
+
+project(client LANGUAGES CXX)
+
 option(BUILD_TESTS "build tests")
 
 if(BUILD_TESTS)
@@ -62,3 +66,8 @@ add_executable(client src/main.cpp
 target_link_libraries(client PRIVATE Qt6::Widgets
                                      Qt6::Network
                                      Qt6::Core)
+
+
+
+install(TARGETS client
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

@@ -24,6 +24,7 @@ AppController::AppController() {
     mainWindow->SetMainPage(mainPage);
 
     loginPage->SetUseCase(accountUseCaseSPtr);
+    mainPage->SetRoomSwitcher(roomSwitcherSPtr);
     
     accountUseCaseSPtr->SetAccountUi(loginPage);
     accountUseCaseSPtr->SetNetwork(accountNetworkSPtr);
