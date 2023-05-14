@@ -12,8 +12,8 @@ Room RoomDBManager::getRoom(const int room_ID) {
 }
 
 QList<Room> RoomDBManager::getRooms(const QString& username) {
-    const QString queryStr = "SELECT * FROM rooms "
-            "WHERE username = '" + username + "'";
+    const QString queryStr = "SELECT * FROM rooms WHERE id IN (SELECT room_id FROM users_rooms WHERE login=
+                '" + username + "');";
     QSqlQuery query = dbManager->execute(queryStr);
     QList<Room> rooms;
     rooms.push_back(Room(query));
@@ -24,10 +24,9 @@ QList<Room> RoomDBManager::getRooms(const QString& username) {
     return rooms;
 }
 
-QList<Message> RoomDBManager::getMessages(const int roomID, const QString& username) {
+QList<Message> RoomDBManager::getMessages(const int roomID) {
     const QString queryStr = "SELECT * FROM messages "
-                             "WHERE room_id = " + QString::number(roomID) + ""
-                             "AND username = '" + username + "'";
+                             "WHERE room_id = " + QString::number(roomID);
     QSqlQuery query = dbManager->execute(queryStr);
     QList<Message> messages;
     messages.push_back(Message(query));
@@ -55,6 +54,7 @@ Message RoomDBManager::insertNewMessage(const int room_ID, const QString& userna
         ", '" + text + "'" + date + "');";
     dbManager->execute(queryStr);
     Message message = getNewMessage(room_ID);
+    return message;
 }
 
 Message RoomDBManager::getNewMessage(const int room_ID) {

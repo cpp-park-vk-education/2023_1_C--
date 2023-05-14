@@ -2,6 +2,7 @@
 
 #include <QSqlQuery>
 #include <QDateTime>
+#include <QVariant>
 
 struct Message
 {

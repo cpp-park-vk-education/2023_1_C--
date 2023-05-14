@@ -18,6 +18,9 @@ set(SRC
   src/DBManager.cpp
   src/ClientDBManager.cpp
   src/RoomDBManager.cpp
+  src/Client.cpp
+  src/Room.cpp 
+  src/Message.cpp
 )
 
 add_library(DB include ${SRC})
