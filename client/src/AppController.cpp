@@ -1,21 +1,60 @@
 #include "AppController.hpp"
 
 AppController::AppController() {
-    // accountNetwork.SetNetworkManager();
-    accountNetwork.SetReplyHandler(std::make_shared<AccountReplyHandler>(accountReplyHandler));
-    // accountReplyHandler.SetAccountUi();
-    accountReplyHandler.SetRoomSwitcher(std::make_shared<RoomSwitcher>(roomSwitcher));
-    // // accountSwitcher.SetWidgetController(std::make_shared<>());
-    // // accountUseCase.SetAccountUi();
-    accountUseCase.SetNetwork(std::make_shared<AccountNetwork>(accountNetwork));
-    // // accountUi.Set();
+    accountNetworkSPtr = std::make_shared<AccountNetwork>();
+    accountReplyHandlerSPtr = std::make_shared<AccountReplyHandler>();
+    accountSwitcherSPtr = std::make_shared<AccountSwitcher>();
+    accountUseCaseSPtr = std::make_shared<AccountUseCase>();
 
-    // // roomNetwork.SetNetworkManager();
-    roomNetwork.SetReplyHandler(std::make_shared<RoomReplyHandler>(roomReplyHandler));
-    // // roomReplyHandler.SetAccountUi();
-    roomReplyHandler.SetRoomSwitcher(std::make_shared<RoomSwitcher>(roomSwitcher));
-    // // roomSwitcher.SetWidgetController(std::make_shared<>());
-    // // roomUseCase.SetAccountUi();
-    roomUseCase.SetRoomNetwork(std::make_shared<RoomNetwork>(roomNetwork));
-    // // roomPageUi.Set();
+    roomNetworkSPtr = std::make_shared<RoomNetwork>();
+    roomReplyHandlerSPtr = std::make_shared<RoomReplyHandler>();
+    roomSwitcherSPtr = std::make_shared<RoomSwitcher>();
+    roomUseCaseSPtr = std::make_shared<RoomUseCase>();
+
+    serializerSPtr = std::make_shared<Serializer>();
+    deserializerSPtr = std::make_shared<Deserializer>();
+
+    networkManager = new NetworkManager;
+
+    loginPage = new LoginPage;
+    mainPage = new MainPage;
+
+    mainWindow = new MainWindow;
+    mainWindow->SetLoginPage(loginPage);
+    mainWindow->SetMainPage(mainPage);
+
+    loginPage->SetUseCase(accountUseCaseSPtr);
+    
+    accountUseCaseSPtr->SetAccountUi(loginPage);
+    accountUseCaseSPtr->SetNetwork(accountNetworkSPtr);
+
+    accountNetworkSPtr->SetReplyHandler(accountReplyHandlerSPtr);
+    accountNetworkSPtr->SetNetworkManager(networkManager);
+    accountNetworkSPtr->SetRequestSerializer(serializerSPtr);
+    accountNetworkSPtr->SetResponseSerializer(deserializerSPtr);
+
+    accountReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
+    accountReplyHandlerSPtr->SetAccountUi(loginPage);
+
+    // roomUseCaseSPtr->SetRoomPageUi();
+    roomUseCaseSPtr->SetMainPageUi(mainPage);
+    roomUseCaseSPtr->SetRoomNetwork(roomNetworkSPtr);
+    
+    roomNetworkSPtr->SetReplyHandler(roomReplyHandlerSPtr);
+    roomNetworkSPtr->SetNetworkManager(networkManager);
+    roomNetworkSPtr->SetRequestSerializer(serializerSPtr);
+    roomNetworkSPtr->SetResponseSerializer(deserializerSPtr);
+    
+    roomReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
+
+    roomSwitcherSPtr->SetWidgetController(mainWindow);
+    roomSwitcherSPtr->SetMainPageUi(mainPage);
+
+} 
+
+AppController::~AppController() {
+    delete mainWindow;
+    delete networkManager;
+    // delete loginPage;
+    // delete mainPage;
 }

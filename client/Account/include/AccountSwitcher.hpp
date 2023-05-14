@@ -1,3 +1,4 @@
+#pragma once
 #include "IAccountSwitcher.hpp"
 #include "IWidgetController.hpp"
 
@@ -9,10 +10,10 @@ public:
     
     void ShowUserSettingPage() override;
 
-    void SetWidgetController(IWidgetControllerSPtr widgetConroller) {
+    void SetWidgetController(IWidgetController* widgetConroller) {
         widgetConroller_ = widgetConroller;
     }
 
 private:
-    IWidgetControllerSPtr widgetConroller_;
+    IWidgetController* widgetConroller_;
 };

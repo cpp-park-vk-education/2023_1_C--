@@ -1,8 +1,9 @@
 #pragma once
 #include "IRoomNetwork.hpp"
 #include "IRoomReplyHandler.hpp"
-#include "INetworkManager.hpp"
-#include "IRoomSerializer.hpp"
+#include "NetworkManager.hpp"
+#include "ISerializer.hpp"
+#include "IDeserializer.hpp"
 
 using Headers = std::unordered_map<std::string, std::string>;
 
@@ -18,7 +19,7 @@ public:
     void OnGetMessagesResponse(IResponseUPtr response);
     void OnCreateRoomResponse(IResponseUPtr response);
     
-    void SetNetworkManager(INetworkManagerSPtr networkManager) {
+    void SetNetworkManager(NetworkManager* networkManager) {
         networkManager_ = networkManager;
     }
 
@@ -26,17 +27,17 @@ public:
         replyHandler_ = replyHandler;
     }
 
-    void SetRequestSerializer(IRoomRequestSerializerSPtr serializer) {
+    void SetRequestSerializer(ISerializerSPtr serializer) {
         requestSerializer_ = serializer;
     }
 
-    void SetResponseSerializer(IRoomResponseDeserializerSPtr serializer) {
+    void SetResponseSerializer(IDeserializerSPtr serializer) {
         responseSerializer_ = serializer;
     }
 
 private:
-    INetworkManagerSPtr networkManager_;
+    NetworkManager* networkManager_;
     IRoomReplyHandlerSPtr replyHandler_;
-    IRoomRequestSerializerSPtr requestSerializer_;
-    IRoomResponseDeserializerSPtr responseSerializer_;
+    ISerializerSPtr requestSerializer_;
+    IDeserializerSPtr responseSerializer_;
 };

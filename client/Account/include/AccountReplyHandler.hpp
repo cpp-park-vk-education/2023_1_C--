@@ -1,5 +1,5 @@
 #pragma once
-#include "UserData.hpp"
+#include "AccountData.hpp"
 #include "IAccountReplyHandler.hpp"
 #include "IAccountUi.hpp"
 #include "IWidgetController.hpp"
@@ -8,12 +8,12 @@
 
 class AccountReplyHandler : public IAccountReplyHandler {
 public:
-    void OnLoginResponse(unsigned int statusCode, IUserDataUPtr userData) override;
-    void OnSignupResponse(unsigned int statusCode, IUserDataUPtr userData) override;
-    void OnUserSettingResponse(unsigned int statusCode, IUserDataUPtr userData) override;
-    void OnLogoutResponse(unsigned int statusCode) override;
+    void OnLoginResponse(const int statusCode, UserData userData) override;
+    void OnSignupResponse(const int statusCode, UserData userData) override;
+    void OnUserSettingResponse(const int statusCode, UserData userData) override;
+    void OnLogoutResponse(const int statusCode) override;
 
-    void SetAccountUi(IAccountUiSPtr accountUi) {
+    void SetAccountUi(IAccountUi* accountUi) {
         accountUi_ = accountUi;
     }
     void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
@@ -21,7 +21,7 @@ public:
     }
 
 private:
-    IAccountUiSPtr accountUi_;
+    IAccountUi* accountUi_;
     IAccountSwitcherSPtr accountSwitcher_;
     IRoomSwitcherSPtr roomSwitcher_;
 };

@@ -1,31 +1,24 @@
 #pragma once
 #include "ICommunication.hpp"
-#include <unordered_map>
-#include <string>
+#include <QNetworkReply>
 
-using Headers = std::unordered_map<std::string, std::string>;
-
-class Request : public IRequest {
+class Response : public IResponse {
 public:
-    void SetHeader(const std::string& key, const std::string& value) override {
-        headers_.insert({key, value});
-    }
-    void SetURL(const std::string& url) override { url_ = url; }
-    void SetBody(std::vector<char> body) override {
-        body = std::move(body_);
+
+    Response(const int status, std::vector<char> body)
+        : status_(status) {
+        body_ = std::move(body);
     }
 
-private:
-    std::string url_;
-    std::unordered_map<std::string, std::string> headers_;
+    const int GetStatus() override { return status_; }
+
+    std::vector<char> GetBody() override { return body_; }
+
+public:
+    int status_;
     std::vector<char> body_;
+    
 };
 
-inline Request CreateRequest(const std::string& url, const Headers& headers) {
-    Request request;
-    for (auto it = headers.begin(); it != headers.end(); it++) {
-        request.SetHeader(it->first, it->second);
-    }
-    request.SetURL(url);
-    return request;
-}
+QNetworkRequest CreateRequest(const std::string& url,
+                              const std::string& contentType = "Json");

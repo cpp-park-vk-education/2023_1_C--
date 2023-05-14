@@ -1,8 +1,14 @@
-#include <iostream>
+#include <QApplication>
 #include "AppController.hpp"
+#include "MainWindow.hpp"
 
 int main(int argc, char** argv) {
-    AppController controller{};
-    std::cout << "Hello world" << std::endl;
-    return 0;
+    QApplication app(argc, argv);
+    AppController controller;
+    
+    controller.mainWindow->setGeometry(0, 0, 800, 480);
+    controller.mainWindow->show();
+    controller.mainWindow->ShowLoginPage();
+
+    return app.exec();
 }

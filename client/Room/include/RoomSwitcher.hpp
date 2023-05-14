@@ -7,32 +7,32 @@
 
 class RoomSwitcher : public IRoomSwitcher {
 public:
-    void ShowMainPage(std::vector<IRoomUPtr> rooms, const UserInfo& userInfo) override;
-    void ShowRoom(IRoomUPtr room) override;
+    void ShowMainPage(std::vector<RoomData> rooms, const UserInfo& userInfo) override;
+    void ShowRoom(RoomData room) override;
     void ShowRoomInfo(const RoomInfo& roomInfo) override;
     void ShowLastMessages(const std::vector<Message>& messages) override;
     void ShowOldMessages(const std::vector<Message>& messages) override;
 
-    void SetWidgetController(IWidgetControllerSPtr widgetConroller) {
+    void SetWidgetController(IWidgetController* widgetConroller) {
         widgetConroller_ = widgetConroller;
     }
 
-    void SetRoomPageUi(IRoomPageUiSPtr roomPageUi) {
+    void SetRoomPageUi(IRoomPageUi* roomPageUi) {
         roomPageUi_ = roomPageUi;
     }
 
-    void SetMainPageUi(IMainPageUiSPtr mainPageUi) {
+    void SetMainPageUi(IMainPageUi* mainPageUi) {
         mainPageUi_ = mainPageUi;
     }
 
-    void SetUserInfoUi(IUserInfoUiSPtr userInfoUi) {
+    void SetUserInfoUi(IUserInfoUi* userInfoUi) {
         userInfoUi_ = userInfoUi;
     }
 
 
 private:
-    IWidgetControllerSPtr widgetConroller_;
-    IRoomPageUiSPtr roomPageUi_;
-    IMainPageUiSPtr mainPageUi_;
-    IUserInfoUiSPtr userInfoUi_;
+    IWidgetController* widgetConroller_;
+    IRoomPageUi* roomPageUi_;
+    IMainPageUi* mainPageUi_;
+    IUserInfoUi* userInfoUi_;
 };

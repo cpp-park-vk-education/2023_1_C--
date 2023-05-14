@@ -10,4 +10,4 @@ public:
     virtual void Logout(const std::string& token) = 0;
 };
 
-using IAccountUseCaseUPtr = std::unique_ptr<IAccountUseCase>;
+using IAccountUseCaseSPtr = std::shared_ptr<IAccountUseCase>;
