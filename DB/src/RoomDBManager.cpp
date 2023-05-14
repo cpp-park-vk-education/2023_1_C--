@@ -11,9 +11,9 @@ Room RoomDBManager::getRoom(const int room_ID) {
     return room;
 }
 
-QList<Room> RoomDBManager::getRooms(const QString& username) {
-    const QString queryStr = "SELECT * FROM rooms WHERE id IN (SELECT room_id FROM users_rooms WHERE login=
-                '" + username + "');";
+QList<Room> RoomDBManager::getRooms(const QString& login) {
+    const QString queryStr = "SELECT * FROM rooms WHERE id IN (SELECT room_id FROM users_rooms WHERE login='" 
+        + login + "');";
     QSqlQuery query = dbManager->execute(queryStr);
     QList<Room> rooms;
     rooms.push_back(Room(query));
