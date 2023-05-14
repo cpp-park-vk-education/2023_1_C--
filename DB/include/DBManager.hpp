@@ -11,6 +11,8 @@ public:
 
     int connect() override;
 
+    bool isConnected();
+
     QSqlQuery execute(const QString&) override;
 
 private:
@@ -24,4 +26,5 @@ private:
     const QString password = "bmstu";
 
     QSqlDatabase db;
+    bool connected;
 };

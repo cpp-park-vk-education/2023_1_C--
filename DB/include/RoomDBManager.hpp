@@ -11,7 +11,7 @@ public:
 
     QList<Room> getRooms(const QString&) override;
 
-    QList<Message> getMessages(const int, const QString&) override;
+    QList<Message> getMessages(const int) override;
 
     Room insertRoom(const QString& username, const QString& roomname) override;
 

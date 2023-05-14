@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QSqlQuery>
+#include <QVariant>
 
 struct Client
 {
