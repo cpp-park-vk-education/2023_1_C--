@@ -1,15 +1,14 @@
 #include "RoomSwitcher.hpp"
 
-void RoomSwitcher::ShowMainPage(std::vector<IRoomUPtr> rooms, const UserInfo& userInfo) {
+void RoomSwitcher::ShowMainPage(std::vector<RoomData> rooms, const UserInfo& userInfo) {
     widgetConroller_->ShowMainPage();
     mainPageUi_->ShowMainPage(std::move(rooms));
-    userInfoUi_->ShowUserInfo(userInfo);
 }
 
-void RoomSwitcher::ShowRoom(IRoomUPtr room) {
+void RoomSwitcher::ShowRoom(RoomData room) {
     widgetConroller_->ShowRoomPage();
-    roomPageUi_->ShowLastMessages(room->GetLastMessages());
-    auto roomInfo = room->GetRoomInfo();
+    roomPageUi_->ShowLastMessages(room.lastMessages);
+    auto roomInfo = room.info;
     roomPageUi_->ShowRoomName(roomInfo.name);
 }
 

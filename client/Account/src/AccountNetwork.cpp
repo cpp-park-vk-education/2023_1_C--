@@ -1,100 +1,44 @@
 #include "AccountNetwork.hpp"
 #include "Communication.hpp"
+#include "AccountData.hpp"
 
-const std::string LOGIN_URL = "/login";
-const std::string SIGNUP_URL = "/signup";
-const std::string USER_SETTING_URL = "/setting";
-const std::string LOGOUT_URL = "/logout";
+const std::string LOGIN_URL = "login/";
+const std::string SIGNUP_URL = "signup/";
+const std::string USER_SETTING_URL = "setting/";
+const std::string LOGOUT_URL = "logout/";
 
-using Headers = std::unordered_map<std::string, std::string>;
-
+static QByteArray GetQByteArray(std::vector<char> byteArray) {
+    QByteArray qByteArray;
+    for (auto byte: byteArray)
+        qByteArray.push_back(byte);
+    return qByteArray;
+}
 
 void AccountNetwork::Login(const LoginData& data) {
-    Headers headers = {{"Content-Type", "JSON"}};
-    auto request = CreateRequest(LOGIN_URL, headers);
-    auto body = requestSerializer_->SerializeLoginData(data);
-    request.SetBody(body);
-    Callback callback (
-        [this](IResponseUPtr response){
-           return this->OnLoginResponse(std::move(response)); 
-        }
-    );
-    networkManager_->Post(std::make_unique<Request>(request), callback);
-}
-
-void AccountNetwork::Signup(const SignupData& data) {
-    Headers headers = {{"Content-Type", "JSON"}};
-    auto request = CreateRequest(SIGNUP_URL, headers);
-    auto body = requestSerializer_->SerializeSignupData(data);
-    request.SetBody(body);
+    auto request = CreateRequest(LOGIN_URL);
+    auto byteArray = serializer_->SerializeLoginData(data);
     Callback callback (
         [this](IResponseUPtr response){
            return this->OnLoginResponse(std::move(response)); 
         }
     ); 
-    networkManager_->Post(std::make_unique<Request>(request), callback);
+    networkManager_->Post(request, GetQByteArray(byteArray), callback);
 }
 
-void AccountNetwork::UserSetting(const UserSettingData& data) {
-    Headers headers = {{"Content-Type", "JSON"}};
-    auto request = CreateRequest(USER_SETTING_URL, headers);
-    auto body = requestSerializer_->SerializeUserSettingData(data);
-    request.SetBody(body);
-    Callback callback (
-        [this](IResponseUPtr response){
-           return this->OnUserSettingResponse(std::move(response)); 
-        }
-    ); 
-    networkManager_->Post(std::make_unique<Request>(request), callback);
-}
-
-void AccountNetwork::Logout(const LogoutData& data) {
-    Headers headers = {{"Content-Type", "JSON"}};
-    auto request = CreateRequest(LOGOUT_URL, headers);
-    auto body = requestSerializer_->SerializeLogoutData(data);
-    request.SetBody(body);
-    Callback callback (
-        [this](IResponseUPtr response){
-           return this->OnLogoutResponse(std::move(response)); 
-        }
-    );
-    networkManager_->Post(std::make_unique<Request>(request), callback);
-}
+void AccountNetwork::Signup(const SignupData& data) {}
+void AccountNetwork::UserSetting(const UserSettingData& data) {}
+void AccountNetwork::Logout(const LogoutData& data) {}
 
 void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus(LOGIN_URL);
+    auto statusCode = response->GetStatus();
     if (statusCode == 200) {
-        auto body = response->GetBody();
-        auto userData = responseSerializer_->DeserializeResponse(body);
-        replyHandler_->OnLoginResponse(200, std::move(userData));
+        UserData data = deserializer_->DeserializeUserData(response->GetBody());
+        replyHandler_->OnLoginResponse(200, data);
     } else {
-        replyHandler_->OnLoginResponse(statusCode, nullptr);
+        replyHandler_->OnLoginResponse(statusCode, UserData{});
     }
 }
 
-void AccountNetwork::OnSignupResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus(SIGNUP_URL);
-    if (statusCode == 200) {
-        auto body = response->GetBody();
-        auto userData = responseSerializer_->DeserializeResponse(body);
-        replyHandler_->OnSignupResponse(200, std::move(userData));
-    } else {
-        replyHandler_->OnSignupResponse(statusCode, nullptr);
-    }
-}
-
-void AccountNetwork::OnUserSettingResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus(USER_SETTING_URL);
-    if (statusCode == 200) {
-        auto body = response->GetBody();
-        auto userData = responseSerializer_->DeserializeResponse(body);
-        replyHandler_->OnUserSettingResponse(200, std::move(userData));
-    } else {
-        replyHandler_->OnUserSettingResponse(statusCode, nullptr);
-    }
-}
-
-void AccountNetwork::OnLogoutResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus(LOGOUT_URL);
-    replyHandler_->OnLogoutResponse(statusCode);
-}
+void AccountNetwork::OnSignupResponse(IResponseUPtr response) {}
+void AccountNetwork::OnUserSettingResponse(IResponseUPtr response) {}
+void AccountNetwork::OnLogoutResponse(IResponseUPtr response) {}

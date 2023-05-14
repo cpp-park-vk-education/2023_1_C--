@@ -15,7 +15,7 @@ void RoomReplyHandler::OnGetMessagesResponse(unsigned int statusCode, const std:
         roomSwitcher_->ShowOldMessages(messages);
 }
 
-void RoomReplyHandler::OnCreateRoomResponse(unsigned int statusCode, IRoomUPtr room) {
+void RoomReplyHandler::OnCreateRoomResponse(unsigned int statusCode, RoomData room) {
     if (statusCode == 200)
-        roomSwitcher_->ShowRoom(std::move(room));
+        roomSwitcher_->ShowRoom(room);
 }

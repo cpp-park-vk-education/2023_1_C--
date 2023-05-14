@@ -15,18 +15,17 @@ public:
         roomNetwork_ = roomNetwork;
     }
 
-    void SetRoomPageUi(IRoomPageUiSPtr roomPageUi) {
-        roomPageUi_ = std::move(roomPageUi);
+    void SetRoomPageUi(IRoomPageUi* roomPageUi) {
+        roomPageUi_ = roomPageUi;
     }
 
-    void SetMainPageUi(IMainPageUiSPtr mainPageUi) {
-        mainPageUi_ = std::move(mainPageUi);
+    void SetMainPageUi(IMainPageUi* mainPageUi) {
+        mainPageUi_ = mainPageUi;
     }
 
 private:
     IRoomNetworkSPtr roomNetwork_;
-    IRoomPageUiSPtr roomPageUi_;
-    IMainPageUiSPtr mainPageUi_;
-
+    IRoomPageUi* roomPageUi_;
+    IMainPageUi* mainPageUi_;
 };
 

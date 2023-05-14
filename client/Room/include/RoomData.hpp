@@ -22,4 +22,9 @@ public:
     virtual std::vector<Message> GetLastMessages() = 0;
 };
 
+struct RoomData {
+    RoomInfo info;
+    std::vector<Message> lastMessages;
+};
+
 using IRoomUPtr = std::unique_ptr<IRoom>;

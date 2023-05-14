@@ -7,7 +7,7 @@ public:
     void OnAddUserResponse(unsigned int statusCode, const RoomInfo& roomInfo) override;
     void OnSendMessageResponse(unsigned int statusCode, const std::vector<Message>& messages) override;
     void OnGetMessagesResponse(unsigned int statusCode, const std::vector<Message>& messages) override;
-    void OnCreateRoomResponse(unsigned int statusCode, IRoomUPtr room) override;
+    void OnCreateRoomResponse(unsigned int statusCode, RoomData room) override;
 
     void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
         roomSwitcher_ = roomSwitcher;

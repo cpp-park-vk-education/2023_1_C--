@@ -1,8 +1,9 @@
 #pragma once
 #include "IAccountNetwork.hpp"
-#include "INetworkManager.hpp"
 #include "IAccountReplyHandler.hpp"
-#include "IClientSerializer.hpp"
+#include "ISerializer.hpp"
+#include "IDeserializer.hpp"
+#include "NetworkManager.hpp"
 
 class AccountNetwork : public IAccountNetwork {
 public:
@@ -15,7 +16,7 @@ public:
     void OnUserSettingResponse(IResponseUPtr response);
     void OnLogoutResponse(IResponseUPtr response);
     
-    void SetNetworkManager(INetworkManagerSPtr networkManager) {
+    void SetNetworkManager(NetworkManager* networkManager) {
         networkManager_ = networkManager;
     }
 
@@ -23,17 +24,17 @@ public:
         replyHandler_ = replyHandler;
     }
 
-    void SetRequestSerializer(IAccountRequestSerializerSPtr serializer) {
-        requestSerializer_ = std::move(serializer);
+    void SetRequestSerializer(ISerializerSPtr serializer) {
+        serializer_ = serializer;
     }
 
-    void SetResponseSerializer(IAccountResponseDeserializerSPtr serializer) {
-        responseSerializer_ = std::move(serializer);
+    void SetResponseSerializer(IDeserializerSPtr serializer) {
+        deserializer_ = serializer;
     }
 
 private:
-    INetworkManagerSPtr networkManager_;
+    NetworkManager* networkManager_;
     IAccountReplyHandlerSPtr replyHandler_;
-    IAccountRequestSerializerSPtr requestSerializer_;
-    IAccountResponseDeserializerSPtr responseSerializer_;
+    ISerializerSPtr serializer_;
+    IDeserializerSPtr deserializer_;
 };

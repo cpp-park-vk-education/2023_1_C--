@@ -15,12 +15,12 @@ public:
         network_ = network;
     }
 
-    void SetAccountUi(IAccountUiSPtr accountUi) {
-        accountUi_ = std::move(accountUi);
+    void SetAccountUi(IAccountUi* accountUi) {
+        accountUi_ = accountUi;
     }
     
     
 private:
-    IAccountUiSPtr accountUi_;
+    IAccountUi* accountUi_;
     IAccountNetworkSPtr network_;
 };

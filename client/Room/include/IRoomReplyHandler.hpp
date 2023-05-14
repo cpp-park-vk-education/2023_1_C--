@@ -13,7 +13,7 @@ public:
                                        const std::vector<Message>& newMessage) = 0;
     virtual void OnGetMessagesResponse(unsigned int statusCode,
                                        const std::vector<Message>& messages) = 0;
-    virtual void OnCreateRoomResponse(unsigned int statusCode, IRoomUPtr room) = 0;
+    virtual void OnCreateRoomResponse(unsigned int statusCode, RoomData room) = 0;
 };
 
 using IRoomReplyHandlerSPtr = std::shared_ptr<IRoomReplyHandler>;
