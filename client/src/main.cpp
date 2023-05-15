@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
     
     controller.mainWindow->setGeometry(0, 0, 800, 480);
     controller.mainWindow->show();
-    controller.mainWindow->ShowLoginPage();
+    controller.mainWindow->ShowRoomPage();
 
     return app.exec();
 }

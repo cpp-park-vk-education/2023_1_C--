@@ -14,7 +14,7 @@ class RoomPage : public QWidget, public IRoomPageUi
     Q_OBJECT
 
 public:
-    RoomPage(const std::string& name, QWidget *parent = nullptr);
+    explicit RoomPage(QWidget *parent = nullptr);
     ~RoomPage();
 
     void SetUseCase(IRoomUseCaseUPtr useCase) {

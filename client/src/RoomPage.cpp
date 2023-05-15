@@ -6,6 +6,7 @@ RoomPage::RoomPage(QWidget *parent)
 {
     ui->setupUi(this);
 //    connect(ui->pushButton, &QPushButton::clicked, this, &LoginPage::OnSubmitButtonClicked);
+    //create thread with QNetworkAccessManager
 }
 
 RoomPage::~RoomPage()
@@ -14,6 +15,10 @@ RoomPage::~RoomPage()
 }
 
 void RoomPage::ShowRoomInfo(const RoomInfo& roomInfo){}
-void RoomPage::ShowRoomName(const std::string& name){}
+
+void RoomPage::ShowRoomName(const std::string& name){
+    ui->roomNameLabel->setText(QString::fromStdString(name));
+}
+
 void RoomPage::ShowLastMessages(const std::vector<Message>& messages){}
-void RoomPage::ShowOldMessages(const std::vector<Message>& messages) {}
+void RoomPage::ShowOldMessages(const std::vector<Message>& messages){}

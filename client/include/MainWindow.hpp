@@ -3,6 +3,7 @@
 #include "LoginPage.hpp"
 #include "MainPage.hpp"
 #include "IWidgetController.hpp"
+#include "RoomPage.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,7 +21,8 @@ public:
     ~MainWindow();
 
     void SetLoginPage(LoginPage* loginPage);
-    void SetMainPage(MainPage* loginPage);
+    void SetMainPage(MainPage* mainPage);
+    void SetRoomPage(RoomPage* roomPage);
 
     void ShowLoginPage() override;
     // void ShowSignupPage() override;
@@ -33,4 +35,6 @@ private:
     Ui::MainWindow *ui;
     LoginPage* loginPage_;
     MainPage* mainPage_;
+    RoomPage* roomPage_;
+
 };
