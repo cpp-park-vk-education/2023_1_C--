@@ -9,8 +9,6 @@
 #include "RoomSwitcher.hpp"
 #include "RoomUseCase.hpp"
 
-#include "LoginPage.hpp"
-#include "MainPage.hpp"
 #include "RoomPage.hpp"
 #include "MainWindow.hpp"
 
@@ -42,7 +40,10 @@ private:
     NetworkManager* networkManager;
 
     LoginPage* loginPage;
+    SignupPage* signupPage;
     MainPage* mainPage;
     RoomPage* roomPage;
-    
+    RoomCreationPage* roomCreationPage;
+    RoomSearchPage* roomSearchPage;
+
 };

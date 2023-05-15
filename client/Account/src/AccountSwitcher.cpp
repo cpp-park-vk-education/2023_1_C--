@@ -5,7 +5,7 @@ void AccountSwitcher::ShowLoginPage() {
 }
 
 void AccountSwitcher::ShowSignupPage() {
-    // widgetConroller_->ShowSignupPage();
+    widgetConroller_->ShowSignupPage();
 }
 
 void AccountSwitcher::ShowUserSettingPage() {

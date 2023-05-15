@@ -11,4 +11,4 @@ public:
     virtual void GetMessages(const size_t messageId) = 0;
 };
 
-using IRoomUseCaseUPtr = std::unique_ptr<IRoomUseCase>;
+using IRoomUseCaseSPtr = std::shared_ptr<IRoomUseCase>;

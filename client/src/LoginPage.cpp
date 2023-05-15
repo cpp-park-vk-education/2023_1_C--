@@ -9,7 +9,8 @@ LoginPage::LoginPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::LoginPage)
 {
     ui->setupUi(this);
-    connect(ui->pushButton, &QPushButton::clicked, this, &LoginPage::OnSubmitButtonClicked);
+    connect(ui->submitButton, &QPushButton::clicked, this, &LoginPage::OnSubmitButtonClicked);
+    connect(ui->signupButton, &QPushButton::clicked, this, &LoginPage::OnSignupButtonClicked);
 }
 
 LoginPage::~LoginPage() { 
@@ -18,6 +19,10 @@ LoginPage::~LoginPage() {
 
 void LoginPage::ShowError(const std::string& error) {
     ui->errorLabel->setText(QString::fromStdString(error));
+}
+
+void LoginPage::OnSignupButtonClicked() {
+    switcher_->ShowSignupPage();
 }
 
 void LoginPage::OnSubmitButtonClicked() {

@@ -2,11 +2,26 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 struct RoomInfo {
     int id;
-    std::vector<std::string> members;
     std::string name;
+    std::vector<std::string> members;
+
+    RoomInfo() {}
+
+    RoomInfo(const RoomInfo& other)
+        : id(other.id), name(other.name), members(other.members) {}
+
+    RoomInfo& operator=(const RoomInfo& other) {
+        id = other.id;
+        name = other.name;
+        members = other.members;
+        return *this;
+    }
+
+    ~RoomInfo() {}
 };
 
 struct Message {
@@ -14,18 +29,38 @@ struct Message {
     std::string content;
     std::string author;
     std::string sendingData;
-};
 
-class IRoom {
-public:
-    virtual ~IRoom() {}
-    virtual RoomInfo GetRoomInfo() = 0;
-    virtual std::vector<Message> GetLastMessages() = 0;
+    Message() {}
+
+    Message(const Message& other)
+        : id(other.id), content(other.content),
+          author(other.author), sendingData(other.sendingData) {}
+           
+    Message& operator=(const Message& other) {
+        id = other.id;
+        content = other.content;
+        author = other.author;
+        sendingData = other.sendingData;
+        return *this;
+    }
+    
+    ~Message() {}
 };
 
 struct RoomData {
     RoomInfo info;
     std::vector<Message> lastMessages;
-};
 
-using IRoomUPtr = std::unique_ptr<IRoom>;
+    RoomData() {}
+
+    RoomData(const RoomData& other) 
+        : info(other.info), lastMessages(other.lastMessages) {}
+
+    RoomData& operator=(const RoomData& other) {
+        info = other.info;
+        lastMessages = other.lastMessages;
+        return *this;
+    }
+
+    ~RoomData() {}
+};

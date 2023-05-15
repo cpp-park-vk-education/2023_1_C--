@@ -3,15 +3,15 @@
         "Login": "login",
         "Nickname": "nickname",
         "Password": "password",
-        "FirstName": "firstName",
-        "LastName": "lastName"
+        "Firstname": "firstName",
+        "Lastname": "lastName"
     },
     "VectorOfRooms": [
         {
             "RoomInfo": {
-                "ID": "0",
+                "ID": "10",
                 "Name": "nameRoom",
-                "Members": [
+                "VectorOfMembers": [
                     "memberLogin1",
                     "memberLogin2"
                 ]

@@ -14,7 +14,7 @@ if(BUILD_TESTS)
     add_subdirectory(Account/tests)
     # add_subdirectory(Room/tests)
 endif()
-       
+  
 find_package(Qt6 REQUIRED COMPONENTS Widgets
                                      Network
                                      Core)
@@ -64,12 +64,24 @@ SET(UI_SOURCES      include/MainWindow.hpp
                     include/LoginPage.hpp
                     src/LoginPage.cpp
                     src/LoginPage.ui
+                    include/SignupPage.hpp
+                    src/SignupPage.cpp
+                    src/SignupPage.ui
                     include/MainPage.hpp
                     src/MainPage.cpp
                     src/MainPage.ui
                     include/RoomPage.hpp
                     src/RoomPage.cpp
-                    src/RoomPage.ui)
+                    src/RoomPage.ui
+                    include/RoomPage.hpp
+                    src/RoomPage.cpp
+                    src/RoomPage.ui
+                    include/RoomCreationPage.hpp
+                    src/RoomCreationPage.cpp
+                    src/RoomCreationPage.ui
+                    include/RoomSearchPage.hpp
+                    src/RoomSearchPage.cpp
+                    src/RoomSearchPage.ui)
 
 add_executable(client src/main.cpp
                       src/AppController.cpp

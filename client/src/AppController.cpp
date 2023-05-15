@@ -17,16 +17,34 @@ AppController::AppController() {
     networkManager = new NetworkManager;
 
     loginPage = new LoginPage;
+    signupPage = new SignupPage;
     mainPage = new MainPage;
     roomPage = new RoomPage;
+    roomCreationPage = new RoomCreationPage;
+    roomSearchPage = new RoomSearchPage;
 
     mainWindow = new MainWindow;
     mainWindow->SetLoginPage(loginPage);
+    mainWindow->SetSignupPage(signupPage);
     mainWindow->SetMainPage(mainPage);
     mainWindow->SetRoomPage(roomPage);
+    mainWindow->SetRoomCreationPage(roomCreationPage);
+    mainWindow->SetRoomSearchPage(roomSearchPage);
 
     loginPage->SetUseCase(accountUseCaseSPtr);
+    loginPage->SetSwitcher(accountSwitcherSPtr);
+
+    signupPage->SetUseCase(accountUseCaseSPtr);
+    signupPage->SetSwitcher(accountSwitcherSPtr);
+
     mainPage->SetRoomSwitcher(roomSwitcherSPtr);
+    roomPage->SetRoomSwitcher(roomSwitcherSPtr);
+
+    roomCreationPage->SetRoomSwitcher(roomSwitcherSPtr);
+    roomCreationPage->SetRoomUseCase(roomUseCaseSPtr);
+
+    roomSearchPage->SetRoomSwitcher(roomSwitcherSPtr);
+    roomSearchPage->SetRoomUseCase(roomUseCaseSPtr);
     
     accountUseCaseSPtr->SetAccountUi(loginPage);
     accountUseCaseSPtr->SetNetwork(accountNetworkSPtr);
@@ -39,7 +57,8 @@ AppController::AppController() {
     accountReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
     accountReplyHandlerSPtr->SetAccountUi(loginPage);
 
-    //roomUseCaseSPtr->SetRoomPageUi();
+
+    // roomUseCaseSPtr->SetRoomPageUi();
     roomUseCaseSPtr->SetMainPageUi(mainPage);
     roomUseCaseSPtr->SetRoomNetwork(roomNetworkSPtr);
     
@@ -49,7 +68,8 @@ AppController::AppController() {
     roomNetworkSPtr->SetResponseSerializer(deserializerSPtr);
     
     roomReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
-
+    accountSwitcherSPtr->SetWidgetController(mainWindow);
+    
     roomSwitcherSPtr->SetWidgetController(mainWindow);
     roomSwitcherSPtr->SetMainPageUi(mainPage);
 
@@ -60,4 +80,7 @@ AppController::~AppController() {
     delete networkManager;
     // delete loginPage;
     // delete mainPage;
+    // delete roomPage
+    // delete roomCreationPage
+    // delete roomSearchPage
 }

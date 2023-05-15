@@ -46,9 +46,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="selectButton">
+      <widget class="QPushButton" name="searchButton">
        <property name="text">
-        <string>Select</string>
+        <string>Search a room</string>
        </property>
       </widget>
      </item>

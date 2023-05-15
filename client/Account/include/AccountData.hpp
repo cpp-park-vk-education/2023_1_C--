@@ -17,15 +17,6 @@ struct UserData {
     std::vector<RoomData> rooms;
 };
 
-class IUserData {
-public:
-    ~IUserData() {};
-    virtual UserInfo GetUserInfo() = 0;
-    virtual std::vector<IRoomUPtr> GetUserRooms() = 0;
-};
-
-using IUserDataUPtr = std::unique_ptr<IUserData>;
-
 struct LoginData {
     std::string login;
     std::string password;

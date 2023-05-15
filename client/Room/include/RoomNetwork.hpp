@@ -28,16 +28,16 @@ public:
     }
 
     void SetRequestSerializer(ISerializerSPtr serializer) {
-        requestSerializer_ = serializer;
+        serializer_ = serializer;
     }
 
     void SetResponseSerializer(IDeserializerSPtr serializer) {
-        responseSerializer_ = serializer;
+        deserializer_ = serializer;
     }
 
 private:
     NetworkManager* networkManager_;
     IRoomReplyHandlerSPtr replyHandler_;
-    ISerializerSPtr requestSerializer_;
-    IDeserializerSPtr responseSerializer_;
+    ISerializerSPtr serializer_;
+    IDeserializerSPtr deserializer_;
 };
