@@ -41,13 +41,23 @@ void RoomPage::on_backBtn_clicked()
 
 void RoomPage::on_sendBtn_clicked()
 {
-    auto content = ui->messageLineEdit->text();
-    *list << QString::fromStdString("You: ") + content;
-    model->setStringList(*list);
-    ui->listView->setModel(model);
+    tempContent = ui->messageLineEdit->text();
+    Message message;
+    message.content = tempContent.toStdString;
+    message.author = userInfo.login; 
+    useCase_->SendMessage(message);
+
+
     //отправить сообщение
     ui->messageLineEdit->setText("");
 }
+
+void RoomPage::ShowSentMessage() {
+    *list << QString::fromStdString("You: ") + tempContent;
+    model->setStringList(*list);
+    ui->listView->setModel(model);
+}
+
 
 QStringList RoomPage::getWordList(const QString& path)
 {

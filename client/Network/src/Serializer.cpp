@@ -39,7 +39,15 @@ std::vector<char> Serializer::SerializeSignupData(const SignupData& data) {
 std::vector<char> Serializer::SerializeUserSettingData(const UserSettingData& data) {}
 std::vector<char> Serializer::SerializeLogoutData(const LogoutData& data) {}
 std::vector<char> Serializer::SerializeString(const std::string& data) {}
-std::vector<char> Serializer::SerializeMessage(const Message& data) {}
+
+std::vector<char> Serializer::SerializeMessage(const Message& data) {
+    QJsonObject jsonObject;
+    jsonObject.insert(LOGIN_KEY, QJsonValue(QString::fromStdString(data.author)));
+    jsonObject.insert(CONTENT_KEY, QJsonValue(QString::fromStdString(data.content)));
+    auto byteArray = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact);
+    qDebug() << QJsonDocument(jsonObject).toJson(QJsonDocument::Compact).toStdString();
+    return std::vector<char>(byteArray.begin(), byteArray.end());
+}
 
 std::vector<char> Serializer::SerializeRoomInfo(const RoomInfo& data) {
     QJsonObject jsonObject;

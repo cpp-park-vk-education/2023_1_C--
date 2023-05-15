@@ -1,21 +1,21 @@
 #include "RoomReplyHandler.hpp"
 
-void RoomReplyHandler::OnAddUserResponse(unsigned int statusCode, const RoomInfo& roomInfo) {
+void RoomReplyHandler::OnAddUserResponse(const int statusCode, const RoomInfo& roomInfo) {
     // if (statusCode == 200)
     //     roomSwitcher_->ShowRoomInfo(roomInfo);
 }
 
-void RoomReplyHandler::OnSendMessageResponse(unsigned int statusCode, const std::vector<Message>& messages) {
+void RoomReplyHandler::OnSendMessageResponse(const int statusCode) {
     if (statusCode == 200)
-        roomSwitcher_->ShowLastMessages(messages);
+        roomUi_->ShowSentMessage();
 }
 
-void RoomReplyHandler::OnGetMessagesResponse(unsigned int statusCode, const std::vector<Message>& messages) {
+void RoomReplyHandler::OnGetMessagesResponse(const int statusCode, const std::vector<Message>& messages) {
     if (statusCode == 200)
         roomSwitcher_->ShowOldMessages(messages);
 }
 
-void RoomReplyHandler::OnCreateRoomResponse(unsigned int statusCode, RoomData room) {
+void RoomReplyHandler::OnCreateRoomResponse(const int statusCode, RoomData room) {
     if (statusCode == 200)
         roomSwitcher_->ShowRoom(room);
 }

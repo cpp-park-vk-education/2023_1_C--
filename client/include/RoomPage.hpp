@@ -1,14 +1,15 @@
 #pragma once
-
 #include <QWidget>
 #include <QStringListModel>
 #include <QCompleter>
 #include <QFile>
+#include <QString>
 #include <QTextStream>
 #include <QDebug>
 #include "IRoomPageUi.hpp"
 #include "IRoomUseCase.hpp"
 #include "IRoomSwitcher.hpp"
+#include "RoomData.hpp"
 
 namespace Ui {
 class RoomPage;
@@ -22,10 +23,15 @@ public:
     explicit RoomPage(QWidget *parent = nullptr);
     ~RoomPage();
 
-    void SetUseCase(IRoomUseCaseUPtr useCase) {
+    void SetRoomUseCase(IRoomUseCaseSPtr useCase) {
         useCase_ = std::move(useCase);
     }
 
+    void SetRoomSwitcher(IRoomSwitcherSPtr switcher) {
+        switcher_ = std::move(switcher);
+    }
+
+    void ShowSentMessage();
     void ShowRoomInfo(const RoomInfo& roomInfo);
     void ShowRoomName(const std::string& name);
     void ShowLastMessages(const std::vector<Message>& messages);
@@ -33,15 +39,16 @@ public:
 
 private slots:
     void on_backBtn_clicked();
-
     void on_sendBtn_clicked();
 
 private:
 
     QStringList getWordList(const QString& path);
-
+    QString tempContent;
+    RoomInfo roomInfo;
+    UserInfo userInfo;
     Ui::RoomPage *ui;
-    IRoomUseCaseUPtr useCase_;
+    IRoomUseCaseSPtr useCase_;
     IRoomSwitcherSPtr switcher_;
     QStringListModel *model;
     QStringList *list;

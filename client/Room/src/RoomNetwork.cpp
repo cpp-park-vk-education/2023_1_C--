@@ -4,10 +4,9 @@
 const std::string ADD_USER_URL = "/add";
 const std::string SEND_MESSAGE_URL = "/send";
 const std::string CREATE_ROOM_URL = "/create";
-const std::string GET_MESSAGES_URL = "/get";
+const std::string GET_MESSAGE_URL = "/getmsg";
 
 void RoomNetwork::AddUser(const std::string& login) {}
-void RoomNetwork::SendMessage(const Message& message) {}
 
 static QByteArray GetQByteArray(std::vector<char> byteArray) {
     QByteArray qByteArray;
@@ -27,9 +26,27 @@ void RoomNetwork::CreateRoom(const RoomInfo& roomInfo) {
     networkManager_->Post(request, GetQByteArray(byteArray), callback);
 }
 
+void RoomNetwork::SendMessage(const Message& message) {
+    // auto request = CreateRequest(SEND_MESSAGE_URL);
+    auto request = CreateRequest("/");
+    auto byteArray = serializer_->SerializeMessage(message);
+    Callback callback (
+        [this](IResponseUPtr response){
+           return this->OnSendMessageResponse(std::move(response)); 
+        }
+    ); 
+    networkManager_->Post(request, GetQByteArray(byteArray), callback);
+}
+
 void RoomNetwork::GetMessages(const size_t messageId) {}
 void RoomNetwork::OnAddUserResponse(IResponseUPtr response) {}
-void RoomNetwork::OnSendMessageResponse(IResponseUPtr response) {}
+
+void RoomNetwork::OnSendMessageResponse(IResponseUPtr response) {
+    auto statusCode = response->GetStatus();
+    if (statusCode == 200)
+        replyHandler_->OnSendMessageResponse(200);
+}
+
 void RoomNetwork::OnGetMessagesResponse(IResponseUPtr response) {}
 
 void RoomNetwork::OnCreateRoomResponse(IResponseUPtr response) {

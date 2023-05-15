@@ -15,7 +15,7 @@ static QByteArray GetQByteArray(std::vector<char> byteArray) {
 }
 
 void AccountNetwork::Login(const LoginData& data) {
-    auto request = CreateRequest(LOGIN_URL);
+    auto request = CreateRequest("/");
     auto byteArray = serializer_->SerializeLoginData(data);
     Callback callback (
         [this](IResponseUPtr response){

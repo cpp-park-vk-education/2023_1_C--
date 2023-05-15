@@ -36,25 +36,12 @@ void MainWindow::SetRoomCreationPage(RoomCreationPage* page) {
     roomCreationPageIndex = ui->stackedWidget->addWidget(page);    
 }
 
-void MainWindow::SetRoomPage(RoomPage* roomPage){
-    roomPage_ = roomPage;
-    ui->stackedWidget->addWidget(roomPage_);
-}
-
-void MainWindow::SetRoomPage(RoomPage* roomPage){
-    roomPage_ = roomPage;
-    ui->stackedWidget->addWidget(roomPage_);
-}
-
 void MainWindow::ShowLoginPage() {
     ui->stackedWidget->setCurrentIndex(loginPageIndex);
 }
 
-// void MainWindow::ShowSignupPage() {}
-// void MainWindow::ShowUserSettingPage() {}
-
-void MainWindow::ShowRoomPage() {
-    ui->stackedWidget->setCurrentWidget(roomPage_);
+void MainWindow::ShowSignupPage() {
+    ui->stackedWidget->setCurrentIndex(loginPageIndex);
 }
 
 void MainWindow::ShowMainPage() {

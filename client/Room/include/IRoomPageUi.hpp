@@ -6,6 +6,7 @@
 class IRoomPageUi {
 public:
     virtual ~IRoomPageUi() {}
+    virtual void ShowSentMessage() = 0;
     virtual void ShowRoomInfo(const RoomInfo& roomInfo) = 0;
     virtual void ShowRoomName(const std::string& name) = 0;
     virtual void ShowLastMessages(const std::vector<Message>& messages) = 0;

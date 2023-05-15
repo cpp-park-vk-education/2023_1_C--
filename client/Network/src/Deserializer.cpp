@@ -1,7 +1,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QDebug>#include <QString>
+#include <QDebug>
+#include <QString>
 #include "Deserializer.hpp"
 #include "SerializationKeys.hpp"
 
@@ -99,12 +100,5 @@ RoomData Deserializer::DeserializeCreateRoomResponse(std::vector<char> byteArray
     return data;    
 }
 
-RoomData Deserializer::DeserializeCreateRoomResponse(std::vector<char> byteArray) {
-    RoomData data;
-    auto jsonObj = ByteArrayToJsonObj(byteArray);
-    auto info = DeserializeRoomInfo(jsonObj);
-    data.info = info;
-    return data;    
-}
 
 // RoomData Deserializer::DeserializeRoom(std::vector<char> byteArray) {}

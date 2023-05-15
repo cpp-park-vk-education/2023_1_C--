@@ -38,6 +38,8 @@ AppController::AppController() {
     signupPage->SetSwitcher(accountSwitcherSPtr);
 
     mainPage->SetRoomSwitcher(roomSwitcherSPtr);
+
+    roomPage->SetRoomUseCase(roomUseCaseSPtr);
     roomPage->SetRoomSwitcher(roomSwitcherSPtr);
 
     roomCreationPage->SetRoomSwitcher(roomSwitcherSPtr);
