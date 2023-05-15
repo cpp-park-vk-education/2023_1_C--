@@ -1,5 +1,7 @@
 #include "DBManager.hpp"
 
+const std::string CONNECTION_FAILED_ERROR = "Can't connect to database";
+
 DBManager::DBManager() {
     db = QSqlDatabase::addDatabase(DBType, connectionName);
     connect();
@@ -12,19 +14,16 @@ void DBManager::connect() {
     db.setUserName    (username);
     db.setPassword    (password);
     if(!db.open())
-        connected = false;
+        isConnected = false;
     else 
-        connected = true;
+        isConnected = true;
 }
 
 QSqlQuery DBManager::execute(const QString& queryStr) {
+    if(!isConnected) throw std::runtime_error(CONNECTION_FAILED_ERROR);
     QSqlQuery query(db);
     if(!query.exec(queryStr))
-        throw(std::runtime_error("Query isn't correct!"));
+        throw(std::runtime_error(QString::toStdString(query.last_error())));
     query.first();
     return query;
-}
-
-bool DBManager::isConnected() {
-    return connected;
 }

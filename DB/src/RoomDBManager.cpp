@@ -1,12 +1,20 @@
 #include "RoomDBManager.hpp"
 
+const std::string NO_SUCH_ROOM_ERROR = "There is no such room!";
+const std::string SMTH_WENT_WRONG_ERROR = "Something went wrong!";
+
 RoomDBManager::RoomDBManager(std::shared_ptr<DBManager>& manager) {
     dbManager = manager;
 }
 
 Room RoomDBManager::getRoom(const int room_ID) {
-    const QString queryStr = "SELECT * FROM rooms WHERE ID = " + room_ID;
-    QSqlQuery query = dbManager->execute(queryStr);
+    const QString queryStr = "SELECT * FROM rooms WHERE ID = " + QString::number(room_ID);
+    QSqlQuery query;
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(NO_SUCH_ROOM_ERROR);
+    }
     Room room = Room(query);
     return room;
 }
@@ -14,7 +22,12 @@ Room RoomDBManager::getRoom(const int room_ID) {
 QVector<Room> RoomDBManager::getRooms(const QString& login) {
     const QString queryStr = "SELECT * FROM rooms WHERE id IN (SELECT room_id FROM users_rooms WHERE login='" 
         + login + "');";
-    QSqlQuery query = dbManager->execute(queryStr);
+    QSqlQuery query;
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(NO_SUCH_ROOM_ERROR);
+    }
     QVector<Room> rooms;
     rooms.push_back(Room(query));
     while(query.next())
@@ -27,7 +40,12 @@ QVector<Room> RoomDBManager::getRooms(const QString& login) {
 QVector<Message> RoomDBManager::getMessages(const int roomID) {
     const QString queryStr = "SELECT * FROM messages "
                              "WHERE room_id = " + QString::number(roomID);
-    QSqlQuery query = dbManager->execute(queryStr);
+    QSqlQuery query; 
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     QVector<Message> messages;
     messages.push_back(Message(query));
     while(query.next())
@@ -39,7 +57,11 @@ QVector<Message> RoomDBManager::getMessages(const int roomID) {
 
 Room RoomDBManager::insertRoom(const QString& username, const QString& roomname) {
     const QString queryStr = "INSERT INTO rooms VALUES ('" + roomname + "');";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     Room room = getRooms(username).last();
     addClientToRoom(room.ID, username);
     return room;
@@ -52,15 +74,24 @@ Message RoomDBManager::insertNewMessage(const int room_ID, const QString& userna
                    QString::number(curr_DT.time().minute()) + ":" + QString::number(curr_DT.time().second());
     QString queryStr = "INSERT INTO rooms VALUES (" + QString::number(room_ID) + ", '" + username +
         ", '" + text + "'" + date + "');";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     Message message = getNewMessage(room_ID);
     return message;
 }
 
 Message RoomDBManager::getNewMessage(const int room_ID) {
     const QString queryStr = "SELECT * FROM messages "
-            "WHERE room_id = " + room_ID;
-    QSqlQuery query = dbManager->execute(queryStr);
+            "WHERE room_id = " + QString::number(room_ID);
+    QSqlQuery query; 
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     Message message;
     while(query.next())
     {
@@ -70,40 +101,82 @@ Message RoomDBManager::getNewMessage(const int room_ID) {
 }
 
 void RoomDBManager::deleteRoom(const int room_ID) {
-    const QString queryStr = "DELETE FROM rooms WHERE room_id = " + room_ID;
-    dbManager->execute(queryStr);
+    const QString queryStr = "DELETE FROM rooms WHERE room_id = " + QString::number(room_ID);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(NO_SUCH_ROOM_ERROR);
+    }
 }
 
 Room RoomDBManager::renameRoom(const int roomID, const QString& new_name) {
     const QString queryStr = "UPDATE rooms "
             "SET name = '" + new_name + ""
             "'WHERE room_id = " + QString::number(roomID);
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(NO_SUCH_ROOM_ERROR);
+    }
     return getRoom(roomID); 
 }
 
 void RoomDBManager::addClientToRoom(const int room_ID, const QString& username) {
     const QString queryStr = "INSERT INTO user_rooms VALUES (" + QString::number(room_ID) + ", '" + username + "');";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
 }
 
 void RoomDBManager::deleteClientFromRoom(const int room_ID, const QString& username) {
     const QString queryStr = "DELETE FROM rooms WHERE room_id = " + QString::number(room_ID) + ""
                              "AND username = '" + username + "';";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
 }
 
 Message RoomDBManager::changeMessageContext(const int message_ID, const QString& new_context) {
     const QString queryStr = "UPDATE messages "
             "SET context = '" + new_context + ""
                                              "'WHERE ID = " + QString::number(message_ID);
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     return getMessage(message_ID);
 }
 
 Message RoomDBManager::getMessage(const int message_ID) {
     const QString queryStr = "SELECT * FROM messages WHERE ID = " + QString::number(message_ID);
-    QSqlQuery query = dbManager->execute(queryStr);
+    QSqlQuery query; 
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     Message message = Message(query);
     return message;
+}
+
+QVector<Room> RoomDBManager::searchRooms(const QString& roomName) {
+    const QString queryStr = "SELECT * FROM rooms "
+            "WHERE roomname = '" + roomName + "'";
+    QSqlQuery query; 
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(NO_SUCH_ROOM_ERROR);
+    }
+    Room rooms;
+    while(query.next())
+    {
+        rooms = Room(query);
+    }
+    return rooms;
 }
