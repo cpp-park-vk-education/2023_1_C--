@@ -72,7 +72,7 @@ Message RoomDBManager::insertNewMessage(const int room_ID, const QString& userna
     QString date = QString::number(curr_DT.date().year()) + "-" + QString::number(curr_DT.date().month()) +
                    "-" + QString::number(curr_DT.date().day()) + " " + QString::number(curr_DT.time().hour()) + ":" +
                    QString::number(curr_DT.time().minute()) + ":" + QString::number(curr_DT.time().second());
-    QString queryStr = "INSERT INTO rooms VALUES (" + QString::number(room_ID) + ", '" + username +
+    QString queryStr = "INSERT INTO messages VALUES (" + QString::number(room_ID) + ", '" + username +
         ", '" + text + "'" + date + "');";
     try {
         dbManager->execute(queryStr);
