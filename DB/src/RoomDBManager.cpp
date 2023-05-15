@@ -85,7 +85,7 @@ Message RoomDBManager::insertNewMessage(const int room_ID, const QString& userna
 
 Message RoomDBManager::getNewMessage(const int room_ID) {
     const QString queryStr = "SELECT * FROM messages "
-            "WHERE room_id = " + QString::number(room_ID);
+            "WHERE room_id = " + QString::number(room_ID)  + " DESC LIMIT 1;";
     QSqlQuery query; 
     try {
         dbManager->execute(queryStr);
