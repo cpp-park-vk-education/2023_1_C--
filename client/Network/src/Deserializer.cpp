@@ -26,6 +26,7 @@ static Message DeserializeMessage(const QJsonObject& messageJsonObj) {
 static RoomInfo DeserializeRoomInfo(const QJsonObject& roomInfoJsonObj) {
     RoomInfo roomInfo;
     roomInfo.id = roomInfoJsonObj["id"].toString().toInt();
+    roomInfo.id = roomInfoJsonObj["id"].toString().toInt();
     roomInfo.name = roomInfoJsonObj["name"].toString().toStdString();
     auto membersJsonArr = roomInfoJsonObj["members"].toArray();
     std::vector<std::string> members;
@@ -68,6 +69,7 @@ static QJsonObject ByteArrayToJsonObj(std::vector<char> byteArray) {
 
 static QJsonObject StubJsonObj() {
     QFile file;
+    file.setFileName("/home/oleg/vk-education/cpp-course/2023_1_C--/Common/StubResponse.json");
     file.setFileName("/home/oleg/vk-education/cpp-course/2023_1_C--/Common/StubResponse.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray byteArray = file.readAll();
