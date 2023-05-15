@@ -11,6 +11,7 @@
 
 #include "LoginPage.hpp"
 #include "MainPage.hpp"
+#include "RoomPage.hpp"
 #include "MainWindow.hpp"
 
 #include "NetworkManager.hpp"

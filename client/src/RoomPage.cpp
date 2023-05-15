@@ -15,9 +15,6 @@ RoomPage::RoomPage(QWidget *parent)
 
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(ui->messageLineEdit, SIGNAL(returnPressed()), ui->sendBtn, SIGNAL(clicked()));
-
-//    connect(ui->pushButton, &QPushButton::clicked, this, &LoginPage::OnSubmitButtonClicked);
-    //create thread with QNetworkAccessManager
 }
 
 RoomPage::~RoomPage()
