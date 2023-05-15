@@ -2,5 +2,5 @@
 
 Message GetNewMessageService::getNewMessage(const int id)
 {
-    return roomManager->getNewMessage(1);
+    return roomManager->getNewMessage(id);
 }
