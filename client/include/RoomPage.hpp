@@ -1,6 +1,11 @@
 #pragma once
 
 #include <QWidget>
+#include <QStringListModel>
+#include <QCompleter>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 #include "IRoomPageUi.hpp"
 #include "IRoomUseCase.hpp"
 #include "IRoomSwitcher.hpp"
@@ -26,8 +31,19 @@ public:
     void ShowLastMessages(const std::vector<Message>& messages);
     void ShowOldMessages(const std::vector<Message>& messages);
 
+private slots:
+    void on_backBtn_clicked();
+
+    void on_sendBtn_clicked();
+
 private:
+
+    QStringList getWordList(const QString& path);
+
     Ui::RoomPage *ui;
     IRoomUseCaseUPtr useCase_;
     IRoomSwitcherSPtr switcher_;
+    QStringListModel *model;
+    QStringList *list;
+    QCompleter *completer;
 };

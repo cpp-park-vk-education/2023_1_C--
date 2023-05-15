@@ -18,10 +18,12 @@ AppController::AppController() {
 
     loginPage = new LoginPage;
     mainPage = new MainPage;
+    roomPage = new RoomPage;
 
     mainWindow = new MainWindow;
     mainWindow->SetLoginPage(loginPage);
     mainWindow->SetMainPage(mainPage);
+    mainWindow->SetRoomPage(roomPage);
 
     loginPage->SetUseCase(accountUseCaseSPtr);
     mainPage->SetRoomSwitcher(roomSwitcherSPtr);
@@ -37,7 +39,7 @@ AppController::AppController() {
     accountReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
     accountReplyHandlerSPtr->SetAccountUi(loginPage);
 
-    // roomUseCaseSPtr->SetRoomPageUi();
+    //roomUseCaseSPtr->SetRoomPageUi();
     roomUseCaseSPtr->SetMainPageUi(mainPage);
     roomUseCaseSPtr->SetRoomNetwork(roomNetworkSPtr);
     
