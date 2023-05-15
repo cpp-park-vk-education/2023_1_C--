@@ -92,11 +92,7 @@ Message RoomDBManager::getNewMessage(const int room_ID) {
     } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
-    Message message;
-    while(query.next())
-    {
-        message = Message(query);
-    }
+    Message message = Message(query);
     return message;
 }
 
