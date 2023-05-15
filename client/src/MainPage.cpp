@@ -1,7 +1,6 @@
 #include "MainPage.hpp"
 #include "ui_MainPage.h"
 #include <algorithm>
-#include <optional>
 #include <QListWidget>
 #include <QAbstractButton>
 
@@ -13,7 +12,8 @@ MainPage::MainPage(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->listWidget, &QListWidget::itemDoubleClicked, this, &MainPage::SelectRoom);
-    connect(ui->selectButton, &QAbstractButton::clicked, this, &MainPage::OnSelectButtonClicked);
+    connect(ui->searchButton, &QAbstractButton::clicked, this, &MainPage::SearchRoom);
+    connect(ui->createButton, &QAbstractButton::clicked, this, &MainPage::CreateRoom);
 }
 
 MainPage::~MainPage()
@@ -39,16 +39,8 @@ void MainPage::ShowMainPage(std::vector<RoomData> rooms) {
 }
 
 void MainPage::SelectRoom(QListWidgetItem *item) {
-    int roomId = item->data(ROOM_ID_ROLE).toInt();
+    const int roomId = item->data(ROOM_ID_ROLE).toInt();
     auto roomData = FindRoom(roomId);
-    qDebug() << "Room was found successfully";
-    // roomSwitcher_->ShowRoom(roomData.value());
-}
-
-void MainPage::OnSelectButtonClicked() {
-    QListWidgetItem* item = ui->listWidget->currentItem();
-    int roomId = item->data(ROOM_ID_ROLE).toInt();
-    auto roomData = FindRoom(roomId);
-    qDebug() << "Room was found successfully";
-    // roomSwitcher_->ShowRoom(roomData.value());
+    if (roomData)
+        roomSwitcher_->ShowRoom(roomData.value());
 }

@@ -6,8 +6,8 @@
 class IDeserializer {
 public:
     virtual ~IDeserializer() {}
-    virtual UserData DeserializeUserData(std::vector<char> byteArray)  = 0;
-    // virtual RoomData DeserializeRoom(std::vector<char> byteArray)  = 0;    
+    virtual UserData DeserializeLoginResponse(std::vector<char> byteArray)  = 0;
+    virtual RoomData DeserializeCreateRoomResponse(std::vector<char> byteArray) = 0;
 };
 
 using IDeserializerSPtr = std::shared_ptr<IDeserializer>;

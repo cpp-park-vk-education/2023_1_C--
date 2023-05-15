@@ -2,10 +2,10 @@
 #include "Communication.hpp"
 #include "AccountData.hpp"
 
-const std::string LOGIN_URL = "login/";
-const std::string SIGNUP_URL = "signup/";
-const std::string USER_SETTING_URL = "setting/";
-const std::string LOGOUT_URL = "logout/";
+const std::string LOGIN_URL = "login";
+const std::string SIGNUP_URL = "signup";
+const std::string USER_SETTING_URL = "setting";
+const std::string LOGOUT_URL = "logout";
 
 static QByteArray GetQByteArray(std::vector<char> byteArray) {
     QByteArray qByteArray;
@@ -25,14 +25,25 @@ void AccountNetwork::Login(const LoginData& data) {
     networkManager_->Post(request, GetQByteArray(byteArray), callback);
 }
 
-void AccountNetwork::Signup(const SignupData& data) {}
+void AccountNetwork::Signup(const SignupData& data) {
+    auto request = CreateRequest(SIGNUP_URL);
+    auto byteArray = serializer_->SerializeSignupData(data);
+    Callback callback (
+        [this](IResponseUPtr response){
+           return this->OnLoginResponse(std::move(response)); 
+        }
+    ); 
+    networkManager_->Post(request, GetQByteArray(byteArray), callback);
+
+}
+
 void AccountNetwork::UserSetting(const UserSettingData& data) {}
 void AccountNetwork::Logout(const LogoutData& data) {}
 
 void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
     auto statusCode = response->GetStatus();
     if (statusCode == 200) {
-        UserData data = deserializer_->DeserializeUserData(response->GetBody());
+        UserData data = deserializer_->DeserializeLoginResponse(response->GetBody());
         replyHandler_->OnLoginResponse(200, data);
     } else {
         replyHandler_->OnLoginResponse(statusCode, UserData{});

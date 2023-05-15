@@ -12,26 +12,50 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::SetLoginPage(LoginPage* loginPage) {
-    loginPage_ = loginPage; 
-    ui->stackedWidget->addWidget(loginPage_);
+void MainWindow::SetLoginPage(LoginPage* page) {
+    loginPageIndex = ui->stackedWidget->addWidget(page);
 }
 
-void MainWindow::SetMainPage(MainPage* mainPage) {
-    mainPage_ = mainPage; 
-    ui->stackedWidget->addWidget(mainPage_);
+void MainWindow::SetSignupPage(SignupPage* page) {
+    signupPageIndex = ui->stackedWidget->addWidget(page);
+}
+
+void MainWindow::SetMainPage(MainPage* page) {
+    mainPageIndex = ui->stackedWidget->addWidget(page);
+}
+
+void MainWindow::SetRoomPage(RoomPage* page) {
+    roomPageIndex = ui->stackedWidget->addWidget(page);
+}
+
+void MainWindow::SetRoomSearchPage(RoomSearchPage* page) {
+    roomSearchPageIndex = ui->stackedWidget->addWidget(page);
+}
+
+void MainWindow::SetRoomCreationPage(RoomCreationPage* page) {
+    roomCreationPageIndex = ui->stackedWidget->addWidget(page);    
 }
 
 void MainWindow::ShowLoginPage() {
-    ui->stackedWidget->setCurrentWidget(loginPage_);
+    ui->stackedWidget->setCurrentIndex(loginPageIndex);
 }
 
-// void MainWindow::ShowSignupPage() {}
-// void MainWindow::ShowUserSettingPage() {}
-
-void MainWindow::ShowRoomPage() {}
+void MainWindow::ShowSignupPage() {
+    ui->stackedWidget->setCurrentIndex(signupPageIndex);
+}
 
 void MainWindow::ShowMainPage() {
-    ui->stackedWidget->setCurrentWidget(mainPage_);
+    ui->stackedWidget->setCurrentIndex(mainPageIndex);
 }
-void MainWindow::ShowRoomInfo() {}
+
+void MainWindow::ShowRoomPage() {
+    ui->stackedWidget->setCurrentIndex(roomPageIndex);
+}
+
+void MainWindow::ShowRoomSearchPage() {
+    ui->stackedWidget->setCurrentIndex(roomSearchPageIndex);
+}
+
+void MainWindow::ShowRoomCreationPage() {
+    ui->stackedWidget->setCurrentIndex(roomCreationPageIndex);
+}

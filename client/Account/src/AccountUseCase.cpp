@@ -12,12 +12,12 @@ void AccountUseCase::Login(ILoginFormUPtr form) {
 }
 
 void AccountUseCase::Signup(ISignupFormUPtr form) {
-//     try {
-//         form->validate();
-//         network_->Signup(form->getSignupData());
-//     } catch (const FormError& ex) {
-//         accountUi_->ShowError(ex.what());
-//     }
+    try {
+        form->validate();
+        network_->Signup(form->getSignupData());
+    } catch (const FormError& ex) {
+        accountUi_->ShowError(ex.what());
+    }
 }
 
 void AccountUseCase::UserSetting(IUserSettingFormUPtr form) {

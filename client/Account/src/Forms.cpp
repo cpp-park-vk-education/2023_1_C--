@@ -68,6 +68,8 @@ SignupData SignupForm::getSignupData() const {
     signupData.login = login_;
     signupData.nickname = nickname_;
     signupData.password = password_;
+    signupData.firstName = firstname_;
+    signupData.lastName = firstname_;
     return signupData;
 }
 

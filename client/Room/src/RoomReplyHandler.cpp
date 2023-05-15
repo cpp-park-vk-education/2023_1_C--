@@ -1,8 +1,8 @@
 #include "RoomReplyHandler.hpp"
 
 void RoomReplyHandler::OnAddUserResponse(unsigned int statusCode, const RoomInfo& roomInfo) {
-    if (statusCode == 200)
-        roomSwitcher_->ShowRoomInfo(roomInfo);
+    // if (statusCode == 200)
+    //     roomSwitcher_->ShowRoomInfo(roomInfo);
 }
 
 void RoomReplyHandler::OnSendMessageResponse(unsigned int statusCode, const std::vector<Message>& messages) {
