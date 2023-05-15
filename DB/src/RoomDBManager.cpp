@@ -56,7 +56,7 @@ QVector<Message> RoomDBManager::getMessages(const int roomID) {
 }
 
 Room RoomDBManager::insertRoom(const QString& username, const QString& roomname) {
-    const QString queryStr = "INSERT INTO rooms VALUES ('" + roomname + "');";
+    const QString queryStr = "INSERT INTO rooms (room_name) VALUES ('" + roomname + "');";
     try {
         dbManager->execute(queryStr);
     } catch (const std::runtime_error& err) {
