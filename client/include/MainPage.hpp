@@ -3,6 +3,7 @@
 #include <QListWidget>
 #include "IMainPageUi.hpp"
 #include "IRoomSwitcher.hpp"
+#include <optional>
 
 namespace Ui {
 class MainPage;

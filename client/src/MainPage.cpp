@@ -41,7 +41,7 @@ void MainPage::ShowMainPage(std::vector<RoomData> rooms) {
 void MainPage::SelectRoom(QListWidgetItem *item) {
     int roomId = item->data(ROOM_ID_ROLE).toInt();
     auto roomData = FindRoom(roomId);
-    qDebug() << "Room was found successfully";
+   // qDebug() << "Room was found successfully";
     // roomSwitcher_->ShowRoom(roomData.value());
 }
 
@@ -49,6 +49,6 @@ void MainPage::OnSelectButtonClicked() {
     QListWidgetItem* item = ui->listWidget->currentItem();
     int roomId = item->data(ROOM_ID_ROLE).toInt();
     auto roomData = FindRoom(roomId);
-    qDebug() << "Room was found successfully";
+    //qDebug() << "Room was found successfully";
     // roomSwitcher_->ShowRoom(roomData.value());
 }

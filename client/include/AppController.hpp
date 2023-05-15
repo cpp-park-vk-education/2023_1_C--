@@ -42,5 +42,6 @@ private:
 
     LoginPage* loginPage;
     MainPage* mainPage;
+    RoomPage* roomPage;
     
 };

@@ -22,6 +22,11 @@ void MainWindow::SetMainPage(MainPage* mainPage) {
     ui->stackedWidget->addWidget(mainPage_);
 }
 
+void MainWindow::SetRoomPage(RoomPage* roomPage){
+    roomPage_ = roomPage;
+    ui->stackedWidget->addWidget(roomPage_);
+}
+
 void MainWindow::ShowLoginPage() {
     ui->stackedWidget->setCurrentWidget(loginPage_);
 }
@@ -29,7 +34,9 @@ void MainWindow::ShowLoginPage() {
 // void MainWindow::ShowSignupPage() {}
 // void MainWindow::ShowUserSettingPage() {}
 
-void MainWindow::ShowRoomPage() {}
+void MainWindow::ShowRoomPage() {
+    ui->stackedWidget->setCurrentWidget(roomPage_);
+}
 
 void MainWindow::ShowMainPage() {
     ui->stackedWidget->setCurrentWidget(mainPage_);
