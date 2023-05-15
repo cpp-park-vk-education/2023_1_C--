@@ -27,6 +27,8 @@ public:
 
     Message changeMessageContext(const int message_ID, const QString& new_context) override;
 
+    QVector<Room> searchRooms(const QString& roomName) override;
+
 private:
     std::shared_ptr<DBManager> dbManager;
     

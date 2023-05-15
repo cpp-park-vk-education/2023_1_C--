@@ -28,4 +28,6 @@ public:
 
     virtual Message changeMessageContext(const int message_ID, const QString& new_context) = 0;
 
+    virtual QVector<Room> searchRooms(const QString& roomName) = 0;
+
 };

@@ -1,5 +1,8 @@
 #include "ClientDBManager.hpp"
 
+const std::string NO_SUCH_USER_ERROR = "There is no such user!";
+const std::string SMTH_WENT_WRONG_ERROR = "Something went wrong!";
+
 ClientDBManager::ClientDBManager(std::shared_ptr<DBManager>& manager) {
     dbManager = manager;
 }
@@ -10,7 +13,7 @@ Client ClientDBManager::getClient(const QString& login) {
     try {
         query = dbManager->execute(queryStr);
     } catch (std::runtime_error& err) {
-        throw std::runtime_error("There is no such user!");
+        throw std::runtime_error(NO_SUCH_USER_ERROR);
     }
     Client client = Client(query);
     return client;
@@ -19,7 +22,11 @@ Client ClientDBManager::getClient(const QString& login) {
 Client ClientDBManager::createClient(const QString& login, const QString& password, const QString& username) {
     const QString queryStr = "INSERT INTO users VALUES ('" + login +
             "', '" + password + "', '" + username + "');";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch () (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     return getClient(username);
 }
 
@@ -27,7 +34,11 @@ Client ClientDBManager::changeLogin(const QString& old_login, const QString& new
     const QString queryStr="UPDATE users "
             "SET login = '" + new_login + ""
             "'WHERE login = '" + old_login + "'";
-    dbManager->execute(queryStr);
+    try { 
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     return getClient(new_login);
 }
 
@@ -35,7 +46,11 @@ Client ClientDBManager::changePassword(const QString& login, const QString& new_
     const QString queryStr= "UPDATE users "
             "SET password = '" + new_password + ""
             "'WHERE login = '" + login + "'";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     return getClient(login);
 }
 
@@ -43,7 +58,11 @@ Client ClientDBManager::setFirstname(const QString& login, const QString& firstn
     const QString queryStr="UPDATE users "
             "SET firstname = '" + firstname + ""
             "'WHERE login = '" + login + "'";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     return getClient(login);
 }
 
@@ -51,14 +70,23 @@ Client ClientDBManager::setLastname(const QString& login, const QString& lastnam
     const QString queryStr="UPDATE users "
             "SET lastname = '" + lastname + ""
             "'WHERE login = '" + login + "'";
-    dbManager->execute(queryStr);
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     return getClient(login);
 }
 
 QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     const QString queryStr = "SELECT * FROM users_rooms "
             "WHERE room_id = " + QString::number(roomID);
-    QSqlQuery query = dbManager->execute(queryStr);
+    QSqlQuery query; 
+    try {
+        dbManager->execute(queryStr);
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
+    }
     QStringList users;
     users.push_back(query.value(1).toString());
     while(query.next()) {
