@@ -1,6 +1,6 @@
 #include "GetNewMessageService.hpp"
 
-Message GetNewMessageService::getNewMessage(const int)
+Message GetNewMessageService::getNewMessage(const int id)
 {
-    return Message();
+    return roomManager->getNewMessage(1);
 }
