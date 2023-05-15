@@ -12,7 +12,7 @@ Client ClientDBManager::getClient(const QString& login) {
     QSqlQuery query;
     try {
         query = dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(NO_SUCH_USER_ERROR);
     }
     Client client = Client(query);
@@ -24,7 +24,7 @@ Client ClientDBManager::createClient(const QString& login, const QString& passwo
             "', '" + password + "', '" + username + "');";
     try {
         dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     return getClient(username);
@@ -36,7 +36,7 @@ Client ClientDBManager::changeLogin(const QString& old_login, const QString& new
             "'WHERE login = '" + old_login + "'";
     try { 
         dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     return getClient(new_login);
@@ -48,7 +48,7 @@ Client ClientDBManager::changePassword(const QString& login, const QString& new_
             "'WHERE login = '" + login + "'";
     try {
         dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     return getClient(login);
@@ -60,7 +60,7 @@ Client ClientDBManager::setFirstname(const QString& login, const QString& firstn
             "'WHERE login = '" + login + "'";
     try {
         dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     return getClient(login);
@@ -72,7 +72,7 @@ Client ClientDBManager::setLastname(const QString& login, const QString& lastnam
             "'WHERE login = '" + login + "'";
     try {
         dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     return getClient(login);
@@ -84,7 +84,7 @@ QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     QSqlQuery query; 
     try {
         dbManager->execute(queryStr);
-    } catch (std::runtime_error& err) {
+    } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     QStringList users;
