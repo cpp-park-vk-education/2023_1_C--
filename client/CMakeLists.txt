@@ -15,7 +15,7 @@ if(BUILD_TESTS)
     # add_subdirectory(Room/tests)
 endif()
        
-find_package(Qt6 REQUIRED COMPONENTS Widgets
+find_package(Qt5 REQUIRED COMPONENTS Widgets
                                      Network
                                      Core)
 
@@ -39,7 +39,19 @@ set(ACCOUNT_SOURCES Account/src/AccountNetwork.cpp
 set(ROOM_SOURCES    Room/src/RoomNetwork.cpp
                     Room/src/RoomReplyHandler.cpp
                     Room/src/RoomSwitcher.cpp
-                    Room/src/RoomUseCase.cpp)
+                    Room/src/RoomUseCase.cpp
+                    Room/include/IMainPageUi.hpp
+                    Room/include/IRoomNetwork.hpp
+                    Room/include/IRoomPageUi.hpp
+                    Room/include/IRoomReplyHandler.hpp
+                    Room/include/IRoomSwitcher.hpp
+                    Room/include/IRoomUseCase.hpp
+                    Room/include/IUserInfoUi.hpp
+                    Room/include/RoomData.hpp
+                    Room/include/RoomNetwork.hpp
+                    Room/include/RoomReplyHandler.hpp
+                    Room/include/RoomSwitcher.hpp
+                    Room/include/RoomUseCase.hpp)
 
 set(NETWORK_SOURCES Network/src/NetworkManager.cpp
                     Network/src/Communication
@@ -54,7 +66,10 @@ SET(UI_SOURCES      include/MainWindow.hpp
                     src/LoginPage.ui
                     include/MainPage.hpp
                     src/MainPage.cpp
-                    src/MainPage.ui)
+                    src/MainPage.ui
+                    include/RoomPage.hpp
+                    src/RoomPage.cpp
+                    src/RoomPage.ui)
 
 add_executable(client src/main.cpp
                       src/AppController.cpp
@@ -63,9 +78,9 @@ add_executable(client src/main.cpp
                       ${NETWORK_SOURCES}
                       ${UI_SOURCES})
 
-target_link_libraries(client PRIVATE Qt6::Widgets
-                                     Qt6::Network
-                                     Qt6::Core)
+target_link_libraries(client PRIVATE Qt5::Widgets
+                                     Qt5::Network
+                                     Qt5::Core)
 
 
 

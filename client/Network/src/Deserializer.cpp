@@ -63,31 +63,31 @@ static QJsonObject ByteArrayToJsonObj(std::vector<char> byteArray) {
     QByteArray qByteArray;
     for (auto byte: byteArray)
         qByteArray.push_back(byte);
-        qDebug() << "Response data";
-        qDebug() << QJsonDocument::fromJson(qByteArray).toJson(QJsonDocument::Compact).toStdString(); 
+        //qDebug() << "Response data";
+        //qDebug() << QJsonDocument::fromJson(qByteArray).toJson(QJsonDocument::Compact).toStdString();
     return QJsonDocument::fromJson(qByteArray).object();
 }
 
-static void DebugPrintUserData(const UserData& data) {
-    qDebug() << "After deserialization";
-    qDebug() << "UserInfo";
-    qDebug() << "  " <<data.info.login;
-    qDebug() << "  " <<data.info.firstName;
-    qDebug() << "  " <<data.info.lastName;
-    qDebug() << "  " <<data.info.nickname;
-    qDebug() << "VectorOfRooms";
-    for (auto it = data.rooms.begin(); it != data.rooms.end(); ++it) {
-        qDebug() << "  "<< "RoomInfo";
-        qDebug() << "   " << it->info.id;
-        qDebug() << "   " << it->info.name;
-        qDebug() << "   " << it->info.members.back();
-        qDebug() << "  " << "LastMessages.back()";
-        qDebug() << "   " << it->lastMessages.back().id;
-        qDebug() << "   " << it->lastMessages.back().content;
-        qDebug() << "   " << it->lastMessages.back().author;
-        qDebug() << "   " << it->lastMessages.back().sendingData;
-    }   
-}
+//static void DebugPrintUserData(const UserData& data) {
+//    qDebug() << "After deserialization";
+//    qDebug() << "UserInfo";
+//    qDebug() << "  " <<data.info.login;
+//    qDebug() << "  " <<data.info.firstName;
+//    qDebug() << "  " <<data.info.lastName;
+//    qDebug() << "  " <<data.info.nickname;
+//    qDebug() << "VectorOfRooms";
+//    for (auto it = data.rooms.begin(); it != data.rooms.end(); ++it) {
+//        qDebug() << "  "<< "RoomInfo";
+//        qDebug() << "   " << it->info.id;
+//        qDebug() << "   " << it->info.name;
+//        qDebug() << "   " << it->info.members.back();
+//        qDebug() << "  " << "LastMessages.back()";
+//        qDebug() << "   " << it->lastMessages.back().id;
+//        qDebug() << "   " << it->lastMessages.back().content;
+//        qDebug() << "   " << it->lastMessages.back().author;
+//        qDebug() << "   " << it->lastMessages.back().sendingData;
+//    }
+//}
 
 static QJsonObject StubJsonObj() {
     QFile file;
@@ -95,7 +95,7 @@ static QJsonObject StubJsonObj() {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray byteArray = file.readAll();
     file.close();
-    qDebug() << QJsonDocument::fromJson(byteArray).toJson(QJsonDocument::Compact).toStdString();
+   // qDebug() << QJsonDocument::fromJson(byteArray).toJson(QJsonDocument::Compact).toStdString();
     return QJsonDocument::fromJson(byteArray).object();
 }
 
@@ -107,7 +107,7 @@ UserData Deserializer::DeserializeUserData(std::vector<char> byteArray) {
     auto rooms = DeserializeVectorOfRooms(jsonObj["VectorOfRooms"].toArray());
     data.info = info;
     data.rooms = rooms;
-    DebugPrintUserData(data);
+   // DebugPrintUserData(data);
     return data;    
 }
 
