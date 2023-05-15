@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include <QtWebApp/httpserver/httplistener.h>
+#include <iostream>
 
 #include "HttpRequestMapper.hpp"
 #include "LoginController.hpp"
@@ -53,12 +54,21 @@ int main(int argc, char *argv[])
         ))
     );
     
-    new HttpListener(
-        settings, 
-        new RequestMapperAdapter(
-            std::make_unique<HttpRequestMapper>(std::move(map)), &app
-        ),
-        &app);
+    try
+    {
+        new HttpListener(
+            settings, 
+            new RequestMapperAdapter(
+                std::make_unique<HttpRequestMapper>(std::move(map)), &app
+            ),
+            &app);
+    }
+    catch(std::exception& e)
+    {
+        std::cerr << e.what() << "\n";
 
-    app.exec();
+        return 1;
+    }
+
+    return app.exec();
 }
