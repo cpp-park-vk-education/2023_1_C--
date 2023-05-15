@@ -118,7 +118,7 @@ Room RoomDBManager::renameRoom(const int roomID, const QString& new_name) {
 }
 
 void RoomDBManager::addClientToRoom(const int room_ID, const QString& username) {
-    const QString queryStr = "INSERT INTO user_rooms VALUES (" + QString::number(room_ID) + ", '" + username + "');";
+    const QString queryStr = "INSERT INTO users_rooms VALUES (" + QString::number(room_ID) + ", '" + username + "');";
     try {
         dbManager->execute(queryStr);
     } catch (const std::runtime_error& err) {
