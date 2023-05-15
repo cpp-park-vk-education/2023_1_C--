@@ -173,10 +173,10 @@ QVector<Room> RoomDBManager::searchRooms(const QString& roomName) {
     } catch (std::runtime_error& err) {
         throw std::runtime_error(NO_SUCH_ROOM_ERROR);
     }
-    Room rooms;
+    QVector<Room> rooms;
     while(query.next())
     {
-        rooms = Room(query);
+        rooms.push_back(Room(query));
     }
     return rooms;
 }
