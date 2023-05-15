@@ -24,7 +24,7 @@ Client ClientDBManager::createClient(const QString& login, const QString& passwo
             "', '" + password + "', '" + username + "');";
     try {
         dbManager->execute(queryStr);
-    } catch () (std::runtime_error& err) {
+    } catch (std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
     return getClient(username);

@@ -23,7 +23,7 @@ QSqlQuery DBManager::execute(const QString& queryStr) {
     if(!isConnected) throw std::runtime_error(CONNECTION_FAILED_ERROR);
     QSqlQuery query(db);
     if(!query.exec(queryStr))
-        throw(std::runtime_error(QString::toStdString(query.last_error())));
+        throw(std::runtime_error(QString::toStdString(query.lastError())));
     query.first();
     return query;
 }
