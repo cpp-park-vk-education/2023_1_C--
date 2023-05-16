@@ -6,8 +6,8 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Network)
-find_package(Qt${QT_VEwRSION_MAJOR} REQUIRED COMPONENTS Core Network)
+find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core Network Sql)
+find_package(Qt5 REQUIRED COMPONENTS Core Network Sql)
 
 include_directories(
     HttpRequest

@@ -43,7 +43,7 @@ void RoomPage::on_sendBtn_clicked()
 {
     tempContent = ui->messageLineEdit->text();
     Message message;
-    message.content = tempContent.toStdString;
+    message.content = tempContent.toStdString();
     message.author = userInfo.login; 
     useCase_->SendMessage(message);
 
