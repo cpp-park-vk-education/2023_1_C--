@@ -1,8 +1,10 @@
 #include <QCoreApplication>
 #include <QtWebApp/httpserver/httplistener.h>
+#include <iostream>
 
 #include "HttpRequestMapper.hpp"
 #include "LoginController.hpp"
+#include "CreateController.hpp"
 #include "JoinRoomController.hpp"
 #include "RequestMapperAdapter.hpp"
 #include "SendMessageController.hpp"
@@ -52,13 +54,28 @@ int main(int argc, char *argv[])
             std::make_unique<GetNewMessageService>(roomDb)
         ))
     );
-    
-    new HttpListener(
-        settings, 
-        new RequestMapperAdapter(
-            std::make_unique<HttpRequestMapper>(std::move(map)), &app
-        ),
-        &app);
 
-    app.exec();
+    map.insert(
+        std::make_pair("/create", std::make_unique<CreateRoomController>(
+            std::make_unique<CreateRoomService>(clientDb, roomDb)
+        ))
+    );
+    
+    try
+    {
+        new HttpListener(
+            settings, 
+            new RequestMapperAdapter(
+                std::make_unique<HttpRequestMapper>(std::move(map)), &app
+            ),
+            &app);
+    }
+    catch(std::exception& e)
+    {
+        std::cerr << e.what() << "\n";
+
+        return 1;
+    }
+
+    return app.exec();
 }
