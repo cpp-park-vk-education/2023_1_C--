@@ -52,5 +52,9 @@ void MainPage::SelectRoom(QListWidgetItem *item) {
     const int roomId = item->data(ROOM_ID_ROLE).toString().toInt();
     auto roomData = FindRoom(roomId);
     if (roomData)
-        roomSwitcher_->ShowRoom(roomData.value());
+        roomSwitcher_->ShowRoom(roomData.value(), userInfo_);
+}
+
+void MainPage::SetUserInfo(const UserInfo& userInfo) {
+    userInfo_ = userInfo;
 }

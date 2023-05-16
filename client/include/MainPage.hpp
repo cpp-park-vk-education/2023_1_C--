@@ -26,6 +26,8 @@ public:
         roomSwitcher_ = roomSwitcher;
     }
 
+    void SetUserInfo(const UserInfo& userInfo) override;
+
     
 public slots:
     void CreateRoom() {
@@ -40,6 +42,7 @@ public slots:
     
 private:
     Ui::MainPage *ui;
+    UserInfo userInfo_;
     std::vector<RoomData> rooms_;
     IRoomSwitcherSPtr roomSwitcher_;
     std::optional<RoomData> FindRoom(const int roomId);

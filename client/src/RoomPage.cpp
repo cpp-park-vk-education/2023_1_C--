@@ -44,10 +44,10 @@ void RoomPage::on_sendBtn_clicked()
 {
     tempContent = ui->messageLineEdit->text();
     Message message;
+    message.roomID = roomInfo_.id; 
     message.content = tempContent.toStdString();
     message.author = userInfo.login; 
     useCase_->SendMessage(message);
-
 
     //отправить сообщение
     ui->messageLineEdit->setText("");
@@ -79,3 +79,18 @@ QStringList RoomPage::getWordList(const QString& path)
     return fields;
 }
 
+void RoomPage::SetRoomUseCase(IRoomUseCaseSPtr useCase) {
+    useCase_ = std::move(useCase);
+}
+
+void RoomPage::SetRoomSwitcher(IRoomSwitcherSPtr switcher) {
+    switcher_ = std::move(switcher);
+}
+
+void RoomPage::SetRoomData(const RoomData& roomData) {
+    roomData_ = roomData; 
+}
+
+void RoomPage::SetUserInfo(const UserInfo& userInfo) {
+    userInfo_ = userInfo;
+}

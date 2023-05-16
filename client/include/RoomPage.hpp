@@ -15,7 +15,8 @@ namespace Ui {
 class RoomPage;
 }
 
-class RoomPage : public QWidget, public IRoomPageUi
+class RoomPage : public QWidget, 
+                 public IRoomPageUi
 {
     Q_OBJECT
 
@@ -23,13 +24,10 @@ public:
     explicit RoomPage(QWidget *parent = nullptr);
     ~RoomPage();
 
-    void SetRoomUseCase(IRoomUseCaseSPtr useCase) {
-        useCase_ = std::move(useCase);
-    }
-
-    void SetRoomSwitcher(IRoomSwitcherSPtr switcher) {
-        switcher_ = std::move(switcher);
-    }
+    void SetRoomUseCase(IRoomUseCaseSPtr useCase) override;
+    void SetRoomSwitcher(IRoomSwitcherSPtr switcher) override;
+    void SetRoomData(const RoomData& roomData) override;
+    void SetUserInfo(const UserInfo& userInfo) override;
 
     void ShowSentMessage();
     void ShowRoomInfo(const RoomInfo& roomInfo);
@@ -45,8 +43,8 @@ private:
 
     QStringList getWordList(const QString& path);
     QString tempContent;
-    RoomInfo roomInfo;
-    UserInfo userInfo;
+    UserInfo userInfo_;
+    RoomData roomData_;
     Ui::RoomPage *ui;
     IRoomUseCaseSPtr useCase_;
     IRoomSwitcherSPtr switcher_;

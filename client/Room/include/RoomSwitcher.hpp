@@ -8,7 +8,7 @@
 class RoomSwitcher : public IRoomSwitcher {
 public:
     void ShowMainPage(std::vector<RoomData> rooms, const UserInfo& userInfo) override;
-    void ShowRoom(RoomData room) override;
+    void ShowRoom(const RoomData& roomData, const UserInfo userInfo) override;
     void ShowLastMessages(const std::vector<Message>& messages) override;
     void ShowOldMessages(const std::vector<Message>& messages) override;
     void ShowRoomSearchPage() override;
