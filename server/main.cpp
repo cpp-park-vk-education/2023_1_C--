@@ -4,6 +4,7 @@
 
 #include "HttpRequestMapper.hpp"
 #include "LoginController.hpp"
+#include "CreateController.hpp"
 #include "JoinRoomController.hpp"
 #include "RequestMapperAdapter.hpp"
 #include "SendMessageController.hpp"
@@ -51,6 +52,12 @@ int main(int argc, char *argv[])
     map.insert(
         std::make_pair("/getmsg", std::make_unique<GetNewMessageController>(
             std::make_unique<GetNewMessageService>(roomDb)
+        ))
+    );
+
+    map.insert(
+        std::make_pair("/create", std::make_unique<CreateRoomController>(
+            std::make_unique<CreateRoomService>(clientDb, roomDb)
         ))
     );
     
