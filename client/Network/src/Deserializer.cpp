@@ -5,6 +5,8 @@
 #include "Deserializer.hpp"
 #include "SerializationKeys.hpp"
 
+#include <QFile>
+
 static QJsonObject ByteArrayToJsonObj(std::vector<char> byteArray) {
     QByteArray qByteArray;
     for (auto byte: byteArray)
@@ -69,8 +71,8 @@ static UserInfo DeserializeUserInfo(const QJsonObject& infoJsonObj) {
 UserData Deserializer::DeserializeRoomData(std::vector<char> byteArray) {
     UserData data;
     auto jsonObj = ByteArrayToJsonObj(byteArray);
-    auto info = DeserializeUserInfo(jsonObj[USER_INFO_KEY].toObject());
-    data.info = info;
+    data.info = DeserializeUserInfo(jsonObj[USER_INFO_KEY].toObject());
+    data.rooms = DeserializeVectorOfRooms(jsonObj[ROOMS_KEY].toArray());
     return data;    
 }
 
