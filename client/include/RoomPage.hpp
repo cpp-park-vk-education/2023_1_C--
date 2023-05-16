@@ -6,6 +6,7 @@
 #include <QString>
 #include <QTextStream>
 #include <QDebug>
+#include <QTimer>
 #include "IRoomPageUi.hpp"
 #include "IRoomUseCase.hpp"
 #include "IRoomSwitcher.hpp"
@@ -38,12 +39,14 @@ public:
 private slots:
     void on_backBtn_clicked();
     void on_sendBtn_clicked();
+    void on_get_new_msg();
 
 private:
 
     QStringList getWordList(const QString& path);
     QString tempContent;
     UserInfo userInfo_;
+    RoomInfo roomInfo_;
     RoomData roomData_;
     Ui::RoomPage *ui;
     IRoomUseCaseSPtr useCase_;

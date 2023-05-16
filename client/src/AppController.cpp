@@ -73,6 +73,7 @@ AppController::AppController() {
     
     roomSwitcherSPtr->SetWidgetController(mainWindow);
     roomSwitcherSPtr->SetMainPageUi(mainPage);
+    roomSwitcherSPtr->SetRoomPageUi(roomPage);
 
 } 
 

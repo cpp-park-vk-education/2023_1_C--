@@ -8,6 +8,11 @@ RoomPage::RoomPage(QWidget *parent)
     ui->setupUi(this);
     model = new QStringListModel(this);
     list = new QStringList();
+    auto timer = new QTimer(this);
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(on_get_new_msg()));
+    timer->start(1000);
+
     completer = new QCompleter(
         getWordList("../../client/etc/wordlist.txt"), this);
 
@@ -22,6 +27,11 @@ RoomPage::~RoomPage()
 {
     delete ui;
     delete list;
+}
+
+void RoomPage::on_get_new_msg()
+{
+    useCase_->GetNewMessage(33);
 }
 
 void RoomPage::ShowRoomInfo(const RoomInfo& roomInfo){}
@@ -44,12 +54,14 @@ void RoomPage::on_sendBtn_clicked()
 {
     tempContent = ui->messageLineEdit->text();
     Message message;
-    message.roomID = roomInfo_.id; 
+    message.roomID = roomData_.info.id;
     message.content = tempContent.toStdString();
-    message.author = userInfo.login; 
+    message.author = userInfo_.login; 
     useCase_->SendMessage(message);
 
-    //отправить сообщение
+    *list << QString::fromStdString("You: ") + tempContent;
+    model->setStringList(*list);
+    ui->listView->setModel(model);
     ui->messageLineEdit->setText("");
 }
 
