@@ -9,6 +9,7 @@
 #include "RequestMapperAdapter.hpp"
 #include "SendMessageController.hpp"
 #include "GetNewMessageController.hpp"
+#include "GetRoomHistoryController.hpp"
 #include "DBManager.hpp"
 #include <ClientDBManager.hpp>
 #include <RoomDBManager.hpp>
@@ -58,6 +59,12 @@ int main(int argc, char *argv[])
     map.insert(
         std::make_pair("/create", std::make_unique<CreateRoomController>(
             std::make_unique<CreateRoomService>(clientDb, roomDb)
+        ))
+    );
+
+    map.insert(
+        std::make_pair("/history", std::make_unique<GetRoomHistoryController>(
+            std::make_unique<GetRoomHistoryService>(roomDb)
         ))
     );
     

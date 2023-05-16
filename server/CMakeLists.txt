@@ -16,6 +16,7 @@ include_directories(
     Services
     Adapters
     Services/CreateRoomService
+    Services/GetRoomHistoryService
     Services/LoginService
     Services/JoinRoomService
     Services/DeleteRoomService
@@ -28,6 +29,7 @@ include_directories(
     HttpControllers/DeleteRoomController
     HttpControllers/GetNewMessageController
     HttpControllers/SendMessageController
+    HttpControllers/GetRoomHistoryController
 )
 
 add_executable(server
@@ -42,12 +44,14 @@ add_executable(server
     Services/DeleteRoomService/DeleteRoomService.cpp
     Services/GetNewMessageService/GetNewMessageService.cpp
     Services/SendMessageService/SendMessageService.cpp
+    Services/GetRoomHistoryService/GetRoomHistoryService.cpp
     HttpControllers/CreateRoomController/CreateController.cpp
     HttpControllers/LoginController/LoginController.cpp
     HttpControllers/JoinRoomController/JoinRoomController.cpp
     HttpControllers/DeleteRoomController/DeleteRoomController.cpp
     HttpControllers/GetNewMessageController/GetNewMessageController.cpp
     HttpControllers/SendMessageController/SendMessageController.cpp
+    HttpControllers/GetRoomHistoryController/GetRoomHistoryController.cpp
 )
 
 target_include_directories(server PUBLIC ../DB/include)
