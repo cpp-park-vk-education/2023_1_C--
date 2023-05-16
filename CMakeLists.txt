@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # include_directories(DB)
 
-# add_subdirectory(DB)
+add_subdirectory(DB)
 
-# add_subdirectory(server)
+add_subdirectory(server)
 
 add_subdirectory(client)
 
