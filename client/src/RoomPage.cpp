@@ -1,5 +1,6 @@
 #include "RoomPage.hpp"
 #include "ui_RoomPage.h"
+#include "mclineedit.h"
 
 RoomPage::RoomPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomPage)
@@ -11,7 +12,7 @@ RoomPage::RoomPage(QWidget *parent)
         getWordList("../../client/etc/wordlist.txt"), this);
 
     completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->messageLineEdit->setCompleter(completer);
+    ui->messageLineEdit->setMultipleCompleter(completer);
 
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(ui->messageLineEdit, SIGNAL(returnPressed()), ui->sendBtn, SIGNAL(clicked()));
@@ -63,11 +64,13 @@ QStringList RoomPage::getWordList(const QString& path)
 {
     QFile file(path);
     file.open(QIODevice::ReadOnly);
+    //if(file.isOpen())
     QTextStream in(&file);
     QStringList fields;
 
     while(!in.atEnd()) {
         QString line = in.readLine();
+        qDebug() << line << "\n";
         fields.append(line.split(","));
     }
 
