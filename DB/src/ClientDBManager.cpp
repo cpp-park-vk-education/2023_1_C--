@@ -83,7 +83,7 @@ QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
             "WHERE room_id = " + QString::number(roomID);
     QSqlQuery query; 
     try {
-        dbManager->execute(queryStr);
+        query = dbManager->execute(queryStr);
     } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
@@ -96,5 +96,6 @@ QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     for(auto name : users) {
         clients.push_back(getClient(name));
     }
+    qDebug() << clients.last().login;
     return clients;
 }

@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QPair>
 #include <QJsonValue>
+#include <QCryptographicHash>
 
 #include "IHttpRequestHandler.hpp"
 #include "LoginService.hpp"
