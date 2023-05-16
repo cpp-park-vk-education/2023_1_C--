@@ -66,7 +66,7 @@ Room RoomDBManager::insertRoom(const QString& username, const QString& roomname)
     const QString queryStr2 = "SELECT * FROM rooms ORDER BY id DESC LIMIT 1";
     QSqlQuery query;
     try {
-        query = dbManager->execute(queryStr);
+        query = dbManager->execute(queryStr2);
     } catch (const std::runtime_error& err) {
         throw std::runtime_error(SMTH_WENT_WRONG_ERROR);
     }
