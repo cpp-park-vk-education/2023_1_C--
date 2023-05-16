@@ -19,7 +19,12 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
         return;
     }
 
-    if (client.password != requestJSONObject.value("Password").toString())
+
+    auto hashPassword = QCryptographicHash::hash(
+        requestJSONObject.value("Password").toString().toUtf8(), QCryptographicHash::Algorithm::Sha256
+    );
+
+    if (client.password != hashPassword)
     {
         response->setStatus(401, "password missmatch");
 
