@@ -9,13 +9,11 @@ class RoomSwitcher : public IRoomSwitcher {
 public:
     void ShowMainPage(std::vector<RoomData> rooms, const UserInfo& userInfo) override;
     void ShowRoom(RoomData room) override;
-    // void ShowRoomInfo(const RoomInfo& roomInfo) override;
     void ShowLastMessages(const std::vector<Message>& messages) override;
     void ShowOldMessages(const std::vector<Message>& messages) override;
     void ShowRoomSearchPage() override;
     void ShowRoomCreationPage() override;
     void BackOnMainPage() override;
-
 
     void SetWidgetController(IWidgetController* widgetConroller) {
         widgetConroller_ = widgetConroller;
@@ -32,7 +30,6 @@ public:
     void SetUserInfoUi(IUserInfoUi* userInfoUi) {
         userInfoUi_ = userInfoUi;
     }
-
 
 private:
     IWidgetController* widgetConroller_;

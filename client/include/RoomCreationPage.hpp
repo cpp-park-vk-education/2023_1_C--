@@ -29,10 +29,10 @@ public:
         roomUseCase_ = roomUseCase;
     }
 
-public slots:
-    void CreateRoom();
-    void Back();
-    void AddUser();
+private slots:
+    void OnCreateRoomButton();
+    void OnBackButton();
+    void OnAddUserButton();
 
 private:
     Ui::RoomCreationPage *ui;

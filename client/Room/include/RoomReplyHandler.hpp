@@ -4,10 +4,10 @@
 
 class RoomReplyHandler : public IRoomReplyHandler {
 public:
-    void OnAddUserResponse(unsigned int statusCode, const RoomInfo& roomInfo) override;
-    void OnSendMessageResponse(unsigned int statusCode, const std::vector<Message>& messages) override;
-    void OnGetMessagesResponse(unsigned int statusCode, const std::vector<Message>& messages) override;
-    void OnCreateRoomResponse(unsigned int statusCode, RoomData room) override;
+    void OnSendMessageResponse(int statusCode) override;
+    void OnGetNewMessageResponse(int statusCode, const Message& message) override;
+    void OnGetRoomMessagesResponse(int statusCode, const std::vector<Message>) override;
+    void OnCreateRoomResponse(int statusCode, const RoomData& roomData) override;
 
     void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
         roomSwitcher_ = roomSwitcher;

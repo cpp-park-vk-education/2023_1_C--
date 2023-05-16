@@ -15,7 +15,8 @@ static QByteArray GetQByteArray(std::vector<char> byteArray) {
 }
 
 void AccountNetwork::Login(const LoginData& data) {
-    auto request = CreateRequest(LOGIN_URL);
+    // auto request = CreateRequest(LOGIN_URL);
+    auto request = CreateRequest("/");
     auto byteArray = serializer_->SerializeLoginData(data);
     Callback callback (
         [this](IResponseUPtr response){
@@ -43,13 +44,22 @@ void AccountNetwork::Logout(const LogoutData& data) {}
 void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
     auto statusCode = response->GetStatus();
     if (statusCode == 200) {
-        UserData data = deserializer_->DeserializeLoginResponse(response->GetBody());
+        UserData data = deserializer_->DeserializeRoomData(response->GetBody());
         replyHandler_->OnLoginResponse(200, data);
     } else {
         replyHandler_->OnLoginResponse(statusCode, UserData{});
     }
 }
 
-void AccountNetwork::OnSignupResponse(IResponseUPtr response) {}
+void AccountNetwork::OnSignupResponse(IResponseUPtr response) {
+    auto statusCode = response->GetStatus();
+    if (statusCode == 200) {
+        UserData data = deserializer_->DeserializeRoomData(response->GetBody()); // the same deserializer
+        replyHandler_->OnSignupResponse(200, data);
+    } else {
+        replyHandler_->OnSignupResponse(statusCode, UserData{});
+    }
+}
+
 void AccountNetwork::OnUserSettingResponse(IResponseUPtr response) {}
 void AccountNetwork::OnLogoutResponse(IResponseUPtr response) {}

@@ -10,14 +10,11 @@ public:
     virtual void ShowMainPage(std::vector<RoomData> rooms,
                               const UserInfo& userInfo) = 0;
     virtual void ShowRoom(RoomData room) = 0;
-    // virtual void ShowRoomInfo(const RoomInfo& roomInfo) = 0;
     virtual void ShowLastMessages(const std::vector<Message>& messages) = 0;
     virtual void ShowOldMessages(const std::vector<Message>& messages) = 0;
     virtual void ShowRoomSearchPage() = 0;
     virtual void ShowRoomCreationPage() = 0;
     virtual void BackOnMainPage() = 0;
-
-
 };
 
 using IRoomSwitcherSPtr = std::shared_ptr<IRoomSwitcher>;

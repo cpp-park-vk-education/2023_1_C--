@@ -26,7 +26,7 @@ public:
         switcher_ = switcher;
     }
 
-public slots:
+private slots:
     void OnSubmitButtonClicked();
     void OnLoginButtonClicked();
 

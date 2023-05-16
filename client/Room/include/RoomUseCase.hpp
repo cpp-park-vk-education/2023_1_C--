@@ -6,10 +6,10 @@
 
 class RoomUseCase : public IRoomUseCase {
 public:
-    void AddUser(const std::string& login) override;
-    void SendMessage(const Message& message) override;
     void CreateRoom(const RoomInfo& roomInfo) override;
-    void GetMessages(const size_t messageId) override;
+    void SendMessage(const Message& message) override;
+    void GetNewMessage(const int roomID) override;
+    void GetRoomMessage(const int roomID) override;
 
     void SetRoomNetwork(IRoomNetworkSPtr roomNetwork) {
         roomNetwork_ = roomNetwork;

@@ -17,7 +17,6 @@ public:
 public:
     int status_;
     std::vector<char> body_;
-    
 };
 
 QNetworkRequest CreateRequest(const std::string& url,

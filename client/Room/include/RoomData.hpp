@@ -1,8 +1,6 @@
 #pragma once
-#include <memory>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 struct RoomInfo {
     int id;
@@ -26,6 +24,7 @@ struct RoomInfo {
 
 struct Message {
     int id;
+    int roomID;
     std::string content;
     std::string author;
     std::string sendingData;

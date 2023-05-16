@@ -1,6 +1,6 @@
 #include "Communication.hpp"
 
-const std::string ROOT = "http://127.0.0.1:8000/";
+const std::string ROOT = "http://127.0.0.1:8000/"; // better use config
 
 QNetworkRequest CreateRequest(const std::string& url,
                               const std::string& contentType) {
