@@ -13,7 +13,6 @@ AppController::AppController() {
 
     serializerSPtr = std::make_shared<Serializer>();
     deserializerSPtr = std::make_shared<Deserializer>();
-
     networkManager = new NetworkManager;
 
     loginPage = new LoginPage;
@@ -41,6 +40,7 @@ AppController::AppController() {
 
     roomPage->SetRoomUseCase(roomUseCaseSPtr);
     roomPage->SetRoomSwitcher(roomSwitcherSPtr);
+    // roomPage->SetRoomUseCase(roomUseCaseSPtr);
 
     roomCreationPage->SetRoomSwitcher(roomSwitcherSPtr);
     roomCreationPage->SetRoomUseCase(roomUseCaseSPtr);
@@ -58,7 +58,6 @@ AppController::AppController() {
 
     accountReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
     accountReplyHandlerSPtr->SetAccountUi(loginPage);
-
 
     // roomUseCaseSPtr->SetRoomPageUi();
     roomUseCaseSPtr->SetMainPageUi(mainPage);
@@ -78,11 +77,12 @@ AppController::AppController() {
 } 
 
 AppController::~AppController() {
-    delete mainWindow;
     delete networkManager;
-    // delete loginPage;
-    // delete mainPage;
-    // delete roomPage
-    // delete roomCreationPage
-    // delete roomSearchPage
+
+    delete loginPage;
+    delete mainPage;
+    delete roomPage;
+    delete roomCreationPage;
+    delete roomSearchPage;
+    delete mainWindow;
 }

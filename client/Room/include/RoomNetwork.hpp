@@ -5,19 +5,12 @@
 #include "ISerializer.hpp"
 #include "IDeserializer.hpp"
 
-using Headers = std::unordered_map<std::string, std::string>;
-
-
 class RoomNetwork : public IRoomNetwork {
 public:
-    void AddUser(const std::string& login) override;
     void SendMessage(const Message& message) override;
     void CreateRoom(const RoomInfo& roomInfo) override;
-    void GetMessages(const size_t messageId) override;
-    void OnAddUserResponse(IResponseUPtr response);
-    void OnSendMessageResponse(IResponseUPtr response);
-    void OnGetMessagesResponse(IResponseUPtr response);
-    void OnCreateRoomResponse(IResponseUPtr response);
+    void GetNewMessage(const int roomID) override;
+    void GetRoomMessages(const int roomID) override;
     
     void SetNetworkManager(NetworkManager* networkManager) {
         networkManager_ = networkManager;
@@ -40,4 +33,8 @@ private:
     IRoomReplyHandlerSPtr replyHandler_;
     ISerializerSPtr serializer_;
     IDeserializerSPtr deserializer_;
+    void OnSendMessageResponse(IResponseUPtr response);
+    void OnGetNewMessageResponse(IResponseUPtr response);
+    void OnGetRoomMessagesResponse(IResponseUPtr response);
+    void OnCreateRoomResponse(IResponseUPtr response);
 };

@@ -7,7 +7,8 @@ namespace Ui {
 class LoginPage;
 }
 
-class LoginPage : public QWidget, public IAccountUi
+class LoginPage : public QWidget, 
+                  public IAccountUi
 {
     Q_OBJECT
 
@@ -25,7 +26,7 @@ public:
         switcher_ = switcher;
     }
 
-public slots:
+private slots:
     void OnSubmitButtonClicked();
     void OnSignupButtonClicked();
 

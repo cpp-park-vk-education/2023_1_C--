@@ -19,20 +19,13 @@ public:
     ~MainPage();
 
     void ShowMainPage(std::vector<RoomData> rooms) override;
-
-    void ShowRoomSearchPage() override {
-        roomSwitcher_->ShowRoomSearchPage();
-    }
-
-    void ShowRoomCreationPage() {
-        roomSwitcher_->ShowRoomCreationPage();
-    }
+    void ShowRoomSearchPage() override;
+    void ShowRoomCreationPage() override;
 
     void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
         roomSwitcher_ = roomSwitcher;
     }
 
-    std::optional<RoomData> FindRoom(const int roomId);
     
 public slots:
     void CreateRoom() {
@@ -49,5 +42,6 @@ private:
     Ui::MainPage *ui;
     std::vector<RoomData> rooms_;
     IRoomSwitcherSPtr roomSwitcher_;
+    std::optional<RoomData> FindRoom(const int roomId);
 };
 

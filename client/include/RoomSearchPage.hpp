@@ -26,7 +26,7 @@ public:
     }
 
 
-public slots:
+private slots:
     void SelectRoom(QListWidgetItem *item);
     void SearchRoom();
     void Back();

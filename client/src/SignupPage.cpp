@@ -21,12 +21,10 @@ void SignupPage::ShowError(const std::string& error) {
 }
 
 void SignupPage::OnLoginButtonClicked() {
-    qDebug() << "OnLoginButtonClicked";
     switcher_->ShowLoginPage();
 }
 
 void SignupPage::OnSubmitButtonClicked() {
-    qDebug() << "OnSubmitButtonClicked";
     auto login = ui->loginLineEdit->text();
     auto password = ui->passwordLineEdit->text();
     auto nickname = ui->nicknameLineEdit->text();
