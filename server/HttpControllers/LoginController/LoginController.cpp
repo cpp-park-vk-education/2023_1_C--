@@ -56,8 +56,6 @@ void LoginController::fillJsonRooms(QJsonObject& json, const QVector<Room>& room
     for (const auto& room : rooms)
     {
         auto clientsInRoom = loginService->getClients(room.ID);
-
-        qDebug() << clientsInRoom.size();
         
         QJsonArray members;
         
