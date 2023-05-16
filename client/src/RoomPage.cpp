@@ -8,7 +8,7 @@ RoomPage::RoomPage(QWidget *parent)
     model = new QStringListModel(this);
     list = new QStringList();
     completer = new QCompleter(
-        getWordList("/home/anastasia/VKedu/Cpp/wordlist.txt"), this);
+        getWordList("../../client/etc/wordlist.txt"), this);
 
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->messageLineEdit->setCompleter(completer);
