@@ -1,6 +1,6 @@
 #include "RoomPage.hpp"
 #include "ui_RoomPage.h"
-#include "mclineedit.h"
+#include "MCLineEdit.hpp"
 
 RoomPage::RoomPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomPage)

@@ -2,12 +2,10 @@
 
 AppController::AppController() {
     accountNetworkSPtr = std::make_shared<AccountNetwork>();
-    accountReplyHandlerSPtr = std::make_shared<AccountReplyHandler>();
     accountSwitcherSPtr = std::make_shared<AccountSwitcher>();
     accountUseCaseSPtr = std::make_shared<AccountUseCase>();
 
     roomNetworkSPtr = std::make_shared<RoomNetwork>();
-    roomReplyHandlerSPtr = std::make_shared<RoomReplyHandler>();
     roomSwitcherSPtr = std::make_shared<RoomSwitcher>();
     roomUseCaseSPtr = std::make_shared<RoomUseCase>();
 
@@ -48,27 +46,23 @@ AppController::AppController() {
     roomSearchPage->SetRoomSwitcher(roomSwitcherSPtr);
     roomSearchPage->SetRoomUseCase(roomUseCaseSPtr);
     
-    accountUseCaseSPtr->SetAccountUi(loginPage);
+    accountUseCaseSPtr->SetUi(loginPage);
     accountUseCaseSPtr->SetNetwork(accountNetworkSPtr);
 
-    accountNetworkSPtr->SetReplyHandler(accountReplyHandlerSPtr);
+    accountNetworkSPtr->SetReplyHandler(accountUseCaseSPtr);
     accountNetworkSPtr->SetNetworkManager(networkManager);
     accountNetworkSPtr->SetRequestSerializer(serializerSPtr);
     accountNetworkSPtr->SetResponseSerializer(deserializerSPtr);
-
-    accountReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
-    accountReplyHandlerSPtr->SetAccountUi(loginPage);
 
     // roomUseCaseSPtr->SetRoomPageUi();
     roomUseCaseSPtr->SetMainPageUi(mainPage);
     roomUseCaseSPtr->SetRoomNetwork(roomNetworkSPtr);
     
-    roomNetworkSPtr->SetReplyHandler(roomReplyHandlerSPtr);
+    roomNetworkSPtr->SetReplyHandler(roomUseCaseSPtr);
     roomNetworkSPtr->SetNetworkManager(networkManager);
     roomNetworkSPtr->SetRequestSerializer(serializerSPtr);
     roomNetworkSPtr->SetResponseSerializer(deserializerSPtr);
     
-    roomReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
     accountSwitcherSPtr->SetWidgetController(mainWindow);
     
     roomSwitcherSPtr->SetWidgetController(mainWindow);
