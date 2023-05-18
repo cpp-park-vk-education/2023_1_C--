@@ -15,7 +15,7 @@ if(BUILD_TESTS)
     # add_subdirectory(Room/tests)
 endif()
   
-find_package(Qt6 REQUIRED COMPONENTS Widgets
+find_package(Qt5 REQUIRED COMPONENTS Widgets
                                      Network
                                      Core)
 
@@ -91,9 +91,9 @@ add_executable(client src/main.cpp
                       ${NETWORK_SOURCES}
                       ${UI_SOURCES})
 
-target_link_libraries(client PRIVATE Qt6::Widgets
-                                     Qt6::Network
-                                     Qt6::Core)
+target_link_libraries(client PRIVATE Qt5::Widgets
+                                     Qt5::Network
+                                     Qt5::Core)
 
 
 

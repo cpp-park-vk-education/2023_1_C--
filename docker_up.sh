@@ -1,0 +1,1 @@
+docker build -t server . && docker run --rm -d -p 1488:1488/tcp server:latest
