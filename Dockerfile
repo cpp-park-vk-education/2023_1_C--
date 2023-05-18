@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 AS builder
 
 RUN apt -y update && \
     echo "tzdata "Geographic area" select 8" | debconf-set-selections && \
