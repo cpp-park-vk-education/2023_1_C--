@@ -8,4 +8,6 @@ struct Room {
     QString name;
 
     explicit Room(const QSqlQuery&);
+
+    Room() = default;
 };

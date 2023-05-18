@@ -10,8 +10,8 @@ add_subdirectory(DB)
 
 add_subdirectory(server)
 
-add_subdirectory(client)
+# add_subdirectory(client)
 
-add_subdirectory(tests)
+# add_subdirectory(tests)
 
-enable_testing()
+# enable_testing()

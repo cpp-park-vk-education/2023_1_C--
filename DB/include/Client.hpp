@@ -6,6 +6,9 @@
 struct Client
 {
     explicit Client(const QSqlQuery&);
+
+    Client() = default;
+
     QString login;
     QString password;
     QString username;

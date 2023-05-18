@@ -1,5 +1,5 @@
 #include "LoginController.hpp"
-
+#include <QVector>
 void LoginController::service(IHttpRequest* request, IHttpResponse* response)
 {
 
@@ -37,7 +37,7 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
 
     fillJsonClient(responseJSONObject, client);
 
-    fillJsonRooms(responseJSONObject, QVector<Room>(rooms.begin(), rooms.end()));
+    fillJsonRooms(responseJSONObject, QVector<Room>::fromStdVector(rooms));
 
     response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
 }
