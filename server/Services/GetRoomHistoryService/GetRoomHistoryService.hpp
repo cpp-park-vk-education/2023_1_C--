@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <QVector>
 
 #include "IRoomDBManager.hpp"
 

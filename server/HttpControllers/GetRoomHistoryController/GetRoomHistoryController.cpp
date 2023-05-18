@@ -14,7 +14,7 @@ void GetRoomHistoryController::service(IHttpRequest* request, IHttpResponse* res
 
     QJsonObject responseJSONObject;
 
-    fillJSONMessage(responseJSONObject, QVector<Message>(messages.begin(), messages.end()));
+    fillJSONMessage(responseJSONObject, QVector<Message>::fromStdVector(messages));
 
     response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
 }
