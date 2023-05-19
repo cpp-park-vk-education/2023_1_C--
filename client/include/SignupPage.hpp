@@ -1,15 +1,15 @@
 #pragma once
 #include <QWidget>
-#include "IAccountSwitcher.hpp"
+#include "ISignupPage.hpp"
+#include "IWidgetController.hpp"
 #include "IAccountUseCase.hpp"
-#include "IAccountUi.hpp"
 
 namespace Ui {
 class SignupPage;
 }
 
 class SignupPage : public QWidget,
-                   public IAccountUi
+                   public ISignupPage
 {
     Q_OBJECT
 
@@ -22,8 +22,9 @@ public:
     void SetUseCase(IAccountUseCaseSPtr useCase) {
         useCase_ = useCase;
     }
-    void SetSwitcher(IAccountSwitcherSPtr switcher) {
-        switcher_ = switcher;
+    
+    void SetController(IWidgetController* controller) {
+        controller_ = controller;
     }
 
 private slots:
@@ -32,6 +33,6 @@ private slots:
 
 private:
     Ui::SignupPage *ui;
-    IAccountSwitcherSPtr switcher_;
     IAccountUseCaseSPtr useCase_;
+    IWidgetController* controller_;
 };

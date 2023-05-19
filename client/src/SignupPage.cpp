@@ -21,7 +21,7 @@ void SignupPage::ShowError(const std::string& error) {
 }
 
 void SignupPage::OnLoginButtonClicked() {
-    switcher_->ShowLoginPage();
+    controller_->ShowLoginPage();
 }
 
 void SignupPage::OnSubmitButtonClicked() {

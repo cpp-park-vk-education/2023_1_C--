@@ -5,9 +5,9 @@
 class IAccountReplyHandler {
 public:
     virtual ~IAccountReplyHandler() {}
-    virtual void OnLoginResponse(const int statusCode, UserData userData) = 0;
-    virtual void OnSignupResponse(const int statusCode, UserData userData) = 0;
-    virtual void OnUserSettingResponse(const int statusCode, UserData userData) = 0;
+    virtual void OnLoginResponse(const int statusCode, UserData&& userData) = 0;
+    virtual void OnSignupResponse(const int statusCode, UserData&& userData) = 0;
+    virtual void OnUserSettingResponse(const int statusCode, UserData&& userData) = 0;
     virtual void OnLogoutResponse(const int statusCode) = 0;
 };
 

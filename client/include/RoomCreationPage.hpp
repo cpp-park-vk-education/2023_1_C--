@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <optional>
-#include "IRoomSwitcher.hpp"
+#include "IWidgetController.hpp"
 #include "IRoomUseCase.hpp"
 
 namespace Ui {
@@ -21,24 +21,23 @@ public:
     explicit RoomCreationPage(QWidget *parent = nullptr);
     ~RoomCreationPage();
 
-    void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
-        roomSwitcher_ = roomSwitcher;
-    }
-
-    void SetRoomUseCase(IRoomUseCaseSPtr roomUseCase) {
+    void SetUseCase(IRoomUseCaseSPtr roomUseCase) {
         roomUseCase_ = roomUseCase;
     }
 
+    void SetController(IWidgetController* controller) {
+        controller_ = controller;
+    }
+
 private slots:
-    void OnCreateRoomButton();
-    void OnBackButton();
-    void OnAddUserButton();
+    void OnCreateRoomButtonClicked();
+    void OnBackButtonClicked();
+    void OnAddUserButtonClicked();
 
 private:
     Ui::RoomCreationPage *ui;
     std::vector<std::string> members;
-    
-    IRoomSwitcherSPtr roomSwitcher_;
+    IWidgetController* controller_;
     IRoomUseCaseSPtr roomUseCase_;
 };
 

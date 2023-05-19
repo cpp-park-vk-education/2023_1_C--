@@ -3,10 +3,11 @@
 #include "IAccountReplyHandler.hpp"
 #include "ISerializer.hpp"
 #include "IDeserializer.hpp"
-#include "NetworkManager.hpp"
+#include "INetworkManager.hpp"
 
 class AccountNetwork : public IAccountNetwork {
 public:
+    AccountNetwork();
     void Login(const LoginData& data) override;
     void Signup(const SignupData& data) override;
     void UserSetting(const UserSettingData& data) override;
@@ -16,7 +17,7 @@ public:
     void OnUserSettingResponse(IResponseUPtr response);
     void OnLogoutResponse(IResponseUPtr response);
     
-    void SetNetworkManager(NetworkManager* networkManager) {
+    void SetNetworkManager(INetworkManagerSPtr networkManager) {
         networkManager_ = networkManager;
     }
 
@@ -33,8 +34,10 @@ public:
     }
 
 private:
-    NetworkManager* networkManager_;
+    INetworkManagerSPtr networkManager_;
     IAccountReplyHandlerSPtr replyHandler_;
     ISerializerSPtr serializer_;
     IDeserializerSPtr deserializer_;
+    Callback loginCallback;
+    Callback signupCallback;
 };

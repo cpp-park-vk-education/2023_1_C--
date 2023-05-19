@@ -1,14 +1,16 @@
 #pragma once
 #include <memory>
 #include "RoomData.hpp"
+#include "AccountData.hpp"
 
 class IRoomUseCase {
 public:
     virtual ~IRoomUseCase() {}
-    virtual void CreateRoom(const RoomInfo& roomInfo) = 0;
-    virtual void SendMessage(const Message& message) = 0;
+    virtual void CreateRoom(RoomInfo&& roomInfo) = 0;
+    virtual void SendMessage(Message&& message) = 0;
     virtual void GetNewMessage(const int roomID) = 0;
-    virtual void GetRoomMessage(const int roomID) = 0;
+    virtual void GetRoomMessages(const int roomID) = 0;
+    virtual void ShowMainPage(UserData&& userData) = 0;
 };
 
 using IRoomUseCaseSPtr = std::shared_ptr<IRoomUseCase>;

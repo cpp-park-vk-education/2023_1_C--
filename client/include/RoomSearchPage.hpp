@@ -1,8 +1,7 @@
 #pragma once
 #include <QWidget>
 #include <QListWidget>
-#include <optional>
-#include "IRoomSwitcher.hpp"
+#include "IWidgetController.hpp"
 #include "IRoomUseCase.hpp"
 
 namespace Ui {
@@ -17,24 +16,22 @@ public:
     explicit RoomSearchPage(QWidget *parent = nullptr);
     ~RoomSearchPage();
     
-    void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
-        roomSwitcher_ = roomSwitcher;
-    }
-
-    void SetRoomUseCase(IRoomUseCaseSPtr roomUseCase) {
+    void SetUseCase(IRoomUseCaseSPtr roomUseCase) {
         roomUseCase_ = roomUseCase;
     }
 
+    void SetController(IWidgetController* controller) {
+        controller_ = controller;
+    }
 
 private slots:
-    void SelectRoom(QListWidgetItem *item);
-    void SearchRoom();
-    void Back();
+    void OnSelectRoom(QListWidgetItem *item);
+    void OnSearchButtonClicked();
+    void OnBackButtonClicked();
 
 
 private:
     Ui::RoomSearchPage *ui;
-    IRoomSwitcherSPtr roomSwitcher_;
+    IWidgetController* controller_;
     IRoomUseCaseSPtr roomUseCase_;
-    std::vector<RoomData> rooms_;
 };

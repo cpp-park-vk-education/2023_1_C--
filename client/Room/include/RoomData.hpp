@@ -46,20 +46,20 @@ struct Message {
     ~Message() {}
 };
 
-struct RoomData {
-    RoomInfo info;
-    std::vector<Message> lastMessages;
+// struct RoomData {
+//     RoomInfo info;
+//     std::vector<Message> lastMessages;
 
-    RoomData() {}
+//     RoomData() {}
 
-    RoomData(const RoomData& other) 
-        : info(other.info), lastMessages(other.lastMessages) {}
+//     RoomData(const RoomData& other) 
+//         : info(other.info), lastMessages(other.lastMessages) {}
 
-    RoomData& operator=(const RoomData& other) {
-        info = other.info;
-        lastMessages = other.lastMessages;
-        return *this;
-    }
+//     RoomData& operator=(const RoomData& other) {
+//         info = other.info;
+//         lastMessages = other.lastMessages;
+//         return *this;
+//     }
 
-    ~RoomData() {}
-};
+//     ~RoomData() {}
+// };

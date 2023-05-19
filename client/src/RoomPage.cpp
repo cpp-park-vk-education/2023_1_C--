@@ -1,6 +1,6 @@
 #include "RoomPage.hpp"
 #include "ui_RoomPage.h"
-#include "mclineedit.h"
+#include "MCLineEdit.hpp"
 
 RoomPage::RoomPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomPage)
@@ -10,7 +10,7 @@ RoomPage::RoomPage(QWidget *parent)
     list = new QStringList();
     auto timer = new QTimer(this);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(on_get_new_msg()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(OnGetNewMessage()));
     timer->start(1000);
 
     completer = new QCompleter(
@@ -29,48 +29,53 @@ RoomPage::~RoomPage()
     delete list;
 }
 
-void RoomPage::on_get_new_msg()
+void RoomPage::OnGetNewMessage()
 {
-    useCase_->GetNewMessage(33);
+    useCase_->GetNewMessage(roomInfo_.id);
 }
 
-void RoomPage::ShowRoomInfo(const RoomInfo& roomInfo){}
 
 void RoomPage::ShowRoomName(const std::string& name){
     ui->roomNameLabel->setText(QString::fromStdString(name));
 }
 
-void RoomPage::ShowLastMessages(const std::vector<Message>& messages){}
-void RoomPage::ShowOldMessages(const std::vector<Message>& messages){}
-
-void RoomPage::on_backBtn_clicked()
-{
-    //close thread
-
+void RoomPage::ShowSentMessage() {
+    list->append(QString::fromStdString("You: ") + tempContent);
+    model->setStringList(*list);
+    ui->listView->setModel(model);
 }
 
+void RoomPage::ShowNewMessage(const Message& message) {
+    list->append(QString::fromStdString(message.author) + tempContent);
+    model->setStringList(*list);
+    ui->listView->setModel(model);
+}
 
-void RoomPage::on_sendBtn_clicked()
+void RoomPage::ShowLastMessages(const std::vector<Message>& messages){
+    for (const auto message : messages) {
+        std::string messageAuthor = (message.author == userInfo_.login) ? "You" : message.author;
+        list->append(QString::fromStdString(messageAuthor + ": " + message.content));
+        model->setStringList(*list);
+        ui->listView->setModel(model);
+    }
+}
+
+void RoomPage::OnBackButtonClicked()
+{
+    controller_->ShowMainPage();
+    //close thread
+}
+
+void RoomPage::OnSendButtonClicked()
 {
     tempContent = ui->messageLineEdit->text();
     Message message;
-    message.roomID = roomData_.info.id;
+    message.roomID = roomInfo_.id;
     message.content = tempContent.toStdString();
     message.author = userInfo_.login; 
-    useCase_->SendMessage(message);
-
-    *list << QString::fromStdString("You: ") + tempContent;
-    model->setStringList(*list);
-    ui->listView->setModel(model);
     ui->messageLineEdit->setText("");
+    useCase_->SendMessage(std::move(message));
 }
-
-void RoomPage::ShowSentMessage() {
-    *list << QString::fromStdString("You: ") + tempContent;
-    model->setStringList(*list);
-    ui->listView->setModel(model);
-}
-
 
 QStringList RoomPage::getWordList(const QString& path)
 {
@@ -82,27 +87,14 @@ QStringList RoomPage::getWordList(const QString& path)
 
     while(!in.atEnd()) {
         QString line = in.readLine();
-        qDebug() << line << "\n";
+        // qDebug() << line << "\n";
         fields.append(line.split(","));
     }
 
-    qDebug() << fields;
+    // qDebug() << fields;
 
     return fields;
 }
 
-void RoomPage::SetRoomUseCase(IRoomUseCaseSPtr useCase) {
-    useCase_ = std::move(useCase);
-}
-
-void RoomPage::SetRoomSwitcher(IRoomSwitcherSPtr switcher) {
-    switcher_ = std::move(switcher);
-}
-
-void RoomPage::SetRoomData(const RoomData& roomData) {
-    roomData_ = roomData; 
-}
-
-void RoomPage::SetUserInfo(const UserInfo& userInfo) {
-    userInfo_ = userInfo;
-}
+// void RoomPage::ShowOldMessages(const std::vector<Message>& messages){}
+// void RoomPage::ShowRoomInfo(const RoomInfo& roomInfo){}

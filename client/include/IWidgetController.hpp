@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include "RoomData.hpp"
 
 class IWidgetController {
 public:
@@ -14,3 +13,5 @@ public:
     virtual void ShowRoomSearchPage() = 0;
     virtual void ShowRoomCreationPage() = 0;
 };
+
+using IWidgetControllerSPtr = std::shared_ptr<IWidgetController>;

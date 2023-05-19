@@ -22,7 +22,7 @@ void LoginPage::ShowError(const std::string& error) {
 }
 
 void LoginPage::OnSignupButtonClicked() {
-    switcher_->ShowSignupPage();
+    controller_->ShowSignupPage();
 }
 
 void LoginPage::OnSubmitButtonClicked() {

@@ -1,28 +1,41 @@
 #include "AppController.hpp"
 
 AppController::AppController() {
+
     accountNetworkSPtr = std::make_shared<AccountNetwork>();
-    accountReplyHandlerSPtr = std::make_shared<AccountReplyHandler>();
-    accountSwitcherSPtr = std::make_shared<AccountSwitcher>();
     accountUseCaseSPtr = std::make_shared<AccountUseCase>();
 
     roomNetworkSPtr = std::make_shared<RoomNetwork>();
-    roomReplyHandlerSPtr = std::make_shared<RoomReplyHandler>();
-    roomSwitcherSPtr = std::make_shared<RoomSwitcher>();
     roomUseCaseSPtr = std::make_shared<RoomUseCase>();
 
     serializerSPtr = std::make_shared<Serializer>();
     deserializerSPtr = std::make_shared<Deserializer>();
-    networkManager = new NetworkManager;
-
-    loginPage = new LoginPage;
-    signupPage = new SignupPage;
-    mainPage = new MainPage;
-    roomPage = new RoomPage;
-    roomCreationPage = new RoomCreationPage;
-    roomSearchPage = new RoomSearchPage;
+    networkManager = std::make_shared<NetworkManager>();
 
     mainWindow = new MainWindow;
+
+    loginPage = new LoginPage(mainWindow);
+    signupPage = new SignupPage(mainWindow);
+    mainPage = new MainPage(mainWindow);
+    roomPage = new RoomPage(mainWindow);
+    roomCreationPage = new RoomCreationPage(mainWindow);
+    roomSearchPage = new RoomSearchPage(mainWindow);
+
+    loginPage->SetUseCase(accountUseCaseSPtr);
+    loginPage->SetController(mainWindow);
+
+    signupPage->SetUseCase(accountUseCaseSPtr);
+    signupPage->SetController(mainWindow);
+
+    roomPage->SetUseCase(roomUseCaseSPtr);
+    roomPage->SetController(mainWindow);
+
+    roomCreationPage->SetUseCase(roomUseCaseSPtr);
+    roomCreationPage->SetController(mainWindow);
+
+    roomSearchPage->SetUseCase(roomUseCaseSPtr);
+    roomSearchPage->SetController(mainWindow);
+
     mainWindow->SetLoginPage(loginPage);
     mainWindow->SetSignupPage(signupPage);
     mainWindow->SetMainPage(mainPage);
@@ -30,60 +43,27 @@ AppController::AppController() {
     mainWindow->SetRoomCreationPage(roomCreationPage);
     mainWindow->SetRoomSearchPage(roomSearchPage);
 
-    loginPage->SetUseCase(accountUseCaseSPtr);
-    loginPage->SetSwitcher(accountSwitcherSPtr);
-
-    signupPage->SetUseCase(accountUseCaseSPtr);
-    signupPage->SetSwitcher(accountSwitcherSPtr);
-
-    mainPage->SetRoomSwitcher(roomSwitcherSPtr);
-
-    roomPage->SetRoomUseCase(roomUseCaseSPtr);
-    roomPage->SetRoomSwitcher(roomSwitcherSPtr);
-    // roomPage->SetRoomUseCase(roomUseCaseSPtr);
-
-    roomCreationPage->SetRoomSwitcher(roomSwitcherSPtr);
-    roomCreationPage->SetRoomUseCase(roomUseCaseSPtr);
-
-    roomSearchPage->SetRoomSwitcher(roomSwitcherSPtr);
-    roomSearchPage->SetRoomUseCase(roomUseCaseSPtr);
-    
-    accountUseCaseSPtr->SetAccountUi(loginPage);
+    accountUseCaseSPtr->SetLoginPage(loginPage);
+    accountUseCaseSPtr->SetSignupPage(signupPage);
+    accountUseCaseSPtr->SetRoomUseCase(roomUseCaseSPtr);
     accountUseCaseSPtr->SetNetwork(accountNetworkSPtr);
 
-    accountNetworkSPtr->SetReplyHandler(accountReplyHandlerSPtr);
+    accountNetworkSPtr->SetReplyHandler(accountUseCaseSPtr);
     accountNetworkSPtr->SetNetworkManager(networkManager);
     accountNetworkSPtr->SetRequestSerializer(serializerSPtr);
     accountNetworkSPtr->SetResponseSerializer(deserializerSPtr);
 
-    accountReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
-    accountReplyHandlerSPtr->SetAccountUi(loginPage);
-
-    // roomUseCaseSPtr->SetRoomPageUi();
-    roomUseCaseSPtr->SetMainPageUi(mainPage);
     roomUseCaseSPtr->SetRoomNetwork(roomNetworkSPtr);
-    
-    roomNetworkSPtr->SetReplyHandler(roomReplyHandlerSPtr);
+    roomUseCaseSPtr->SetAccountUseCase(accountUseCaseSPtr);
+    roomUseCaseSPtr->SetRoomPage(roomPage);
+    roomUseCaseSPtr->SetMainPage(mainPage);
+
+    roomNetworkSPtr->SetReplyHandler(roomUseCaseSPtr);
     roomNetworkSPtr->SetNetworkManager(networkManager);
     roomNetworkSPtr->SetRequestSerializer(serializerSPtr);
     roomNetworkSPtr->SetResponseSerializer(deserializerSPtr);
-    
-    roomReplyHandlerSPtr->SetRoomSwitcher(roomSwitcherSPtr);
-    accountSwitcherSPtr->SetWidgetController(mainWindow);
-    
-    roomSwitcherSPtr->SetWidgetController(mainWindow);
-    roomSwitcherSPtr->SetMainPageUi(mainPage);
-    roomSwitcherSPtr->SetRoomPageUi(roomPage);
-
 } 
 
 AppController::~AppController() {
-    delete networkManager;
-
-    delete loginPage;
-    delete mainPage;
-    delete roomPage;
-    delete roomCreationPage;
-    delete roomSearchPage;
     delete mainWindow;
 }

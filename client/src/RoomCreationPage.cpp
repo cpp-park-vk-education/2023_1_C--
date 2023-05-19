@@ -6,9 +6,9 @@ RoomCreationPage::RoomCreationPage(QWidget *parent) :
     ui(new Ui::RoomCreationPage)
 {
     ui->setupUi(this);
-    connect(ui->createButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnCreateRoomButton);
-    connect(ui->backButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnBackButton);
-    connect(ui->addButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnAddUserButton);
+    connect(ui->createButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnCreateRoomButtonClicked);
+    connect(ui->backButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnBackButtonClicked);
+    connect(ui->addButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnAddUserButtonClicked);
 }
 
 RoomCreationPage::~RoomCreationPage()
@@ -16,7 +16,7 @@ RoomCreationPage::~RoomCreationPage()
     delete ui;
 }
 
-void RoomCreationPage::OnAddUserButton() {
+void RoomCreationPage::OnAddUserButtonClicked() {
     if (ui->username->text().isEmpty()) {
         ui->errorLabel->setText("Specify the user login");
         return;
@@ -26,11 +26,11 @@ void RoomCreationPage::OnAddUserButton() {
     ui->username->setText(""); 
 }
 
-void RoomCreationPage::OnBackButton() {
-    roomSwitcher_->BackOnMainPage();
+void RoomCreationPage::OnBackButtonClicked() {
+    controller_->ShowMainPage();
 }
 
-void RoomCreationPage::OnCreateRoomButton() {    
+void RoomCreationPage::OnCreateRoomButtonClicked() {    
     if(ui->name->text().isEmpty()) {
         ui->errorLabel->setText("Name is required");
         return;
@@ -44,5 +44,5 @@ void RoomCreationPage::OnCreateRoomButton() {
     RoomInfo roomInfo;
     roomInfo.name = ui->name->text().toStdString();
     roomInfo.members = members;
-    roomUseCase_->CreateRoom(roomInfo);
+    roomUseCase_->CreateRoom(std::move(roomInfo));
 }

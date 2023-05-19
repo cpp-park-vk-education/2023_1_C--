@@ -2,11 +2,12 @@
 #include "ICommunication.hpp"
 #include <QNetworkReply>
 
+QByteArray GetQByteArray(std::vector<char> byteArray);
+
 class Response : public IResponse {
 public:
 
-    Response(const int status, std::vector<char> body)
-        : status_(status) {
+    Response(const int status, std::vector<char> body) : status_(status) {
         body_ = std::move(body);
     }
 

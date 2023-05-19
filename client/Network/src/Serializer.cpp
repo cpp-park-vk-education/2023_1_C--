@@ -37,7 +37,7 @@ std::vector<char> Serializer::SerializeID(const int id) {
 
 std::vector<char> Serializer::SerializeMessage(const Message& data) {
     QJsonObject jsonObject;
-    jsonObject.insert(LOGIN_KEY, QJsonValue(QString::fromStdString(data.author)));
+    jsonObject.insert(AUTHOR_KEY, QJsonValue(QString::fromStdString(data.author)));
     jsonObject.insert(CONTENT_KEY, QJsonValue(QString::fromStdString(data.content)));
     jsonObject.insert(ID_KEY, QJsonValue(data.roomID));
     return GetByteArray(jsonObject);

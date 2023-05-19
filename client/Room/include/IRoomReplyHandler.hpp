@@ -6,10 +6,10 @@
 class IRoomReplyHandler {
 public:
     virtual ~IRoomReplyHandler() {}
-    virtual void OnSendMessageResponse(int statusCode) = 0;
-    virtual void OnGetNewMessageResponse(int statusCode, const Message& message) = 0;
-    virtual void OnGetRoomMessagesResponse(int statusCode, const std::vector<Message>) = 0;
-    virtual void OnCreateRoomResponse(int statusCode, const RoomData& roomData) = 0;
+    virtual void OnSendMessageResponse(const int statusCode) = 0;
+    virtual void OnGetNewMessageResponse(const int statusCode, Message&& message) = 0;
+    virtual void OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo) = 0;
+    virtual void OnGetRoomMessagesResponse(const int statusCode, std::vector<Message>&& roomMessages) = 0;
 };
 
 using IRoomReplyHandlerSPtr = std::shared_ptr<IRoomReplyHandler>;

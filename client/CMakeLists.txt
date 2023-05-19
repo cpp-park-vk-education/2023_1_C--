@@ -24,6 +24,7 @@ include_directories(
     Network/include  
     Room/include
     include
+    etc
 )
 
 set(CMAKE_AUTOMOC ON)
@@ -31,28 +32,16 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 set(ACCOUNT_SOURCES Account/src/AccountNetwork.cpp
-                    Account/src/AccountReplyHandler.cpp
-                    Account/src/AccountSwitcher.cpp
                     Account/src/AccountUseCase.cpp
                     Account/src/Forms.cpp)
 
 set(ROOM_SOURCES    Room/src/RoomNetwork.cpp
-                    Room/src/RoomReplyHandler.cpp
-                    Room/src/RoomSwitcher.cpp
                     Room/src/RoomUseCase.cpp
-                    Room/include/IMainPageUi.hpp
-                    Room/include/IRoomNetwork.hpp
-                    Room/include/IRoomPageUi.hpp
-                    Room/include/IRoomReplyHandler.hpp
-                    Room/include/IRoomSwitcher.hpp
-                    Room/include/IRoomUseCase.hpp
-                    Room/include/IUserInfoUi.hpp
                     Room/include/RoomData.hpp
                     Room/include/RoomNetwork.hpp
-                    Room/include/RoomReplyHandler.hpp
-                    Room/include/RoomSwitcher.hpp
                     Room/include/RoomUseCase.hpp
-                    src/MCLineEdit.cpp include/mclineedit.h)
+                    src/MCLineEdit.cpp
+                    include/MCLineEdit.hpp)
 
 set(NETWORK_SOURCES Network/src/NetworkManager.cpp
                     Network/src/Communication
