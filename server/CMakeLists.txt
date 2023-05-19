@@ -23,6 +23,7 @@ include_directories(
     Services/GetNewMessageService
     Services/SendMessageService
     Services/RegisterService
+    Services/SearchRoomService
     HttpControllers
     HttpControllers/CreateRoomController
     HttpControllers/LoginController
@@ -32,6 +33,7 @@ include_directories(
     HttpControllers/SendMessageController
     HttpControllers/GetRoomHistoryController
     HttpControllers/RegisterController
+    HttpControllers/SearchRoomController
 )
 
 add_executable(server
@@ -48,6 +50,7 @@ add_executable(server
     Services/SendMessageService/SendMessageService.cpp
     Services/GetRoomHistoryService/GetRoomHistoryService.cpp
     Services/RegisterService/RegisterService.cpp
+    Services/SearchRoomService/SearchRoomService.cpp
     HttpControllers/CreateRoomController/CreateController.cpp
     HttpControllers/LoginController/LoginController.cpp
     HttpControllers/JoinRoomController/JoinRoomController.cpp
@@ -56,6 +59,7 @@ add_executable(server
     HttpControllers/SendMessageController/SendMessageController.cpp
     HttpControllers/GetRoomHistoryController/GetRoomHistoryController.cpp
     HttpControllers/RegisterController/RegisterController.cpp
+    HttpControllers/SearchRoomController/SearchRoomController.cpp
 )
 
 target_include_directories(server PUBLIC ../DB/include)
