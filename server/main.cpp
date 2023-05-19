@@ -11,6 +11,7 @@
 #include "GetNewMessageController.hpp"
 #include "GetRoomHistoryController.hpp"
 #include "RegisterController.hpp"
+#include "SearchRoomController.hpp"
 #include "DBManager.hpp"
 #include <ClientDBManager.hpp>
 #include <RoomDBManager.hpp>
@@ -72,6 +73,12 @@ int main(int argc, char *argv[])
     map.insert(
         std::make_pair("/register", std::make_unique<RegisterController>(
             std::make_unique<RegisterService>(clientDb)
+        ))
+    );
+
+    map.insert(
+        std::make_pair("/search", std::make_unique<SearchRoomController>(
+            std::make_unique<SearchRoomService>(clientDb, roomDb)
         ))
     );
     

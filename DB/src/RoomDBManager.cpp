@@ -169,8 +169,7 @@ Message RoomDBManager::getMessage(const int message_ID) {
 }
 
 QVector<Room> RoomDBManager::searchRooms(const QString& roomName) {
-    const QString queryStr = "SELECT * FROM rooms "
-            "WHERE roomname = '" + roomName + "'";
+    const QString queryStr = "SELECT * FROM rooms WHERE room_name = '" + roomName + "'";
     QSqlQuery query; 
     try {
         query = dbManager->execute(queryStr);
@@ -178,6 +177,7 @@ QVector<Room> RoomDBManager::searchRooms(const QString& roomName) {
         throw std::runtime_error(NO_SUCH_ROOM_ERROR);
     }
     QVector<Room> rooms;
+    rooms.push_back(Room(query));
     while(query.next())
     {
         rooms.push_back(Room(query));
