@@ -47,7 +47,6 @@ void LoginController::fillJsonClient(QJsonObject& json, const Client& client)
     json.insert("UserInfo", QJsonValue({
         qMakePair(QString::fromStdString("Login"), QJsonValue(client.login)),
         qMakePair(QString::fromStdString("Nickname"), QJsonValue(client.username)),
-        qMakePair(QString::fromStdString("Password"), QJsonValue(client.password)),
         qMakePair(QString::fromStdString("FirstName"), QJsonValue(client.firstName)),
         qMakePair(QString::fromStdString("LastName"), QJsonValue(client.lastName)),
         })
@@ -65,7 +64,14 @@ void LoginController::fillJsonRooms(QJsonObject& json, const QVector<Room>& room
         QJsonArray members;
         
         for (const auto& member : clientsInRoom)
-            members.append(member.username);
+            members.append(
+                QJsonObject({
+                    qMakePair(QString::fromStdString("Login"), QJsonValue(member.login)),
+                    qMakePair(QString::fromStdString("Username"), QJsonValue(member.username)),
+                    qMakePair(QString::fromStdString("Firstname"), QJsonValue(member.firstName)),
+                    qMakePair(QString::fromStdString("Lastname"), QJsonValue(member.lastName))
+                })
+            );
 
         QJsonObject roomInfo;
 

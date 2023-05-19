@@ -22,4 +22,6 @@ void SendMessageController::service(IHttpRequest* request, IHttpResponse* respon
         requestJSONObject.value("Author").toString().toStdString(),
         content.toStdString()
     );
+
+    
 }
