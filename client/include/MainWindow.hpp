@@ -7,7 +7,6 @@
 #include "RoomSearchPage.hpp"
 #include "RoomCreationPage.hpp"
 #include "IWidgetController.hpp"
-#include "RoomPage.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,22 +23,19 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void ShowLoginPage() override;
+    void ShowSignupPage() override;
+    void ShowRoomPage() override;
+    void ShowMainPage() override;
+    void ShowRoomSearchPage() override;
+    void ShowRoomCreationPage() override;
+
     void SetLoginPage(LoginPage* page);
     void SetSignupPage(SignupPage* page);
     void SetMainPage(MainPage* page);
     void SetRoomPage(RoomPage* page);
     void SetRoomSearchPage(RoomSearchPage* page);
     void SetRoomCreationPage(RoomCreationPage* page);
-
-    void ShowLoginPage() override;
-    void ShowSignupPage() override;
-    // void ShowUserSettingPage() override;
-    void ShowRoomPage() override;
-    void ShowMainPage() override;
-    // void ShowRoomInfo() override;
-    void ShowRoomSearchPage() override;
-    void ShowRoomCreationPage() override;
-
 
 private:
     Ui::MainWindow *ui;

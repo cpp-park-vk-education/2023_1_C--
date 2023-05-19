@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
+} 
 
 void MainWindow::SetLoginPage(LoginPage* page) {
     loginPageIndex = ui->stackedWidget->addWidget(page);
@@ -33,7 +33,7 @@ void MainWindow::SetRoomSearchPage(RoomSearchPage* page) {
 }
 
 void MainWindow::SetRoomCreationPage(RoomCreationPage* page) {
-    roomCreationPageIndex = ui->stackedWidget->addWidget(page);    
+    roomCreationPageIndex = ui->stackedWidget->addWidget(page);
 }
 
 void MainWindow::ShowLoginPage() {
@@ -41,15 +41,15 @@ void MainWindow::ShowLoginPage() {
 }
 
 void MainWindow::ShowSignupPage() {
-    ui->stackedWidget->setCurrentIndex(loginPageIndex);
-}
-
-void MainWindow::ShowMainPage() {
-    ui->stackedWidget->setCurrentIndex(mainPageIndex);
+    ui->stackedWidget->setCurrentIndex(signupPageIndex);
 }
 
 void MainWindow::ShowRoomPage() {
     ui->stackedWidget->setCurrentIndex(roomPageIndex);
+}
+
+void MainWindow::ShowMainPage() {
+    ui->stackedWidget->setCurrentIndex(mainPageIndex);
 }
 
 void MainWindow::ShowRoomSearchPage() {

@@ -1,11 +1,17 @@
 #include "RoomUseCase.hpp"
 
+RoomInfo RoomUseCase::FindRoomInfo(const int roomID) {
+    for (const auto room : userData_.rooms)
+        if (room.id == roomID)
+            return room;
+    return RoomInfo{};
+}
 
-void RoomUseCase::SendMessage(const Message& message) {
+void RoomUseCase::SendMessage(Message&& message) {
     roomNetwork_->SendMessage(message);
 }
 
-void RoomUseCase::CreateRoom(const RoomInfo& roomInfo) {
+void RoomUseCase::CreateRoom(RoomInfo&& roomInfo) {
     roomNetwork_->CreateRoom(roomInfo); 
 }
 
@@ -13,25 +19,39 @@ void RoomUseCase::GetNewMessage(const int roomID) {
     roomNetwork_->GetNewMessage(roomID); 
 }
 
-void RoomUseCase::GetRoomMessage(const int roomID) {
+void RoomUseCase::GetRoomMessages(const int roomID) {
+    currentRoom = FindRoomInfo(roomID);
     roomNetwork_->GetRoomMessages(roomID);
 }
 
-void RoomUseCase::OnSendMessageResponse(int statusCode) {}
-
-void RoomUseCase::OnGetNewMessageResponse(int statusCode, const Message& message)
-{
+void RoomUseCase::ShowMainPage(UserData&& userData) {
+    userData_ = userData;
+    mainPage_->ShowRooms(userData.rooms);
 }
 
-void RoomUseCase::OnGetRoomMessagesResponse(int statusCode, const std::vector<Message> messages) {
+void RoomUseCase::OnSendMessageResponse(int statusCode) {
+    if (statusCode == 200)
+        roomPage_->ShowSentMessage();
+}
+
+void RoomUseCase::OnGetNewMessageResponse(int statusCode, Message&& message) {
+    if (statusCode == 200)
+        roomPage_->ShowNewMessage(std::move(message));
+}
+
+void RoomUseCase::OnGetRoomMessagesResponse(int statusCode, std::vector<Message>&& messages) {
     if (statusCode == 200) {
-        roomSwitcher_->ShowLastMessages(messages);
+        roomPage_->SetData(currentRoom, userData_.info);
+        roomPage_->ShowRoomName(currentRoom.name);
+        roomPage_->ShowLastMessages(std::move(messages));
     }
-
 }
 
-void RoomUseCase::OnCreateRoomResponse(int statusCode, const RoomData& roomData) {
+void RoomUseCase::OnCreateRoomResponse(int statusCode, RoomInfo&& roomInfo) {
     if (statusCode == 200) {
-        //roomSwitcher_->ShowRoom(roomData);
+        userData_.rooms.push_back(roomInfo);
+        roomPage_->ShowRoomName(roomInfo.name);
     }
 }
+
+

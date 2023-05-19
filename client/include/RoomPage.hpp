@@ -7,9 +7,9 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QTimer>
-#include "IRoomPageUi.hpp"
 #include "IRoomUseCase.hpp"
-#include "IRoomSwitcher.hpp"
+#include "IRoomPage.hpp"
+#include "IWidgetController.hpp"
 #include "RoomData.hpp"
 
 namespace Ui {
@@ -17,7 +17,7 @@ class RoomPage;
 }
 
 class RoomPage : public QWidget, 
-                 public IRoomPageUi
+                 public IRoomPage
 {
     Q_OBJECT
 
@@ -25,33 +25,44 @@ public:
     explicit RoomPage(QWidget *parent = nullptr);
     ~RoomPage();
 
-    void SetRoomUseCase(IRoomUseCaseSPtr useCase) override;
-    void SetRoomSwitcher(IRoomSwitcherSPtr switcher) override;
-    void SetRoomData(const RoomData& roomData) override;
-    void SetUserInfo(const UserInfo& userInfo) override;
+    void ShowSentMessage() override;
+    // void ShowRoomInfo(const RoomInfo& roomInfo) override;
+    void ShowRoomName(const std::string& name) override;
+    void ShowLastMessages(const std::vector<Message>& messages) override;
+    // void ShowOldMessages(const std::vector<Message>& messages) override;
+    void ShowNewMessage(const Message& message) override;
 
-    void ShowSentMessage();
-    void ShowRoomInfo(const RoomInfo& roomInfo);
-    void ShowRoomName(const std::string& name);
-    void ShowLastMessages(const std::vector<Message>& messages);
-    void ShowOldMessages(const std::vector<Message>& messages);
+    void SetUseCase(IRoomUseCaseSPtr useCase) {
+        useCase_ = useCase;
+    }
+
+    void SetController(IWidgetController* controller) {
+        controller_ = controller;
+    }
+
+    void SetData(const RoomInfo& roomInfo, 
+                 const UserInfo& userInfo) override {
+        roomInfo_ = roomInfo;
+        userInfo_ = userInfo;
+    }
 
 private slots:
-    void on_backBtn_clicked();
-    void on_sendBtn_clicked();
-    void on_get_new_msg();
+    void OnBackButtonClicked();
+    void OnSendButtonClicked();
+    void OnGetNewMessage();
 
 private:
-
-    QStringList getWordList(const QString& path);
     QString tempContent;
+
     UserInfo userInfo_;
     RoomInfo roomInfo_;
-    RoomData roomData_;
+
     Ui::RoomPage *ui;
     IRoomUseCaseSPtr useCase_;
-    IRoomSwitcherSPtr switcher_;
+    IWidgetController* controller_;
+
     QStringListModel *model;
     QStringList *list;
     QCompleter *completer;
+    QStringList getWordList(const QString& path);
 };

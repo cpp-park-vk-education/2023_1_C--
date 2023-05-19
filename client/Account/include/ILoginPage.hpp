@@ -2,11 +2,10 @@
 #include <string>
 #include <memory>
 
-class IAccountUi {
+class ILoginPage {
 public:
-    virtual ~IAccountUi() {}
+    virtual ~ILoginPage() {}
     virtual void ShowError(const std::string& error) = 0;
 };
 
-using IAccountUiSPtr = std::shared_ptr<IAccountUi>;
-
+using ILoginPageSPtr = std::shared_ptr<ILoginPage>;

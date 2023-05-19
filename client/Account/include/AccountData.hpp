@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <memory>
 #include "RoomData.hpp"
-
 
 struct UserInfo {
     std::string login;
@@ -14,7 +14,7 @@ struct UserInfo {
 
 struct UserData {
     UserInfo info;
-    std::vector<RoomData> rooms;
+    std::vector<RoomInfo> rooms;
 };
 
 struct LoginData {

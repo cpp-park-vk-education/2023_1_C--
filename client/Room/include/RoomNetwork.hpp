@@ -1,18 +1,20 @@
 #pragma once
 #include "IRoomNetwork.hpp"
 #include "IRoomReplyHandler.hpp"
-#include "NetworkManager.hpp"
+#include "INetworkManager.hpp"
 #include "ISerializer.hpp"
 #include "IDeserializer.hpp"
 
 class RoomNetwork : public IRoomNetwork {
 public:
+
+    RoomNetwork();
     void SendMessage(const Message& message) override;
     void CreateRoom(const RoomInfo& roomInfo) override;
     void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID) override;
     
-    void SetNetworkManager(NetworkManager* networkManager) {
+    void SetNetworkManager(INetworkManagerSPtr networkManager) {
         networkManager_ = networkManager;
     }
 
@@ -29,10 +31,14 @@ public:
     }
 
 private:
-    NetworkManager* networkManager_;
+    INetworkManagerSPtr networkManager_;
     IRoomReplyHandlerSPtr replyHandler_;
     ISerializerSPtr serializer_;
     IDeserializerSPtr deserializer_;
+    Callback createRoomCallback;
+    Callback sendMessageCallback;
+    Callback getNewMessageCallback;
+    Callback getRoomMessagesCallback;
     void OnSendMessageResponse(IResponseUPtr response);
     void OnGetNewMessageResponse(IResponseUPtr response);
     void OnGetRoomMessagesResponse(IResponseUPtr response);

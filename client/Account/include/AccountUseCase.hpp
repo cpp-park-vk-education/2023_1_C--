@@ -1,7 +1,9 @@
 #pragma once
 #include "IForms.hpp"
-#include "IAccountUi.hpp"
-#include "IRoomSwitcher.hpp"
+#include "ILoginPage.hpp"
+#include "ISignupPage.hpp"
+#include "IRoomUseCase.hpp"
+#include "IMainPage.hpp"
 #include "IAccountUseCase.hpp"
 #include "IAccountReplyHandler.hpp"
 #include "IAccountNetwork.hpp"
@@ -13,25 +15,31 @@ public:
     void Signup(ISignupFormUPtr form) override;
     void UserSetting(IUserSettingFormUPtr form) override;
     void Logout(const std::string& token) override;
-    void OnLoginResponse(const int statusCode, UserData userData) override;
-    void OnSignupResponse(const int statusCode, UserData userData) override;
-    void OnUserSettingResponse(const int statusCode, UserData userData) override;
+    void OnLoginResponse(const int statusCode, UserData&& userData) override;
+    void OnSignupResponse(const int statusCode, UserData&& userData) override;
+    void OnUserSettingResponse(const int statusCode, UserData&& userData) override;
     void OnLogoutResponse(const int statusCode) override;
 
-    void SetUi(IAccountUi* ui) {
-        ui_ = ui;
+    void SetLoginPage(ILoginPage* loginPage) {
+        loginPage_ = loginPage;
+    }
+
+    void SetSignupPage(ISignupPage* signupPage) {
+        signupPage_ = signupPage;
     }
 
     void SetNetwork(IAccountNetworkSPtr network) {
         network_ = network;
     }
 
-    void SetRoomSwitcher(IRoomSwitcherSPtr switcher) {
-        switcher_ = switcher;
+    void SetRoomUseCase(IRoomUseCaseSPtr roomUseCase) {
+        roomUseCase_ = roomUseCase;
     }
     
 private:
-    IAccountUi* ui_;
+    ILoginPage* loginPage_;
+    ISignupPage* signupPage_;
     IAccountNetworkSPtr network_;
-    IRoomSwitcherSPtr switcher_;
+    IRoomUseCaseSPtr roomUseCase_;
+    UserInfo userInfo_;
 };

@@ -1,16 +1,16 @@
 #pragma once 
 #include <QWidget>
-#include <QListWidget>
-#include <optional>
-#include "IMainPageUi.hpp"
-#include "IRoomSwitcher.hpp"
+#include <QListWidgetItem>
+#include "IMainPage.hpp"
+#include "IRoomUseCase.hpp"
+#include "IWidgetController.hpp"
 
 namespace Ui {
 class MainPage;
 }
 
 class MainPage : public QWidget,
-                 public IMainPageUi
+                 public IMainPage
 {
     Q_OBJECT
 
@@ -18,33 +18,28 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
     ~MainPage();
 
-    void ShowMainPage(std::vector<RoomData> rooms) override;
-    void ShowRoomSearchPage() override;
-    void ShowRoomCreationPage() override;
+    void ShowRooms(const std::vector<RoomInfo>& rooms) override;
 
-    void SetRoomSwitcher(IRoomSwitcherSPtr roomSwitcher) {
-        roomSwitcher_ = roomSwitcher;
+    void SetController(IWidgetController* controller) {
+        controller_ = controller;
     }
 
-    void SetUserInfo(const UserInfo& userInfo) override;
+    void SetUseCase(IRoomUseCaseSPtr useCase) {
+        useCase_ = useCase;
+    }
+
+    // void SetUserInfo(const UserInfo& userInfo) override;
 
     
 public slots:
-    void CreateRoom() {
-        ShowRoomCreationPage();
-    }
-
-    void SearchRoom() {
-        ShowRoomSearchPage();
-    }
-
-    void SelectRoom(QListWidgetItem *item);
+    void OnCreateRoom();
+    void OnSearchRoom();
+    void OnSelectRoom(QListWidgetItem *item);
     
 private:
     Ui::MainPage *ui;
-    UserInfo userInfo_;
-    std::vector<RoomData> rooms_;
-    IRoomSwitcherSPtr roomSwitcher_;
-    std::optional<RoomData> FindRoom(const int roomId);
+
+    IRoomUseCaseSPtr useCase_;
+    IWidgetController* controller_;
 };
 

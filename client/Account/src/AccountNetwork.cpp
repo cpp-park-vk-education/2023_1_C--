@@ -7,45 +7,42 @@ const std::string SIGNUP_URL = "signup";
 const std::string USER_SETTING_URL = "setting";
 const std::string LOGOUT_URL = "logout";
 
-static QByteArray GetQByteArray(std::vector<char> byteArray) {
-    QByteArray qByteArray;
-    for (auto byte: byteArray)
-        qByteArray.push_back(byte);
-    return qByteArray;
+AccountNetwork::AccountNetwork() {
+    loginCallback = Callback(
+        [this](IResponseUPtr response) {
+           return this->OnLoginResponse(std::move(response)); 
+        }
+    );
+
+    signupCallback = Callback(
+        [this](IResponseUPtr response) {
+           return this->OnSignupResponse(std::move(response)); 
+        }
+    );
 }
 
 void AccountNetwork::Login(const LoginData& data) {
     auto request = CreateRequest(LOGIN_URL);
-    //auto request = CreateRequest("/");
     auto byteArray = serializer_->SerializeLoginData(data);
-    Callback callback (
-        [this](IResponseUPtr response){
-           return this->OnLoginResponse(std::move(response)); 
-        }
-    ); 
-    networkManager_->Post(request, GetQByteArray(byteArray), callback);
+    qDebug() << "Inside Login()";
+    networkManager_->Post(request, GetQByteArray(byteArray), loginCallback);
 }
 
 void AccountNetwork::Signup(const SignupData& data) {
     auto request = CreateRequest(SIGNUP_URL);
     auto byteArray = serializer_->SerializeSignupData(data);
-    Callback callback (
-        [this](IResponseUPtr response){
-           return this->OnLoginResponse(std::move(response)); 
-        }
-    ); 
-    networkManager_->Post(request, GetQByteArray(byteArray), callback);
-
+    networkManager_->Post(request, GetQByteArray(byteArray), signupCallback);
 }
 
 void AccountNetwork::UserSetting(const UserSettingData& data) {}
 void AccountNetwork::Logout(const LogoutData& data) {}
 
 void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
+    qDebug() << "Inside OnLoginResponse()";
     auto statusCode = response->GetStatus();
     if (statusCode == 200) {
-        UserData data = deserializer_->DeserializeRoomData(response->GetBody());
-        replyHandler_->OnLoginResponse(200, data);
+        auto data = deserializer_->DeserializeUserData(response->GetBody());
+        replyHandler_->OnLoginResponse(200, std::move(data));
     } else {
         replyHandler_->OnLoginResponse(statusCode, UserData{});
     }
@@ -54,8 +51,8 @@ void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
 void AccountNetwork::OnSignupResponse(IResponseUPtr response) {
     auto statusCode = response->GetStatus();
     if (statusCode == 200) {
-        UserData data = deserializer_->DeserializeRoomData(response->GetBody()); // the same deserializer
-        replyHandler_->OnSignupResponse(200, data);
+        auto data = deserializer_->DeserializeUserData(response->GetBody());
+        replyHandler_->OnLoginResponse(200, std::move(data));
     } else {
         replyHandler_->OnSignupResponse(statusCode, UserData{});
     }
