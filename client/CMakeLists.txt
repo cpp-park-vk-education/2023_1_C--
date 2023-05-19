@@ -41,7 +41,7 @@ set(ROOM_SOURCES    Room/src/RoomNetwork.cpp
                     Room/include/RoomNetwork.hpp
                     Room/include/RoomUseCase.hpp
                     src/MCLineEdit.cpp
-                    include/MCLineEdit.hpp)
+                    include/mclineedit.h)
 
 set(NETWORK_SOURCES Network/src/NetworkManager.cpp
                     Network/src/Communication

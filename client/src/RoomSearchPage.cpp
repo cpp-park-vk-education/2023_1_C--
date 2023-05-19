@@ -20,6 +20,6 @@ void RoomSearchPage::OnSelectRoom(QListWidgetItem *item) {}
 void RoomSearchPage::OnSearchButtonClicked() {}
 
 void RoomSearchPage::OnBackButtonClicked() {
-    // roomSwitcher_->BackOnMainPage();
+    controller_->ShowMainPage();
 }
 

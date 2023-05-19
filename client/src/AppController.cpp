@@ -21,6 +21,9 @@ AppController::AppController() {
     roomCreationPage = new RoomCreationPage(mainWindow);
     roomSearchPage = new RoomSearchPage(mainWindow);
 
+    mainPage->SetUseCase(roomUseCaseSPtr);
+    mainPage->SetController(mainWindow);
+
     loginPage->SetUseCase(accountUseCaseSPtr);
     loginPage->SetController(mainWindow);
 
@@ -57,6 +60,7 @@ AppController::AppController() {
     roomUseCaseSPtr->SetAccountUseCase(accountUseCaseSPtr);
     roomUseCaseSPtr->SetRoomPage(roomPage);
     roomUseCaseSPtr->SetMainPage(mainPage);
+    roomUseCaseSPtr->SetWidgetController(mainWindow);
 
     roomNetworkSPtr->SetReplyHandler(roomUseCaseSPtr);
     roomNetworkSPtr->SetNetworkManager(networkManager);

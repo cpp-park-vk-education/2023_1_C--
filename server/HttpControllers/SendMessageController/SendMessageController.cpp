@@ -18,8 +18,8 @@ void SendMessageController::service(IHttpRequest* request, IHttpResponse* respon
     }
 
     sendService->SendMessage(
-        33,
-        requestJSONObject.value("Login").toString().toStdString(),
+        requestJSONObject.value("ID").toInt(),
+        requestJSONObject.value("Author").toString().toStdString(),
         content.toStdString()
     );
 }

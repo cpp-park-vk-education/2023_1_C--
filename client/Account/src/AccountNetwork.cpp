@@ -3,7 +3,7 @@
 #include "AccountData.hpp"
 
 const std::string LOGIN_URL = "login";
-const std::string SIGNUP_URL = "signup";
+const std::string SIGNUP_URL = "register";
 const std::string USER_SETTING_URL = "setting";
 const std::string LOGOUT_URL = "logout";
 

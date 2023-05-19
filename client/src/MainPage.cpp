@@ -13,8 +13,6 @@ MainPage::MainPage(QWidget *parent) :
     connect(ui->listWidget, &QListWidget::itemDoubleClicked, this, &MainPage::OnSelectRoom);
     connect(ui->searchButton, &QAbstractButton::clicked, this, &MainPage::OnSearchRoom);
     connect(ui->createButton, &QAbstractButton::clicked, this, &MainPage::OnCreateRoom);
-    connect(ui->searchButton, &QAbstractButton::clicked, ui->listWidget, &QListWidget::clear);
-    connect(ui->createButton, &QAbstractButton::clicked, ui->listWidget, &QListWidget::clear);
 }
 
 MainPage::~MainPage()
@@ -23,6 +21,7 @@ MainPage::~MainPage()
 }
 
 void MainPage::ShowRooms(const std::vector<RoomInfo>& rooms) {
+    ui->listWidget->clear();
     for(const auto room : rooms) {
         QListWidgetItem* roomWidget = new QListWidgetItem(ui->listWidget);
         roomWidget->setText(QString::fromStdString(room.name));

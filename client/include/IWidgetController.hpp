@@ -14,4 +14,3 @@ public:
     virtual void ShowRoomCreationPage() = 0;
 };
 
-using IWidgetControllerSPtr = std::shared_ptr<IWidgetController>;

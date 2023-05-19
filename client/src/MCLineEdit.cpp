@@ -1,4 +1,4 @@
-#include "MCLineEdit.hpp"
+#include "mclineedit.h"
 #include <QTextCursor>
 #include <QAbstractItemView>
 #include <QScrollBar>

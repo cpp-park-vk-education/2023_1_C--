@@ -32,6 +32,7 @@ std::vector<char> Serializer::SerializeSignupData(const SignupData& data) {
 std::vector<char> Serializer::SerializeID(const int id) {
     QJsonObject jsonObject;
     jsonObject.insert(ID_KEY, QJsonValue(id));
+    auto data = QJsonDocument(jsonObject).toJson(QJsonDocument::Compact).toStdString();
     return GetByteArray(jsonObject);
 }
 

@@ -49,6 +49,7 @@ public:
 private slots:
     void OnBackButtonClicked();
     void OnSendButtonClicked();
+    void OnAddUserButtonClicked();
     void OnGetNewMessage();
 
 private:

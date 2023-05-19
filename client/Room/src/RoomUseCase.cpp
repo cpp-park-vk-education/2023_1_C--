@@ -26,6 +26,7 @@ void RoomUseCase::GetRoomMessages(const int roomID) {
 
 void RoomUseCase::ShowMainPage(UserData&& userData) {
     userData_ = userData;
+    controller_->ShowMainPage();
     mainPage_->ShowRooms(userData.rooms);
 }
 
@@ -41,6 +42,7 @@ void RoomUseCase::OnGetNewMessageResponse(int statusCode, Message&& message) {
 
 void RoomUseCase::OnGetRoomMessagesResponse(int statusCode, std::vector<Message>&& messages) {
     if (statusCode == 200) {
+        controller_->ShowRoomPage();
         roomPage_->SetData(currentRoom, userData_.info);
         roomPage_->ShowRoomName(currentRoom.name);
         roomPage_->ShowLastMessages(std::move(messages));

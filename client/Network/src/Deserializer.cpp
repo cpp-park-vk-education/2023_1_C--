@@ -1,7 +1,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QDebug>
 #include <QString>
 #include "Deserializer.hpp"
 #include "SerializationKeys.hpp"
@@ -15,7 +14,7 @@ static QJsonObject ByteArrayToJsonObj(std::vector<char> byteArray) {
 
 static Message DeserializeMessageInternal(const QJsonObject& messageJsonObj) {
     Message message;
-    message.id = messageJsonObj[ID_KEY].toString().toInt();
+    message.id = messageJsonObj[ID_KEY].toInt();
     message.content = messageJsonObj[CONTENT_KEY].toString().toStdString();
     message.author = messageJsonObj[AUTHOR_KEY].toString().toStdString();
     message.sendingData = messageJsonObj[SENDING_DATA_KEY].toString().toStdString();
@@ -24,7 +23,7 @@ static Message DeserializeMessageInternal(const QJsonObject& messageJsonObj) {
 
 static RoomInfo DeserializeRoomInfo(const QJsonObject& roomInfoJsonObj) {
     RoomInfo roomInfo;
-    roomInfo.id = roomInfoJsonObj[ID_KEY].toString().toInt();
+    roomInfo.id = roomInfoJsonObj[ID_KEY].toInt();
     roomInfo.name = roomInfoJsonObj[NAME_KEY].toString().toStdString();
     auto membersJsonArr = roomInfoJsonObj[MEMBERS_KEY].toArray();
     std::vector<std::string> members;
@@ -39,7 +38,8 @@ static RoomInfo DeserializeRoomInfo(const QJsonObject& roomInfoJsonObj) {
 static std::vector<Message> DeserializeVectorOfMessages(const QJsonArray& messagesJsonArr) {
     std::vector<Message> messages;
     for (const auto& messageValue: messagesJsonArr) {
-        Message message = DeserializeMessageInternal(messageValue.toObject());
+        auto messageObj = messageValue.toObject();
+        Message message = DeserializeMessageInternal(messageObj[MESSAGE_KEY].toObject());
         messages.push_back(message);
     }
     return messages;
@@ -47,6 +47,7 @@ static std::vector<Message> DeserializeVectorOfMessages(const QJsonArray& messag
 
 static std::vector<RoomInfo> DeserializeVectorOfRooms(const QJsonArray& roomsJsonArr) {
     std::vector<RoomInfo> rooms;
+    auto debugData = QJsonDocument(roomsJsonArr).toJson(QJsonDocument::Compact).toStdString();
     for (const auto& roomValue: roomsJsonArr) {
         auto roomJsonObj = roomValue.toObject();
         auto roomInfo = DeserializeRoomInfo(roomJsonObj[ROOM_INFO_KEY].toObject());
@@ -84,6 +85,7 @@ Message Deserializer::DeserializeMessage(std::vector<char> byteArray) {
 
 std::vector<Message> Deserializer::DeserializeRoomMessages(std::vector<char> byteArray) {
     auto jsonObj = ByteArrayToJsonObj(byteArray);
+    auto debugData = QJsonDocument(jsonObj).toJson(QJsonDocument::Compact).toStdString();
     auto messageJsonArr = jsonObj[MESSAGES_KEY].toArray();
     return DeserializeVectorOfMessages(messageJsonArr);
 }

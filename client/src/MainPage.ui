@@ -17,10 +17,10 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="styleSheet">
-      <string notr="true">font-size:24px;</string>
+      <string notr="true"/>
      </property>
      <property name="text">
-      <string>All chats</string>
+      <string>Your rooms</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

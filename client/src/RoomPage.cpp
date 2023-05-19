@@ -1,6 +1,6 @@
 #include "RoomPage.hpp"
 #include "ui_RoomPage.h"
-#include "MCLineEdit.hpp"
+#include "mclineedit.h"
 
 RoomPage::RoomPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomPage)
@@ -8,10 +8,10 @@ RoomPage::RoomPage(QWidget *parent)
     ui->setupUi(this);
     model = new QStringListModel(this);
     list = new QStringList();
-    auto timer = new QTimer(this);
+    // auto timer = new QTimer(this);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(OnGetNewMessage()));
-    timer->start(1000);
+    // connect(timer, SIGNAL(timeout()), this, SLOT(OnGetNewMessage()));
+    // timer->start(1000);
 
     completer = new QCompleter(
         getWordList("../../client/etc/wordlist.txt"), this);
@@ -21,7 +21,12 @@ RoomPage::RoomPage(QWidget *parent)
 
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(ui->messageLineEdit, SIGNAL(returnPressed()), ui->sendBtn, SIGNAL(clicked()));
+
+    connect(ui->backBtn, &QAbstractButton::clicked, this, &RoomPage::OnBackButtonClicked);
+    connect(ui->sendBtn, &QAbstractButton::clicked, this, &RoomPage::OnSendButtonClicked);
+    connect(ui->addUserButton, &QAbstractButton::clicked, this, &RoomPage::OnAddUserButtonClicked);
 }
+
 
 RoomPage::~RoomPage()
 {
@@ -33,7 +38,6 @@ void RoomPage::OnGetNewMessage()
 {
     useCase_->GetNewMessage(roomInfo_.id);
 }
-
 
 void RoomPage::ShowRoomName(const std::string& name){
     ui->roomNameLabel->setText(QString::fromStdString(name));
@@ -62,6 +66,7 @@ void RoomPage::ShowLastMessages(const std::vector<Message>& messages){
 
 void RoomPage::OnBackButtonClicked()
 {
+    list->clear();
     controller_->ShowMainPage();
     //close thread
 }
@@ -77,22 +82,18 @@ void RoomPage::OnSendButtonClicked()
     useCase_->SendMessage(std::move(message));
 }
 
+void RoomPage::OnAddUserButtonClicked() {}
+
 QStringList RoomPage::getWordList(const QString& path)
 {
     QFile file(path);
     file.open(QIODevice::ReadOnly);
-    //if(file.isOpen())
     QTextStream in(&file);
     QStringList fields;
-
     while(!in.atEnd()) {
         QString line = in.readLine();
-        // qDebug() << line << "\n";
         fields.append(line.split(","));
     }
-
-    // qDebug() << fields;
-
     return fields;
 }
 

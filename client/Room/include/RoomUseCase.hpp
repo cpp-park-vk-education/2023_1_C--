@@ -5,6 +5,7 @@
 #include "IRoomReplyHandler.hpp"
 #include "IAccountUseCase.hpp"
 #include "IRoomNetwork.hpp"
+#include "IWidgetController.hpp"
 
 class RoomUseCase : public IRoomUseCase,
                     public IRoomReplyHandler {
@@ -35,6 +36,10 @@ public:
         accountUseCase_ = accountUseCase;
     }
 
+    void SetWidgetController(IWidgetController* controller) {
+        controller_ = controller;
+    }
+
 private:
     RoomInfo currentRoom;
     UserData userData_;
@@ -42,5 +47,6 @@ private:
     IMainPage* mainPage_;
     IAccountUseCaseSPtr accountUseCase_;
     IRoomNetworkSPtr roomNetwork_;
+    IWidgetController* controller_;
     RoomInfo FindRoomInfo(const int roomID);
 };

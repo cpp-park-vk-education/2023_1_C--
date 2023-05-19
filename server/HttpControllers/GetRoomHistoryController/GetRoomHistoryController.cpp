@@ -9,7 +9,7 @@ void GetRoomHistoryController::service(IHttpRequest* request, IHttpResponse* res
     ).object();
 
     auto messages = historyService->getMessages(
-        requestJSONObject.value("ID").toString().toInt()
+        requestJSONObject.value("ID").toInt()
     );
 
     QJsonObject responseJSONObject;
