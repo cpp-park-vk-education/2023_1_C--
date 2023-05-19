@@ -14,11 +14,14 @@ public:
     void SendMessage(Message&& message) override;
     void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID) override;
+    void AddUser(const int roomID, const std::string& login) override;
     void ShowMainPage(UserData&& userData) override;
-    void OnSendMessageResponse(int statusCode) override;
-    void OnGetNewMessageResponse(int statusCode, Message&& message) override;
-    void OnGetRoomMessagesResponse(int statusCode, std::vector<Message>&& messages) override;
-    void OnCreateRoomResponse(int statusCode, RoomInfo&& roomInfo) override;
+    void OnSendMessageResponse(const int statusCode) override;
+    void OnGetNewMessageResponse(const int statusCode, Message&& message) override;
+    void OnGetRoomMessagesResponse(const int statusCode, std::vector<Message>&& messages) override;
+    void OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo) override;
+    void OnAddUserResponse(const int statusCode, UserInfo&& userInfo) override;
+
 
     void SetRoomNetwork(IRoomNetworkSPtr roomNetwork) {
         roomNetwork_ = roomNetwork;
@@ -41,7 +44,9 @@ public:
     }
 
 private:
-    RoomInfo currentRoom;
+    RoomInfo room;
+    Message tempMessage;
+    std::vector<Message> roomMessages;
     UserData userData_;
     IRoomPage* roomPage_;
     IMainPage* mainPage_;

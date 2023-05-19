@@ -9,7 +9,7 @@ void GetNewMessageController::service(IHttpRequest* request, IHttpResponse* resp
     ).object();
 
     auto msg = getMessageService->getNewMessage(
-        requestJSONObject.value("ID").toString().toInt()
+        requestJSONObject.value("ID").toInt()
     );
 
     QJsonObject responseJSONObject;

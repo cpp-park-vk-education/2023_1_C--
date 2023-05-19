@@ -10,6 +10,7 @@ public:
     virtual void SendMessage(Message&& message) = 0;
     virtual void GetNewMessage(const int roomID) = 0;
     virtual void GetRoomMessages(const int roomID) = 0;
+    virtual void AddUser(const int roomID, const std::string& login) = 0;
     virtual void ShowMainPage(UserData&& userData) = 0;
 };
 

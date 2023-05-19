@@ -8,4 +8,6 @@ public:
     std::vector<char> SerializeID(const int id) override;
     std::vector<char> SerializeMessage(const Message& data) override;
     std::vector<char> SerializeRoomInfo(const RoomInfo& data) override;
+    std::vector<char> SerializeJoiningUser(const int roomID,
+                                                       const std::string& login) override;
 };

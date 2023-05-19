@@ -4,6 +4,7 @@ inline const char* NICKNAME_KEY = "Username";
 inline const char* FIRSTNAME_KEY = "Firstname";
 inline const char* LASTNAME_KEY = "Lastname";
 inline const char* ID_KEY = "ID";
+inline const char* ROOM_ID_KEY = "RoomID";
 inline const char* CONTENT_KEY = "Content";
 inline const char* AUTHOR_KEY = "Author";
 inline const char* SENDING_DATA_KEY = "SendingData";

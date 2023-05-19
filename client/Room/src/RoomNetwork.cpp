@@ -5,6 +5,7 @@ const std::string SEND_MESSAGE_URL = "/send";
 const std::string CREATE_ROOM_URL = "/create";
 const std::string GET_ROOM_MESSAGES_URL = "/history";
 const std::string GET_MESSAGE_URL = "/getmsg";
+const std::string JOIN_URL = "/join";
 
 RoomNetwork::RoomNetwork() {
     createRoomCallback = Callback (
@@ -30,6 +31,13 @@ RoomNetwork::RoomNetwork() {
            return this->OnGetRoomMessagesResponse(std::move(response)); 
         }
     );
+
+    addUserCallback = Callback (
+        [this](IResponseUPtr response) {
+           return this->OnAddUserResponse(std::move(response)); 
+        }
+    );
+
 }
 
 void RoomNetwork::CreateRoom(const RoomInfo& roomInfo) {
@@ -53,6 +61,12 @@ void RoomNetwork::GetRoomMessages(const int roomID) {
     auto request = CreateRequest(GET_ROOM_MESSAGES_URL);
     auto byteArray = serializer_->SerializeID(roomID);
     networkManager_->Post(request, GetQByteArray(byteArray), getRoomMessagesCallback); // Get()
+}
+
+void RoomNetwork::AddUser(const int roomID, const std::string& login) {
+    auto request = CreateRequest(JOIN_URL);
+    auto byteArray = serializer_->SerializeJoiningUser(roomID, login);
+    networkManager_->Post(request, GetQByteArray(byteArray), addUserCallback); 
 }
 
 void RoomNetwork::OnCreateRoomResponse(IResponseUPtr response) {
@@ -87,4 +101,8 @@ void RoomNetwork::OnGetRoomMessagesResponse(IResponseUPtr response) {
     } else {
         replyHandler_->OnGetRoomMessagesResponse(statusCode, std::vector<Message>{});
     }
+}
+
+void RoomNetwork::OnAddUserResponse(IResponseUPtr response) {
+    // replyHandler_->OnAddUserResponse(response->GetStatus());
 }

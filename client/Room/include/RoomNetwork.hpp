@@ -13,6 +13,7 @@ public:
     void CreateRoom(const RoomInfo& roomInfo) override;
     void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID) override;
+    void AddUser(const int roomID, const std::string& login) override;
     
     void SetNetworkManager(INetworkManagerSPtr networkManager) {
         networkManager_ = networkManager;
@@ -39,8 +40,10 @@ private:
     Callback sendMessageCallback;
     Callback getNewMessageCallback;
     Callback getRoomMessagesCallback;
+    Callback addUserCallback;
     void OnSendMessageResponse(IResponseUPtr response);
     void OnGetNewMessageResponse(IResponseUPtr response);
     void OnGetRoomMessagesResponse(IResponseUPtr response);
     void OnCreateRoomResponse(IResponseUPtr response);
+    void OnAddUserResponse(IResponseUPtr response);
 };

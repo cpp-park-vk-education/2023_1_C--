@@ -26,8 +26,9 @@ public:
     ~RoomPage();
 
     void ShowSentMessage() override;
-    // void ShowRoomInfo(const RoomInfo& roomInfo) override;
-    void ShowRoomName(const std::string& name) override;
+    void ShowAddedUser(const std::string& nickname) override;
+    void ShowRoomInfo(const RoomInfo& roomInfo) override;
+    // void ShowRoomName(const std::string& name) override;
     void ShowLastMessages(const std::vector<Message>& messages) override;
     // void ShowOldMessages(const std::vector<Message>& messages) override;
     void ShowNewMessage(const Message& message) override;
@@ -54,6 +55,7 @@ private slots:
 
 private:
     QString tempContent;
+    QString tempNickname;
 
     UserInfo userInfo_;
     RoomInfo roomInfo_;
@@ -62,8 +64,11 @@ private:
     IRoomUseCaseSPtr useCase_;
     IWidgetController* controller_;
 
-    QStringListModel *model;
-    QStringList *list;
+    QStringListModel *messagesListModel;
+    QStringList *messagesList;
+    QStringListModel *membersListModel;
+    QStringList *membersList;
     QCompleter *completer;
     QStringList getWordList(const QString& path);
+    // QString FindUserNickName(const std::string& login);
 };

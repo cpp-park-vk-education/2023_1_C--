@@ -12,6 +12,7 @@ public:
     virtual std::vector<char> SerializeID(const int id) = 0;
     virtual std::vector<char> SerializeMessage(const Message& data) = 0;
     virtual std::vector<char> SerializeRoomInfo(const RoomInfo& data) = 0;
+    virtual std::vector<char> SerializeJoiningUser(const int roomID, const std::string& login) = 0;
 };
 
 using ISerializerSPtr = std::shared_ptr<ISerializer>;

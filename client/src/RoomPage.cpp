@@ -6,12 +6,16 @@ RoomPage::RoomPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomPage)
 {
     ui->setupUi(this);
-    model = new QStringListModel(this);
-    list = new QStringList();
-    // auto timer = new QTimer(this);
+    messagesListModel = new QStringListModel(this);
+    messagesList = new QStringList();
 
-    // connect(timer, SIGNAL(timeout()), this, SLOT(OnGetNewMessage()));
-    // timer->start(1000);
+    membersListModel = new QStringListModel(this);
+    membersList = new QStringList();
+
+    auto timer = new QTimer(this);
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(OnGetNewMessage()));
+    timer->start(2500);
 
     completer = new QCompleter(
         getWordList("../../client/etc/wordlist.txt"), this);
@@ -27,11 +31,11 @@ RoomPage::RoomPage(QWidget *parent)
     connect(ui->addUserButton, &QAbstractButton::clicked, this, &RoomPage::OnAddUserButtonClicked);
 }
 
-
 RoomPage::~RoomPage()
 {
     delete ui;
-    delete list;
+    delete messagesList;
+    delete membersList;
 }
 
 void RoomPage::OnGetNewMessage()
@@ -39,34 +43,53 @@ void RoomPage::OnGetNewMessage()
     useCase_->GetNewMessage(roomInfo_.id);
 }
 
-void RoomPage::ShowRoomName(const std::string& name){
-    ui->roomNameLabel->setText(QString::fromStdString(name));
+// QString RoomPage::FindUserNickName(const std::string& login) {
+//     QString nickname;
+//     for (const auto member : roomInfo_.members)
+//         if (member.login == login)
+// }
+
+void RoomPage::ShowRoomInfo(const RoomInfo& roomInfo) {
+    roomInfo_ = roomInfo;
+    ui->roomNameLabel->setText(QString::fromStdString(roomInfo.name));
+    for (const auto member : roomInfo.members) {
+        membersList->append(QString::fromStdString(member));
+        membersListModel->setStringList(*membersList);
+        ui->members->setModel(membersListModel);
+    }
 }
 
 void RoomPage::ShowSentMessage() {
-    list->append(QString::fromStdString("You: ") + tempContent);
-    model->setStringList(*list);
-    ui->listView->setModel(model);
+    messagesList->append(QString::fromStdString("You: ") + tempContent);
+    messagesListModel->setStringList(*messagesList);
+    ui->listView->setModel(messagesListModel);
+}
+
+void RoomPage::ShowAddedUser(const std::string& nickname) {
+    membersList->append(QString::fromStdString(nickname));
+    membersListModel->setStringList(*messagesList);
+    ui->members->setModel(messagesListModel);
 }
 
 void RoomPage::ShowNewMessage(const Message& message) {
-    list->append(QString::fromStdString(message.author) + tempContent);
-    model->setStringList(*list);
-    ui->listView->setModel(model);
+    messagesList->append(QString::fromStdString(message.author + ": " + message.content));
+    messagesListModel->setStringList(*messagesList);
+    ui->listView->setModel(messagesListModel);
 }
 
-void RoomPage::ShowLastMessages(const std::vector<Message>& messages){
+void RoomPage::ShowLastMessages(const std::vector<Message>& messages) {
     for (const auto message : messages) {
-        std::string messageAuthor = (message.author == userInfo_.login) ? "You" : message.author;
-        list->append(QString::fromStdString(messageAuthor + ": " + message.content));
-        model->setStringList(*list);
-        ui->listView->setModel(model);
+        auto messageAuthor = (message.author == userInfo_.login) ? "You" : message.author;
+        messagesList->append(QString::fromStdString(messageAuthor + ": " + message.content));
+        messagesListModel->setStringList(*messagesList);
+        ui->listView->setModel(messagesListModel);
     }
 }
 
 void RoomPage::OnBackButtonClicked()
 {
-    list->clear();
+    messagesList->clear();
+    membersList->clear();
     controller_->ShowMainPage();
     //close thread
 }
@@ -82,7 +105,16 @@ void RoomPage::OnSendButtonClicked()
     useCase_->SendMessage(std::move(message));
 }
 
-void RoomPage::OnAddUserButtonClicked() {}
+void RoomPage::OnAddUserButtonClicked() {
+    auto login = ui->userLineEdit->text();
+    if (login.isEmpty())
+        ui->errorLabel->setText("Specify user login");
+    useCase_->AddUser(
+        roomInfo_.id, login.toStdString()
+    );
+    ui->userLineEdit->setText("");
+    ui->errorLabel->setText("");
+}
 
 QStringList RoomPage::getWordList(const QString& path)
 {

@@ -80,7 +80,8 @@ RoomInfo Deserializer::DeserializeCreateRoomResponse(std::vector<char> byteArray
 }
 
 Message Deserializer::DeserializeMessage(std::vector<char> byteArray) {
-    return DeserializeMessageInternal(ByteArrayToJsonObj(byteArray));
+    auto responseJsonObj = ByteArrayToJsonObj(byteArray);
+    return DeserializeMessageInternal(responseJsonObj[MESSAGE_KEY].toObject());
 }
 
 std::vector<Message> Deserializer::DeserializeRoomMessages(std::vector<char> byteArray) {
