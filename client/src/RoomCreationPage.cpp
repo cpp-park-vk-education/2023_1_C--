@@ -40,9 +40,7 @@ void RoomCreationPage::OnCreateRoomButtonClicked() {
         ui->errorLabel->setText("Add user to room");
         return;
     }
-
-    RoomInfo roomInfo;
-    roomInfo.name = ui->name->text().toStdString();
-    roomInfo.members = members;
-    roomUseCase_->CreateRoom(std::move(roomInfo));
+    
+    auto name = ui->name->text().toStdString();
+    roomUseCase_->CreateRoom(std::move(name), std::move(members));
 }

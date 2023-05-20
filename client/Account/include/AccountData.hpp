@@ -5,6 +5,8 @@
 #include <memory>
 #include "RoomData.hpp"
 
+struct RoomInfo;
+
 struct UserInfo {
     std::string login;
     std::string nickname;

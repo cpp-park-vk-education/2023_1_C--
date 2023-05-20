@@ -40,9 +40,13 @@ RoomNetwork::RoomNetwork() {
 
 }
 
-void RoomNetwork::CreateRoom(const RoomInfo& roomInfo) {
+void RoomNetwork::CreateRoom(std::string&& name, 
+                             std::vector<std::string>&& members) 
+{
     auto request = CreateRequest(CREATE_ROOM_URL);
-    auto byteArray = serializer_->SerializeRoomInfo(roomInfo);
+    auto byteArray = serializer_->SerializeRoomCreation(
+        std::move(name), std::move(members)
+    );
     networkManager_->Post(request, GetQByteArray(byteArray), createRoomCallback);
 }
 

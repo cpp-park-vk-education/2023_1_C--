@@ -10,7 +10,8 @@
 class RoomUseCase : public IRoomUseCase,
                     public IRoomReplyHandler {
 public:
-    void CreateRoom(RoomInfo&& roomInfo) override;
+    void CreateRoom(std::string&& name,
+                    std::vector<std::string>&& members) override;
     void SendMessage(Message&& message) override;
     void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID) override;

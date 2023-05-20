@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "AccountData.hpp"
+
+struct UserInfo;
 
 struct RoomInfo {
     int id;
     std::string name;
-    std::vector<std::string> members;
+    std::vector<UserInfo> members;
 
     RoomInfo() {}
 

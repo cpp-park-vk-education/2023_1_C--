@@ -5,7 +5,8 @@
 class IRoomNetwork {
 public:
     virtual ~IRoomNetwork() {}
-    virtual void CreateRoom(const RoomInfo& roomInfo) = 0;
+    virtual void CreateRoom(std::string&& name, 
+                            std::vector<std::string>&& members) = 0;
     virtual void SendMessage(const Message& message) = 0;
     virtual void GetNewMessage(const int roomID) = 0;
     virtual void GetRoomMessages(const int roomID) = 0;

@@ -2,6 +2,9 @@
 #include "ui_RoomPage.h"
 #include "mclineedit.h"
 
+const QString MESSAGE_DELIMITER = ": ";
+const QString YOUR_NAME = "You";
+
 RoomPage::RoomPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomPage)
 {
@@ -43,24 +46,25 @@ void RoomPage::OnGetNewMessage()
     useCase_->GetNewMessage(roomInfo_.id);
 }
 
-// QString RoomPage::FindUserNickName(const std::string& login) {
-//     QString nickname;
-//     for (const auto member : roomInfo_.members)
-//         if (member.login == login)
-// }
+QString RoomPage::getUserNickname(const std::string& login) {
+    QString nickname;
+    for (const auto member : roomInfo_.members)
+        if (member.login == login)
+            return QString::fromStdString(member.nickname);
+}
 
 void RoomPage::ShowRoomInfo(const RoomInfo& roomInfo) {
     roomInfo_ = roomInfo;
     ui->roomNameLabel->setText(QString::fromStdString(roomInfo.name));
     for (const auto member : roomInfo.members) {
-        membersList->append(QString::fromStdString(member));
+        membersList->append(QString::fromStdString(member.nickname));
         membersListModel->setStringList(*membersList);
         ui->members->setModel(membersListModel);
     }
 }
 
 void RoomPage::ShowSentMessage() {
-    messagesList->append(QString::fromStdString("You: ") + tempContent);
+    messagesList->append(YOUR_NAME + MESSAGE_DELIMITER + tempContent);
     messagesListModel->setStringList(*messagesList);
     ui->listView->setModel(messagesListModel);
 }
@@ -72,15 +76,24 @@ void RoomPage::ShowAddedUser(const std::string& nickname) {
 }
 
 void RoomPage::ShowNewMessage(const Message& message) {
-    messagesList->append(QString::fromStdString(message.author + ": " + message.content));
+    auto nickname = getUserNickname(message.author);
+    auto content = QString::fromStdString(message.content);
+    messagesList->append(nickname + MESSAGE_DELIMITER + content);
     messagesListModel->setStringList(*messagesList);
     ui->listView->setModel(messagesListModel);
 }
 
 void RoomPage::ShowLastMessages(const std::vector<Message>& messages) {
     for (const auto message : messages) {
-        auto messageAuthor = (message.author == userInfo_.login) ? "You" : message.author;
-        messagesList->append(QString::fromStdString(messageAuthor + ": " + message.content));
+        QString nickname;
+
+        if (message.author == userInfo_.login)
+            nickname = YOUR_NAME;
+        else 
+            nickname = getUserNickname(message.author);
+        
+        auto content = QString::fromStdString(message.content);
+        messagesList->append(nickname + MESSAGE_DELIMITER + content);
         messagesListModel->setStringList(*messagesList);
         ui->listView->setModel(messagesListModel);
     }

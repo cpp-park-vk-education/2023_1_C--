@@ -6,7 +6,8 @@
 class IRoomUseCase {
 public:
     virtual ~IRoomUseCase() {}
-    virtual void CreateRoom(RoomInfo&& roomInfo) = 0;
+    virtual void CreateRoom(std::string&& name,
+                            std::vector<std::string>&& members) = 0;
     virtual void SendMessage(Message&& message) = 0;
     virtual void GetNewMessage(const int roomID) = 0;
     virtual void GetRoomMessages(const int roomID) = 0;

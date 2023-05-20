@@ -70,5 +70,5 @@ private:
     QStringList *membersList;
     QCompleter *completer;
     QStringList getWordList(const QString& path);
-    // QString FindUserNickName(const std::string& login);
+    QString getUserNickname(const std::string& login);
 };

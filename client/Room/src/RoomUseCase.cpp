@@ -12,8 +12,10 @@ void RoomUseCase::SendMessage(Message&& message) {
     roomNetwork_->SendMessage(message);
 }
 
-void RoomUseCase::CreateRoom(RoomInfo&& roomInfo) {
-    roomNetwork_->CreateRoom(roomInfo); 
+void RoomUseCase::CreateRoom(std::string&& name,
+                             std::vector<std::string>&& members) 
+{
+    roomNetwork_->CreateRoom(std::move(name), std::move(members));
 }
 
 void RoomUseCase::GetNewMessage(const int roomID) {

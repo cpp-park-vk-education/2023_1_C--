@@ -45,13 +45,14 @@ std::vector<char> Serializer::SerializeMessage(const Message& data) {
     return GetByteArray(jsonObject);
 }
 
-std::vector<char> Serializer::SerializeRoomInfo(const RoomInfo& data) {
+std::vector<char> Serializer::SerializeRoomCreation(std::string&& name,
+                                                    std::vector<std::string>&& members) {
     QJsonObject jsonObject;
-    jsonObject.insert(NAME_KEY, QJsonValue(QString::fromStdString(data.name)));
-    QJsonArray members;
-    for (const auto member : data.members)
-        members.append(QJsonValue(QString::fromStdString(member)));
-    jsonObject.insert(MEMBERS_KEY, members);
+    jsonObject.insert(NAME_KEY, QJsonValue(QString::fromStdString(name)));
+    QJsonArray membersJsonArray;
+    for (const auto memberLogin : members)
+        membersJsonArray.append(QJsonValue(QString::fromStdString(memberLogin)));
+    jsonObject.insert(MEMBERS_KEY, membersJsonArray);
     return GetByteArray(jsonObject); 
 }
 
