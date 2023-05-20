@@ -15,7 +15,7 @@ RoomPage::RoomPage(QWidget *parent)
     auto timer = new QTimer(this);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(OnGetNewMessage()));
-    timer->start(2500);
+    timer->start(1000);
 
     completer = new QCompleter(
         getWordList("../../client/etc/wordlist.txt"), this);

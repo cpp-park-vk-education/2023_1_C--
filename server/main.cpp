@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
     map.insert(
         std::make_pair("/join", std::make_unique<JoinRoomController>(
-            std::make_unique<JoinRoomService>(roomDb)
+            std::make_unique<JoinRoomService>(clientDb, roomDb)
         ))
     );
 
