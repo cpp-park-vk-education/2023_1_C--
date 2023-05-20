@@ -69,8 +69,9 @@ void RoomPage::ShowSentMessage() {
     ui->listView->setModel(messagesListModel);
 }
 
-void RoomPage::ShowAddedUser(const std::string& nickname) {
-    membersList->append(QString::fromStdString(nickname));
+void RoomPage::ShowAddedUser(const UserInfo& info) {
+    roomInfo_.members.push_back(info);
+    membersList->append(QString::fromStdString(info.nickname));
     membersListModel->setStringList(*messagesList);
     ui->members->setModel(messagesListModel);
 }

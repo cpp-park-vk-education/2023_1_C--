@@ -26,7 +26,7 @@ public:
     ~RoomPage();
 
     void ShowSentMessage() override;
-    void ShowAddedUser(const std::string& nickname) override;
+    void ShowAddedUser(const UserInfo& info) override;
     void ShowRoomInfo(const RoomInfo& roomInfo) override;
     // void ShowRoomName(const std::string& name) override;
     void ShowLastMessages(const std::vector<Message>& messages) override;

@@ -8,7 +8,7 @@ class IRoomPage {
 public:
     virtual ~IRoomPage() {}
     virtual void ShowSentMessage() = 0;
-    virtual void ShowAddedUser(const std::string& nickname) = 0;
+    virtual void ShowAddedUser(const UserInfo& info) = 0;
     virtual void ShowRoomInfo(const RoomInfo& roomInfo) = 0;
     // virtual void ShowRoomName(const std::string& name) = 0;
     virtual void ShowLastMessages(const std::vector<Message>& messages) = 0;

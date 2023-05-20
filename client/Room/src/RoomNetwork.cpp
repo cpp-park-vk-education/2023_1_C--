@@ -108,5 +108,11 @@ void RoomNetwork::OnGetRoomMessagesResponse(IResponseUPtr response) {
 }
 
 void RoomNetwork::OnAddUserResponse(IResponseUPtr response) {
-    // replyHandler_->OnAddUserResponse(response->GetStatus());
+    auto statusCode = response->GetStatus();
+    if (statusCode == 200) {
+        auto data = deserializer_->DeserializeUserInfo(response->GetBody());    
+        replyHandler_->OnAddUserResponse(200, std::move(data));
+    } else {
+        replyHandler_->OnAddUserResponse(statusCode, UserInfo{});
+    }
 }

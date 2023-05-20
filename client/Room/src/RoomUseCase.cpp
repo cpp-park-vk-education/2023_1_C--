@@ -7,6 +7,15 @@ RoomInfo RoomUseCase::FindRoomInfo(const int roomID) {
     return RoomInfo{};
 }
 
+void RoomUseCase::AddUserIntoRoom(UserInfo&& userInfo) {
+    const auto roomID = room.id;
+    for (auto room : userData_.rooms)
+        if (room.id == roomID) {
+            room.members.push_back(userInfo);
+            return;
+        }
+}
+
 void RoomUseCase::SendMessage(Message&& message) {
     tempMessage = message;
     roomNetwork_->SendMessage(message);
@@ -72,7 +81,10 @@ void RoomUseCase::OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo
 }
 
 void RoomUseCase::OnAddUserResponse(const int statusCode, UserInfo&& userInfo) {
-    // if (statusCode == 200)
-    //     roomPage_->ShowAddedUser();
+    if (statusCode == 200) {
+        roomPage_->ShowAddedUser(userInfo);
+        AddUserIntoRoom(std::move(userInfo));
+    }
+        
 }
 

@@ -55,4 +55,5 @@ private:
     IRoomNetworkSPtr roomNetwork_;
     IWidgetController* controller_;
     RoomInfo FindRoomInfo(const int roomID);
+    void AddUserIntoRoom(UserInfo&& userInfo);
 };
