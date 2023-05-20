@@ -41,12 +41,10 @@ void CreateRoomController::service(IHttpRequest* request, IHttpResponse* respons
 
     QJsonObject roomInfo;
 
-    roomInfo.insert("RoomInfo", QJsonValue({
+    responseJSONObject.insert("RoomInfo", QJsonValue({
         qMakePair(QString::fromStdString("ID"), QJsonValue(room.ID)),
         qMakePair(QString::fromStdString("Name"), QJsonValue(room.name))
         }));
-
-    responseJSONObject.insert("Room", roomInfo);
 
     response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
 
