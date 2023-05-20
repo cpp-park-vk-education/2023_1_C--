@@ -9,8 +9,8 @@ bool CreateRoomService::isClientExists(const std::string& login)
     
     return true;
 }
-#include <iostream>
-void CreateRoomService::CreateRoomWithUsers(const std::vector<std::string>& logins, const std::string roomName)
+
+Room CreateRoomService::CreateRoomWithUsers(const std::vector<std::string>& logins, const std::string roomName)
 {
     auto it = logins.begin();
 
@@ -20,4 +20,18 @@ void CreateRoomService::CreateRoomWithUsers(const std::vector<std::string>& logi
     {
         roomManager->addClientToRoom(room.ID, QString::fromStdString(*it));
     }
+
+    return room;
+}
+
+std::vector<Client> CreateRoomService::getClientsByLogin(const std::vector<std::string>& logins)
+{
+    std::vector<Client> clients;
+
+    for (const auto& login : logins)
+        clients.push_back(
+            clientManager->getClient(QString::fromStdString(login))
+        );
+
+    return clients;
 }

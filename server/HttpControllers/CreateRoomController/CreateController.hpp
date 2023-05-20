@@ -21,9 +21,7 @@ public:
 
 private:
 
-    void fillJsonClient(QJsonObject& json,const Client& client);
-
-    void fillJsonRooms(QJsonObject& json,const QVector<Room>& rooms);
+    void fillJsonClients(QJsonObject& json, const std::vector<Client>& clients);
     
     std::unique_ptr<CreateRoomService> createService;
 };
