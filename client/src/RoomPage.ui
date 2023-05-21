@@ -19,6 +19,12 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="1">
     <widget class="QPushButton" name="sendBtn">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>100</width>
@@ -32,6 +38,12 @@
    </item>
    <item row="0" column="0" colspan="2">
     <widget class="QPushButton" name="backBtn">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>100</width>
@@ -45,6 +57,12 @@
    </item>
    <item row="1" column="2">
     <widget class="QScrollArea" name="scrollArea_2">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>200</width>
@@ -59,7 +77,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>198</width>
+        <width>254</width>
         <height>398</height>
        </rect>
       </property>
@@ -85,13 +103,23 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="addUserButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
             <string>Add user</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="userLineEdit"/>
+          <widget class="QLineEdit" name="userLineEdit">
+           <property name="placeholderText">
+            <string>Enter user login</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -116,7 +144,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>574</width>
+        <width>518</width>
         <height>398</height>
        </rect>
       </property>

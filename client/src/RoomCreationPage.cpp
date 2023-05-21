@@ -27,6 +27,7 @@ void RoomCreationPage::OnAddUserButtonClicked() {
 }
 
 void RoomCreationPage::OnBackButtonClicked() {
+    ClearForm();
     controller_->ShowMainPage();
 }
 
@@ -43,4 +44,12 @@ void RoomCreationPage::OnCreateRoomButtonClicked() {
     
     auto name = ui->name->text().toStdString();
     roomUseCase_->CreateRoom(std::move(name), std::move(members));
+    ClearForm();
+}
+
+void RoomCreationPage::ClearForm() {
+    members.clear();
+    ui->members->clear();
+    ui->name->setText("");
+    ui->username->setText("");
 }

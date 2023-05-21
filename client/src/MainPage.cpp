@@ -22,7 +22,7 @@ MainPage::~MainPage()
 
 void MainPage::ShowRooms(const std::vector<RoomInfo>& rooms) {
     ui->listWidget->clear();
-    for(const auto room : rooms) {
+    for(const auto& room : rooms) {
         QListWidgetItem* roomWidget = new QListWidgetItem(ui->listWidget);
         roomWidget->setText(QString::fromStdString(room.name));
         roomWidget->setData(ROOM_ID_ROLE, room.id);

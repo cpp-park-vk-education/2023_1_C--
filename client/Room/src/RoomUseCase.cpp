@@ -1,7 +1,7 @@
 #include "RoomUseCase.hpp"
 
 RoomInfo RoomUseCase::FindRoomInfo(const int roomID) {
-    for (const auto room : userData_.rooms)
+    for (const auto& room : userData_.rooms)
         if (room.id == roomID)
             return room;
     return RoomInfo{};
@@ -9,7 +9,7 @@ RoomInfo RoomUseCase::FindRoomInfo(const int roomID) {
 
 void RoomUseCase::AddUserIntoRoom(UserInfo&& userInfo) {
     const auto roomID = room.id;
-    for (auto room : userData_.rooms)
+    for (auto& room : userData_.rooms)
         if (room.id == roomID) {
             room.members.push_back(userInfo);
             return;
@@ -56,7 +56,7 @@ void RoomUseCase::OnSendMessageResponse(const int statusCode) {
 void RoomUseCase::OnGetNewMessageResponse(const int statusCode, Message&& message) {
     if (statusCode == 200 && !message.content.empty() &&
         message.author != userData_.info.login &&
-        message.id != roomMessages.back().id) 
+        (roomMessages.empty() || message.id != roomMessages.back().id)) 
     {
         roomMessages.push_back(message);
         roomPage_->ShowNewMessage(std::move(message));
@@ -67,9 +67,9 @@ void RoomUseCase::OnGetRoomMessagesResponse(const int statusCode, std::vector<Me
     if (statusCode == 200) {
         roomMessages = messages;
         controller_->ShowRoomPage();
-        roomPage_->SetData(room, userData_.info);
+        roomPage_->SetUserInfo(userData_.info);
         roomPage_->ShowRoomInfo(room);
-        roomPage_->ShowLastMessages(std::move(messages));
+        roomPage_->ShowLastMessages(messages);
     }
 }
 
@@ -77,6 +77,9 @@ void RoomUseCase::OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo
     if (statusCode == 200) {
         userData_.rooms.push_back(roomInfo);
         roomPage_->ShowRoomInfo(roomInfo);
+        roomPage_->SetUserInfo(userData_.info);
+        mainPage_->ShowRooms(userData_.rooms); // Add new room on main page
+        controller_->ShowRoomPage();
     }
 }
 

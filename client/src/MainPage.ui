@@ -47,6 +47,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="searchButton">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Search a room</string>
        </property>
@@ -54,6 +60,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="createButton">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Create a room</string>
        </property>

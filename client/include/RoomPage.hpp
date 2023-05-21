@@ -41,9 +41,7 @@ public:
         controller_ = controller;
     }
 
-    void SetData(const RoomInfo& roomInfo, 
-                 const UserInfo& userInfo) override {
-        roomInfo_ = roomInfo;
+    void SetUserInfo(const UserInfo& userInfo) override {
         userInfo_ = userInfo;
     }
 
@@ -57,13 +55,14 @@ private:
     QString tempContent;
     QString tempNickname;
 
-    UserInfo userInfo_;
-    RoomInfo roomInfo_;
+    UserInfo userInfo_; //
+    RoomInfo roomInfo_; 
 
     Ui::RoomPage *ui;
     IRoomUseCaseSPtr useCase_;
     IWidgetController* controller_;
 
+    QTimer* timer_;
     QStringListModel *messagesListModel;
     QStringList *messagesList;
     QStringListModel *membersListModel;

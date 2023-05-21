@@ -41,10 +41,9 @@ void CreateRoomController::service(IHttpRequest* request, IHttpResponse* respons
 
     QJsonObject roomInfo;
 
-    responseJSONObject.insert("RoomInfo", QJsonValue({
-        qMakePair(QString::fromStdString("ID"), QJsonValue(room.ID)),
-        qMakePair(QString::fromStdString("Name"), QJsonValue(room.name))
-        }));
+
+    responseJSONObject.insert("ID", QJsonValue(room.ID));
+    responseJSONObject.insert("Name", QJsonValue(room.name));
 
     response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
 
@@ -58,7 +57,7 @@ void CreateRoomController::fillJsonClients(QJsonObject& json, const std::vector<
         members.append(
             QJsonObject({
                 qMakePair(QString::fromStdString("Login"), QJsonValue(member.login)),
-                qMakePair(QString::fromStdString("Username"), QJsonValue(member.username)),
+                qMakePair(QString::fromStdString("Nickname"), QJsonValue(member.username)),
                 qMakePair(QString::fromStdString("Firstname"), QJsonValue(member.firstName)),
                 qMakePair(QString::fromStdString("Lastname"), QJsonValue(member.lastName))
             })

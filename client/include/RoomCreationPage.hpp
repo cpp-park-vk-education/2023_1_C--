@@ -39,6 +39,7 @@ private:
     std::vector<std::string> members;
     IWidgetController* controller_;
     IRoomUseCaseSPtr roomUseCase_;
+    void ClearForm();
 };
 
 #endif // ROOMCREATIONPAGE_HPP

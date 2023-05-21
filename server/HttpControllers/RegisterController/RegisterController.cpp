@@ -11,7 +11,7 @@ void RegisterController::service(IHttpRequest* request, IHttpResponse* response)
 
     auto login = requestJSONObject.value("Login").toString();
     auto password = requestJSONObject.value("Password").toString();
-    auto username = requestJSONObject.value("Username").toString();
+    auto username = requestJSONObject.value("Nickname").toString();
 
     if (!checkArgs(login, password, username))
     {

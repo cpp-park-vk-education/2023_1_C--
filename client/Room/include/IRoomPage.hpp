@@ -14,7 +14,7 @@ public:
     virtual void ShowLastMessages(const std::vector<Message>& messages) = 0;
     // virtual void ShowOldMessages(const std::vector<Message>& messages) = 0;
     virtual void ShowNewMessage(const Message& message) = 0;
-    virtual void SetData(const RoomInfo& roomInfo, const UserInfo& userInfo) = 0; 
+    virtual void SetUserInfo(const UserInfo& userInfo) = 0; 
 };
 
 using IRoomPageSPtr = std::shared_ptr<IRoomPage>;

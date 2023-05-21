@@ -24,7 +24,11 @@
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="5" column="1">
-      <widget class="QLineEdit" name="repeatedPasswordLineEdit"/>
+      <widget class="QLineEdit" name="repeatedPasswordLineEdit">
+       <property name="placeholderText">
+        <string>Repeat your password</string>
+       </property>
+      </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
@@ -34,10 +38,21 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="passwordLineEdit"/>
+      <widget class="QLineEdit" name="passwordLineEdit">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+       <property name="placeholderText">
+        <string>Enter your password</string>
+       </property>
+      </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="firstnameLineEdit"/>
+      <widget class="QLineEdit" name="firstnameLineEdit">
+       <property name="placeholderText">
+        <string>Enter your first name</string>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
@@ -61,7 +76,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="nicknameLineEdit"/>
+      <widget class="QLineEdit" name="nicknameLineEdit">
+       <property name="placeholderText">
+        <string>Enter your nikcname</string>
+       </property>
+      </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_3">
@@ -71,10 +90,21 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="lastnameLineEdit"/>
+      <widget class="QLineEdit" name="lastnameLineEdit">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+       <property name="placeholderText">
+        <string>Enter your last name</string>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="loginLineEdit"/>
+      <widget class="QLineEdit" name="loginLineEdit">
+       <property name="placeholderText">
+        <string>Enter your login</string>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
@@ -85,6 +115,12 @@
      </item>
      <item row="6" column="0">
       <widget class="QPushButton" name="submitButton">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Submit</string>
        </property>

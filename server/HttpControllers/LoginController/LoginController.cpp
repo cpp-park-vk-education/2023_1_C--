@@ -67,7 +67,7 @@ void LoginController::fillJsonRooms(QJsonObject& json, const QVector<Room>& room
             members.append(
                 QJsonObject({
                     qMakePair(QString::fromStdString("Login"), QJsonValue(member.login)),
-                    qMakePair(QString::fromStdString("Username"), QJsonValue(member.username)),
+                    qMakePair(QString::fromStdString("Nickname"), QJsonValue(member.username)),
                     qMakePair(QString::fromStdString("Firstname"), QJsonValue(member.firstName)),
                     qMakePair(QString::fromStdString("Lastname"), QJsonValue(member.lastName))
                 })

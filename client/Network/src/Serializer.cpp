@@ -48,9 +48,9 @@ std::vector<char> Serializer::SerializeMessage(const Message& data) {
 std::vector<char> Serializer::SerializeRoomCreation(std::string&& name,
                                                     std::vector<std::string>&& members) {
     QJsonObject jsonObject;
-    jsonObject.insert(NAME_KEY, QJsonValue(QString::fromStdString(name)));
+    jsonObject.insert(ROOM_NAME_KEY, QJsonValue(QString::fromStdString(name)));
     QJsonArray membersJsonArray;
-    for (const auto memberLogin : members)
+    for (const auto& memberLogin : members)
         membersJsonArray.append(QJsonValue(QString::fromStdString(memberLogin)));
     jsonObject.insert(MEMBERS_KEY, membersJsonArray);
     return GetByteArray(jsonObject); 
