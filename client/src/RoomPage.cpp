@@ -15,8 +15,13 @@ RoomPage::RoomPage(QWidget *parent)
     membersListModel = new QStringListModel(this);
     membersList = new QStringList();
 
-    timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, this, &RoomPage::OnGetNewMessage);
+    socket = new QTcpSocket(this);
+
+    socket->connectToHost(QHostAddress("127.0.0.1"), 1337, QIODevice::ReadWrite);
+
+    socket->write("36 User");
+
+    connect(socket, &QTcpSocket::readyRead, this, &RoomPage::OnGetNewMessage);
 
     completer = new QCompleter(
         getWordList("../../client/etc/wordlist.txt"), this);
