@@ -9,7 +9,7 @@ void JoinRoomController::service(IHttpRequest* request, IHttpResponse* response)
     ).object();
 
     joinService->joinRoom(
-        requestJSONObject.value("RoomID").toInt(),
+        requestJSONObject.value("RoomID").toString().toInt(),
         requestJSONObject.value("Login").toString().toStdString()
     );
 }

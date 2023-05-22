@@ -17,11 +17,15 @@ void SendMessageController::service(IHttpRequest* request, IHttpResponse* respon
         return;
     }
 
+    auto id = requestJSONObject.value("ID").toInt();
+
+    auto login = requestJSONObject.value("Author").toString();
+
     sendService->SendMessage(
-        requestJSONObject.value("ID").toInt(),
-        requestJSONObject.value("Author").toString().toStdString(),
+        id,
+        login.toStdString(),
         content.toStdString()
     );
 
-    
+    messageRouter->sendSignalToUsersFromRoom(id, login);  
 }

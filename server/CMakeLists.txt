@@ -2,11 +2,10 @@ cmake_minimum_required(VERSION 3.14)
 
 project(server LANGUAGES CXX)
 
-set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core Network Sql)
 find_package(Qt5 REQUIRED COMPONENTS Core Network Sql)
 
 include_directories(
@@ -15,6 +14,7 @@ include_directories(
     HttpHandlers
     Services
     Adapters
+    TCPMessageReciver
     Services/CreateRoomService
     Services/GetRoomHistoryService
     Services/LoginService
@@ -60,13 +60,12 @@ add_executable(server
     HttpControllers/GetRoomHistoryController/GetRoomHistoryController.cpp
     HttpControllers/RegisterController/RegisterController.cpp
     HttpControllers/SearchRoomController/SearchRoomController.cpp
+    TCPMessageReciver/TCPMessageReciver.cpp
 )
 
 target_include_directories(server PUBLIC ../DB/include)
 
-target_link_libraries(server DB /usr/local/lib/libQtWebApp.so.1.8.6) # cringe
-
-target_link_libraries(server Qt5::Core Qt5::Network Qt5::Sql)
+target_link_libraries(server DB /usr/local/lib/libQtWebApp.so.1.8.6 Qt5::Core Qt5::Network Qt5::Sql)
 
 install(TARGETS server
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

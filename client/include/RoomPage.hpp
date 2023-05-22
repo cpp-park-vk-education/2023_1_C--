@@ -7,6 +7,8 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QTimer>
+#include <QTcpSocket>
+#include <QHostAddress>
 #include "IRoomUseCase.hpp"
 #include "IRoomPage.hpp"
 #include "IWidgetController.hpp"
@@ -69,6 +71,7 @@ private:
     QStringListModel *membersListModel;
     QStringList *membersList;
     QCompleter *completer;
+    QTcpSocket* socket;
     QStringList getWordList(const QString& path);
     // QString FindUserNickName(const std::string& login);
 };
