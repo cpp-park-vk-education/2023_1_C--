@@ -28,7 +28,7 @@ void TcpMessageReciver::insert(const int roomId, UserConnection&& userConnection
         return;
     }
 
-    (*roomCell).append(std::move(userConnection));
+    (*roomCell).push_back(std::move(userConnection));
 }
 
 void TcpMessageReciver::sendSignalToUsersFromRoom(const int roomId, const QString& login)
@@ -55,7 +55,11 @@ void TcpMessageReciver::slotNewConnection()
             {
                 if (vIt->socket == clientSocket)
                 {
+                    qDebug() << (*it).size();
+
                     it->erase(vIt);
+
+                    qDebug() << (*it).size();
 
                     vIt->socket->close();
 
