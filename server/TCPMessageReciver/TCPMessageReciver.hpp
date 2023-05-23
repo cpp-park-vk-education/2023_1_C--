@@ -12,6 +12,7 @@
 class UserConnection
 {
 public:
+    UserConnection() {}
     UserConnection(const QString& login, QTcpSocket* socket)
         : login(login), socket(socket){}
     friend bool operator==(const QString& l, const UserConnection& r);

@@ -23,13 +23,13 @@ int main(int argc, char *argv[])
 
     app.setApplicationName("Teamgram Server");
 
-    auto settings = new QSettings("../../server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
+    auto settings = new QSettings("./server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
 
     settings->beginGroup("listener");
 
     // Возможно эту часть нужно выносить в отдельный модуль и делать depends on для осноного сервера
 
-    //auto messageRouter = std::make_unique<TcpMessageReciver>(&app);
+    // auto messageRouter = std::make_unique<TcpMessageReciver>(&app);
 
     // -------------------------------------------------
 

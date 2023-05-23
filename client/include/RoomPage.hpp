@@ -6,9 +6,6 @@
 #include <QString>
 #include <QTextStream>
 #include <QDebug>
-#include <QTimer>
-#include <QTcpSocket>
-#include <QHostAddress>
 #include "IRoomUseCase.hpp"
 #include "IRoomPage.hpp"
 #include "IWidgetController.hpp"
@@ -39,10 +36,6 @@ public:
         useCase_ = useCase;
     }
 
-    void SetController(IWidgetController* controller) {
-        controller_ = controller;
-    }
-
     void SetUserInfo(const UserInfo& userInfo) override {
         userInfo_ = userInfo;
     }
@@ -51,7 +44,6 @@ private slots:
     void OnBackButtonClicked();
     void OnSendButtonClicked();
     void OnAddUserButtonClicked();
-    void OnGetNewMessage();
 
 private:
     QString tempContent;
@@ -62,15 +54,12 @@ private:
 
     Ui::RoomPage *ui;
     IRoomUseCaseSPtr useCase_;
-    IWidgetController* controller_;
 
-    QTimer* timer_;
     QStringListModel *messagesListModel;
     QStringList *messagesList;
     QStringListModel *membersListModel;
     QStringList *membersList;
     QCompleter *completer;
-    QTcpSocket* socket;
     QStringList getWordList(const QString& path);
     QString getUserNickname(const std::string& login);
 };

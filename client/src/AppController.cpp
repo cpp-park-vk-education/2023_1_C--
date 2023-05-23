@@ -1,4 +1,5 @@
 #include "AppController.hpp"
+#include "TcpConnection.hpp"
 
 AppController::AppController() {
 
@@ -31,7 +32,6 @@ AppController::AppController() {
     signupPage->SetController(mainWindow);
 
     roomPage->SetUseCase(roomUseCaseSPtr);
-    roomPage->SetController(mainWindow);
 
     roomCreationPage->SetUseCase(roomUseCaseSPtr);
     roomCreationPage->SetController(mainWindow);
@@ -66,6 +66,7 @@ AppController::AppController() {
     roomNetworkSPtr->SetNetworkManager(networkManager);
     roomNetworkSPtr->SetRequestSerializer(serializerSPtr);
     roomNetworkSPtr->SetResponseSerializer(deserializerSPtr);
+    roomNetworkSPtr->SetTcpConnection(std::make_unique<TcpConnection>());
 } 
 
 AppController::~AppController() {

@@ -33,7 +33,12 @@ void RoomUseCase::GetNewMessage(const int roomID) {
 
 void RoomUseCase::GetRoomMessages(const int roomID) {
     room = FindRoomInfo(roomID);
-    roomNetwork_->GetRoomMessages(roomID);
+    roomNetwork_->GetRoomMessages(roomID, userData_.info.login);
+}
+
+void RoomUseCase::ShowMainPage() {
+    roomNetwork_->DisconnectFromRoom();
+    controller_->ShowMainPage();    
 }
 
 void RoomUseCase::ShowMainPage(UserData&& userData) {

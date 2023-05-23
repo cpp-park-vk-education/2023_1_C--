@@ -15,14 +15,6 @@ RoomPage::RoomPage(QWidget *parent)
     membersListModel = new QStringListModel(this);
     membersList = new QStringList();
 
-    socket = new QTcpSocket(this);
-
-    socket->connectToHost(QHostAddress("127.0.0.1"), 1337, QIODevice::ReadWrite);
-
-    socket->write("36 User");
-
-    connect(socket, &QTcpSocket::readyRead, this, &RoomPage::OnGetNewMessage);
-
     completer = new QCompleter(
         getWordList("../../client/etc/wordlist.txt"), this);
 
@@ -42,11 +34,6 @@ RoomPage::~RoomPage()
     delete ui;
     delete messagesList;
     delete membersList;
-}
-
-void RoomPage::OnGetNewMessage()
-{
-    useCase_->GetNewMessage(roomInfo_.id);
 }
 
 QString RoomPage::getUserNickname(const std::string& login) {
@@ -89,8 +76,6 @@ void RoomPage::ShowNewMessage(const Message& message) {
 
 void RoomPage::ShowLastMessages(const std::vector<Message>& messages) {
 
-    timer_->start(3000);
-
     for (const auto& message : messages) {
         QString nickname;
 
@@ -107,7 +92,6 @@ void RoomPage::ShowLastMessages(const std::vector<Message>& messages) {
 }
 
 void RoomPage::OnBackButtonClicked() {
-    timer_->stop();
     
     messagesList->clear();
     messagesListModel->setStringList(*messagesList);
@@ -117,7 +101,7 @@ void RoomPage::OnBackButtonClicked() {
     membersListModel->setStringList(*membersList);
     ui->members->setModel(membersListModel);
 
-    controller_->ShowMainPage();
+    useCase_->ShowMainPage();
     //close thread
 }
 

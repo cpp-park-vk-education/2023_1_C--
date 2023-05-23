@@ -46,7 +46,8 @@ set(ROOM_SOURCES    Room/src/RoomNetwork.cpp
 set(NETWORK_SOURCES Network/src/NetworkManager.cpp
                     Network/src/Communication
                     Network/src/Serializer
-                    Network/src/Deserializer)
+                    Network/src/Deserializer
+                    Network/src/TcpConnection.cpp)
 
 SET(UI_SOURCES      include/MainWindow.hpp
                     src/MainWindow.cpp

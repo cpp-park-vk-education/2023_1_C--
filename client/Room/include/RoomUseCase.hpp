@@ -16,6 +16,7 @@ public:
     void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID) override;
     void AddUser(const int roomID, const std::string& login) override;
+    void ShowMainPage() override;
     void ShowMainPage(UserData&& userData) override;
     void OnSendMessageResponse(const int statusCode) override;
     void OnGetNewMessageResponse(const int statusCode, Message&& message) override;

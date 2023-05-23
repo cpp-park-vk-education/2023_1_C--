@@ -38,6 +38,13 @@ RoomNetwork::RoomNetwork() {
         }
     );
 
+    requestNewMessage = std::function<void(const int)> (
+        [this](const int roomID) {
+            auto request = CreateRequest(GET_MESSAGE_URL);
+            auto byteArray = serializer_->SerializeID(roomID);
+            networkManager_->Post(request, GetQByteArray(byteArray), getNewMessageCallback);
+        }
+    );
 }
 
 void RoomNetwork::CreateRoom(std::string&& name, 
@@ -56,15 +63,17 @@ void RoomNetwork::SendMessage(const Message& message) {
     networkManager_->Post(request, GetQByteArray(byteArray), sendMessageCallback);    
 }
 
-void RoomNetwork::GetNewMessage(const int roomID) {
-    auto request = CreateRequest(GET_MESSAGE_URL);
-    auto byteArray = serializer_->SerializeID(roomID);
-    networkManager_->Post(request, GetQByteArray(byteArray), getNewMessageCallback);
-}
-void RoomNetwork::GetRoomMessages(const int roomID) {
+void RoomNetwork::GetNewMessage(const int roomID) {}
+
+void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
     auto request = CreateRequest(GET_ROOM_MESSAGES_URL);
     auto byteArray = serializer_->SerializeID(roomID);
     networkManager_->Post(request, GetQByteArray(byteArray), getRoomMessagesCallback); // Get()
+    tcpConnection_->ConnectToHost(roomID, login, requestNewMessage);
+}
+
+void RoomNetwork::DisconnectFromRoom() {
+    tcpConnection_->DisconnectFromHost();
 }
 
 void RoomNetwork::AddUser(const int roomID, const std::string& login) {
