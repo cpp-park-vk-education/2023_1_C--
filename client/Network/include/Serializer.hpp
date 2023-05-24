@@ -11,4 +11,5 @@ public:
                                             std::vector<std::string>&& members) override;
     std::vector<char> SerializeJoiningUser(const int roomID,
                                                        const std::string& login) override;
+    std::vector<char> SerializeLogin(const std::string& login) override;
 };

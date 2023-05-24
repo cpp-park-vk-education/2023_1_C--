@@ -34,6 +34,7 @@ public:
 public slots:
     void OnCreateRoom();
     void OnSearchRoom();
+    void OnRefreshMainPage();
     void OnSelectRoom(QListWidgetItem *item);
     
 private:

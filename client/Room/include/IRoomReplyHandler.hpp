@@ -12,6 +12,7 @@ public:
     virtual void OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo) = 0;
     virtual void OnGetRoomMessagesResponse(const int statusCode, std::vector<Message>&& roomMessages) = 0;
     virtual void OnAddUserResponse(const int statusCode, UserInfo&& userInfo) = 0;
+    virtual void OnRefreshMainPage(const int statusCode, const UserData& data) = 0;
 };
 
 using IRoomReplyHandlerSPtr = std::shared_ptr<IRoomReplyHandler>;

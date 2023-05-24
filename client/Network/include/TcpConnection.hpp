@@ -7,7 +7,6 @@ class TcpConnection: public QObject,
                      public ITcpConnection {
 public:
     TcpConnection();
-    ~TcpConnection();
     void ConnectToHost(const int roomID, const std::string& login,
                  std::function<void(const int)> requestNewMessage) override;
     void DisconnectFromHost() override;

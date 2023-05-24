@@ -6,6 +6,7 @@ const std::string CREATE_ROOM_URL = "/create";
 const std::string GET_ROOM_MESSAGES_URL = "/history";
 const std::string GET_MESSAGE_URL = "/getmsg";
 const std::string JOIN_URL = "/join";
+const std::string REFRESH_URL = "/refresh";
 
 RoomNetwork::RoomNetwork() {
     createRoomCallback = Callback (
@@ -45,6 +46,12 @@ RoomNetwork::RoomNetwork() {
             networkManager_->Post(request, GetQByteArray(byteArray), getNewMessageCallback);
         }
     );
+
+    refreshMainPageCallback = Callback(
+        [this](IResponseUPtr response) {
+           return this->OnRefreshMainPageResponse(std::move(response));
+        }
+    );
 }
 
 void RoomNetwork::CreateRoom(std::string&& name, 
@@ -70,6 +77,12 @@ void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
     auto byteArray = serializer_->SerializeID(roomID);
     networkManager_->Post(request, GetQByteArray(byteArray), getRoomMessagesCallback); // Get()
     tcpConnection_->ConnectToHost(roomID, login, requestNewMessage);
+}
+
+void RoomNetwork::RefreshMainPage(const std::string& login) {
+    auto request = CreateRequest(REFRESH_URL);
+    auto byteArray = serializer_->SerializeLogin(login);
+    networkManager_->Post(request, GetQByteArray(byteArray), refreshMainPageCallback); // Get()
 }
 
 void RoomNetwork::DisconnectFromRoom() {
@@ -123,5 +136,15 @@ void RoomNetwork::OnAddUserResponse(IResponseUPtr response) {
         replyHandler_->OnAddUserResponse(200, std::move(data));
     } else {
         replyHandler_->OnAddUserResponse(statusCode, UserInfo{});
+    }
+}
+
+void RoomNetwork::OnRefreshMainPageResponse(IResponseUPtr response) {
+    auto statusCode = response->GetStatus();
+    if (statusCode == 200) {
+        auto data = deserializer_->DeserializeUserData(response->GetBody());
+        replyHandler_->OnRefreshMainPage(200, std::move(data));
+    } else {
+        replyHandler_->OnRefreshMainPage(statusCode, UserData{});
     }
 }

@@ -13,6 +13,7 @@ MainPage::MainPage(QWidget *parent) :
     connect(ui->listWidget, &QListWidget::itemDoubleClicked, this, &MainPage::OnSelectRoom);
     connect(ui->searchButton, &QAbstractButton::clicked, this, &MainPage::OnSearchRoom);
     connect(ui->createButton, &QAbstractButton::clicked, this, &MainPage::OnCreateRoom);
+    connect(ui->refreshButton, &QAbstractButton::clicked, this, &MainPage::OnRefreshMainPage);
 }
 
 MainPage::~MainPage()
@@ -43,3 +44,6 @@ void MainPage::OnSearchRoom() {
     controller_->ShowRoomSearchPage();
 }
 
+void MainPage::OnRefreshMainPage() {
+    useCase_->RefreshMainPage();
+}

@@ -63,3 +63,9 @@ std::vector<char> Serializer::SerializeJoiningUser(const int roomID,
     jsonObject.insert(LOGIN_KEY, QJsonValue(QString::fromStdString(login)));
     return GetByteArray(jsonObject);
 }
+
+std::vector<char> Serializer::SerializeLogin(const std::string& login) {
+    QJsonObject jsonObject;
+    jsonObject.insert(LOGIN_KEY, QJsonValue(QString::fromStdString(login)));
+    return GetByteArray(jsonObject);
+}

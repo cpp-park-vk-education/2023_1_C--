@@ -51,6 +51,10 @@ void RoomUseCase::AddUser(const int roomID, const std::string& login) {
     roomNetwork_->AddUser(roomID, login);
 }
 
+void RoomUseCase::RefreshMainPage() {
+    roomNetwork_->RefreshMainPage(userData_.info.login);
+}
+
 void RoomUseCase::OnSendMessageResponse(const int statusCode) {
     if (statusCode == 200) {
         roomMessages.push_back(tempMessage);
@@ -94,5 +98,12 @@ void RoomUseCase::OnAddUserResponse(const int statusCode, UserInfo&& userInfo) {
         AddUserIntoRoom(std::move(userInfo));
     }
         
+}
+
+void RoomUseCase::OnRefreshMainPage(const int statusCode, const UserData& data) {
+    if (statusCode == 200) {
+        userData_.rooms = data.rooms;
+        mainPage_->ShowRooms(data.rooms);
+    }
 }
 
