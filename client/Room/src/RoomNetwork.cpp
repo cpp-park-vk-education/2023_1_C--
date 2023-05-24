@@ -1,4 +1,5 @@
 #include "RoomNetwork.hpp"
+#include "AccountData.hpp"
 #include "Communication.hpp"
 
 const std::string SEND_MESSAGE_URL = "/send";
@@ -81,7 +82,9 @@ void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
 
 void RoomNetwork::RefreshMainPage(const std::string& login) {
     auto request = CreateRequest(REFRESH_URL);
-    auto byteArray = serializer_->SerializeLogin(login);
+    LoginData data; 
+    data.login = login;
+    auto byteArray = serializer_->SerializeLoginData(data);
     networkManager_->Post(request, GetQByteArray(byteArray), refreshMainPageCallback); // Get()
 }
 
