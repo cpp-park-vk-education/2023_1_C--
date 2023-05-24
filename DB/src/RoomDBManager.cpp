@@ -32,7 +32,7 @@ QVector<Room> RoomDBManager::getRooms(const QString& login) {
     rooms.push_back(Room(query));
     while(query.next())
     {
-         rooms.push_back(Room(query));
+        rooms.push_back(Room(query));
     }
     return rooms;
 }
@@ -136,7 +136,7 @@ void RoomDBManager::addClientToRoom(const int room_ID, const QString& username) 
 
 void RoomDBManager::deleteClientFromRoom(const int room_ID, const QString& username) {
     const QString queryStr = "DELETE FROM rooms WHERE room_id = " + QString::number(room_ID) + ""
-                             "AND username = '" + username + "';";
+                            "AND username = '" + username + "';";
     try {
         dbManager->execute(queryStr);
     } catch (const std::runtime_error& err) {
@@ -147,7 +147,7 @@ void RoomDBManager::deleteClientFromRoom(const int room_ID, const QString& usern
 Message RoomDBManager::changeMessageContext(const int message_ID, const QString& new_context) {
     const QString queryStr = "UPDATE messages "
             "SET context = '" + new_context + ""
-                                             "'WHERE ID = " + QString::number(message_ID);
+                                            "'WHERE ID = " + QString::number(message_ID);
     try {
         dbManager->execute(queryStr);
     } catch (const std::runtime_error& err) {

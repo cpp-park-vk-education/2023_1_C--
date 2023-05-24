@@ -1,5 +1,6 @@
 #include "LoginController.hpp"
 #include <QVector>
+
 void LoginController::service(IHttpRequest* request, IHttpResponse* response)
 {
 
@@ -19,17 +20,19 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
         return;
     }
 
-
     auto hashPassword = QCryptographicHash::hash(
         requestJSONObject.value("Password").toString().toUtf8(), QCryptographicHash::Algorithm::Sha256
     );
 
-    if (client.password != hashPassword)
-    {
-        response->setStatus(401, "password missmatch");
+#pragma region pizdec
+    if (!hashPassword.isEmpty())
+        if (client.password != hashPassword)
+        {
+            response->setStatus(401, "password missmatch");
 
-        return;
-    }
+            return;
+        }
+#pragma endregion
 
     auto rooms = loginService->getClientRooms(client.login.toStdString());
 

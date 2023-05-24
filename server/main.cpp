@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     app.setApplicationName("Teamgram Server");
 
-    auto settings = new QSettings("../../server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
+    auto settings = new QSettings("./server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
 
     settings->beginGroup("listener");
 
@@ -86,6 +86,12 @@ int main(int argc, char *argv[])
     map.insert(
         std::make_pair("/search", std::make_unique<SearchRoomController>(
             std::make_unique<SearchRoomService>(clientDb, roomDb)
+        ))
+    );
+
+    map.insert(
+        std::make_pair("/refresh", std::make_unique<LoginController>(
+            std::make_unique<LoginService>(clientDb, roomDb)
         ))
     );
     

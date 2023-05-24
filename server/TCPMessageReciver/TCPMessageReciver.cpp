@@ -55,13 +55,9 @@ void TcpMessageReciver::slotNewConnection()
             {
                 if (vIt->socket == clientSocket)
                 {
-                    qDebug() << (*it).size();
+                    vIt->socket->close();
 
                     it->erase(vIt);
-
-                    qDebug() << (*it).size();
-
-                    vIt->socket->close();
 
                     qDebug() << "socket was closed\n";
 
