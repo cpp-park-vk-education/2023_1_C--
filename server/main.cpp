@@ -88,6 +88,12 @@ int main(int argc, char *argv[])
             std::make_unique<SearchRoomService>(clientDb, roomDb)
         ))
     );
+
+    map.insert(
+        std::make_pair("/refresh", std::make_unique<LoginController>(
+            std::make_unique<LoginService>(clientDb, roomDb)
+        ))
+    );
     
     try
     {

@@ -96,6 +96,5 @@ QVector<Client> ClientDBManager::getClientsInRoom(const int roomID) {
     for(auto name : users) {
         clients.push_back(getClient(name));
     }
-    qDebug() << clients.last().login;
     return clients;
 }
