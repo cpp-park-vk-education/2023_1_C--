@@ -27,6 +27,8 @@ RoomPage::RoomPage(QWidget *parent)
     connect(ui->backBtn, &QAbstractButton::clicked, this, &RoomPage::OnBackButtonClicked);
     connect(ui->sendBtn, &QAbstractButton::clicked, this, &RoomPage::OnSendButtonClicked);
     connect(ui->addUserButton, &QAbstractButton::clicked, this, &RoomPage::OnAddUserButtonClicked);
+
+    ui->members->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 RoomPage::~RoomPage()

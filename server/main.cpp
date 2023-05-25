@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     app.setApplicationName("Teamgram Server");
 
-    auto settings = new QSettings("./server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
+    auto settings = new QSettings("../../server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
 
     settings->beginGroup("listener");
 

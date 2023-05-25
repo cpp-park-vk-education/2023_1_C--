@@ -24,6 +24,8 @@ void RoomUseCase::SendMessage(Message&& message) {
 void RoomUseCase::CreateRoom(std::string&& name,
                              std::vector<std::string>&& members) 
 {
+    members.push_back(userData_.info.login);
+    
     roomNetwork_->CreateRoom(std::move(name), std::move(members));
 }
 
