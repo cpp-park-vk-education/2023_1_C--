@@ -1,6 +1,7 @@
 #pragma once
 #include "IRoomPage.hpp"
 #include "IMainPage.hpp"
+#include "IRoomCreationPage.hpp"
 #include "IRoomUseCase.hpp"
 #include "IRoomReplyHandler.hpp"
 #include "IAccountUseCase.hpp"
@@ -38,6 +39,10 @@ public:
         mainPage_ = mainPage;
     }
 
+    void SetRoomCreationPage(IRoomCreationPage* roomCreationPage) {
+        roomCreationPage_ = roomCreationPage;
+    }
+
     void SetAccountUseCase(IAccountUseCaseSPtr accountUseCase) {
         accountUseCase_ = accountUseCase;
     }
@@ -47,12 +52,13 @@ public:
     }
 
 private:
+    UserData data;
     RoomInfo room;
     Message tempMessage;
     std::vector<Message> roomMessages;
-    UserData userData_;
     IRoomPage* roomPage_;
     IMainPage* mainPage_;
+    IRoomCreationPage* roomCreationPage_;
     IAccountUseCaseSPtr accountUseCase_;
     IRoomNetworkSPtr roomNetwork_;
     IWidgetController* controller_;

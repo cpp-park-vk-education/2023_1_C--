@@ -19,6 +19,7 @@ public:
     ~MainPage();
 
     void ShowRooms(const std::vector<RoomInfo>& rooms) override;
+    void ShowError(const std::string& error) override;
 
     void SetController(IWidgetController* controller) {
         controller_ = controller;
@@ -33,7 +34,6 @@ public:
     
 public slots:
     void OnCreateRoom();
-    void OnSearchRoom();
     void OnRefreshMainPage();
     void OnSelectRoom(QListWidgetItem *item);
     

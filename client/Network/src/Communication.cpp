@@ -1,6 +1,6 @@
 #include "Communication.hpp"
 
-const std::string ROOT = "http://127.0.0.1:1488/";
+const std::string ROOT = "http://127.0.0.1:8000/";
 
 QByteArray GetQByteArray(std::vector<char> byteArray) {
     QByteArray qByteArray;

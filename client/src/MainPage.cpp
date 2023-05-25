@@ -11,7 +11,6 @@ MainPage::MainPage(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->listWidget, &QListWidget::itemDoubleClicked, this, &MainPage::OnSelectRoom);
-    connect(ui->searchButton, &QAbstractButton::clicked, this, &MainPage::OnSearchRoom);
     connect(ui->createButton, &QAbstractButton::clicked, this, &MainPage::OnCreateRoom);
     connect(ui->refreshButton, &QAbstractButton::clicked, this, &MainPage::OnRefreshMainPage);
 }
@@ -22,6 +21,7 @@ MainPage::~MainPage()
 }
 
 void MainPage::ShowRooms(const std::vector<RoomInfo>& rooms) {
+    ui->errorLabel->setText("");
     ui->listWidget->clear();
     for(const auto& room : rooms) {
         QListWidgetItem* roomWidget = new QListWidgetItem(ui->listWidget);
@@ -31,17 +31,18 @@ void MainPage::ShowRooms(const std::vector<RoomInfo>& rooms) {
     }
 }
 
+void MainPage::ShowError(const std::string& error) {
+    ui->errorLabel->setText(QString::fromStdString(error));
+}
+
 void MainPage::OnSelectRoom(QListWidgetItem *item) {
+    ui->errorLabel->setText("");
     const int roomID = item->data(ROOM_ID_ROLE).toString().toInt();
     useCase_->GetRoomMessages(roomID);
 }
 
 void MainPage::OnCreateRoom() {
     controller_->ShowRoomCreationPage();
-}
-
-void MainPage::OnSearchRoom() {
-    controller_->ShowRoomSearchPage();
 }
 
 void MainPage::OnRefreshMainPage() {

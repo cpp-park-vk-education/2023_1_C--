@@ -12,6 +12,7 @@ public:
     virtual void GetRoomMessages(const int roomID, const std::string& login) = 0;
     virtual void AddUser(const int roomID, const std::string& login) = 0;
     virtual void RefreshMainPage(const std::string& login) = 0;
+    virtual void ConnectToRoom(const int roomID, const std::string& login) = 0;
     virtual void DisconnectFromRoom() = 0;
 };
 

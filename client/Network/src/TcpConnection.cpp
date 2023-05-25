@@ -1,6 +1,8 @@
 #include <QHostAddress>
 #include "TcpConnection.hpp"
 
+#include <QDebug>
+
 TcpConnection::TcpConnection() {
     socket = new QTcpSocket(this);
 
@@ -12,7 +14,8 @@ TcpConnection::TcpConnection() {
 void TcpConnection::ConnectToHost(const int roomID, const std::string& login,
                                   std::function<void(const int)> requestNewMessage) 
 {
-    socket->connectToHost(QHostAddress("127.0.0.1"), 1337, QIODevice::ReadWrite);
+    qDebug() << "ConnectToHost";
+    socket->connectToHost(QHostAddress("127.0.0.1"), 8080, QIODevice::ReadWrite);
 
     auto data = std::to_string(roomID) + " " + login;
     qDebug() << QString::fromStdString(data);
@@ -24,6 +27,7 @@ void TcpConnection::ConnectToHost(const int roomID, const std::string& login,
 }
 
 void TcpConnection::DisconnectFromHost() {
+    qDebug() << "DisconnectFromHost";
     socket->disconnectFromHost();
-    disconnect(socket, 0, 0, 0);
+    disconnect(socket, &QTcpSocket::readyRead, 0, 0);
 }

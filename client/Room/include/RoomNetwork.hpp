@@ -4,7 +4,6 @@
 #include "INetworkManager.hpp"
 #include "ISerializer.hpp"
 #include "IDeserializer.hpp"
-
 #include "ITcpConnection.hpp"
 
 class RoomNetwork : public IRoomNetwork {
@@ -18,6 +17,7 @@ public:
     void GetRoomMessages(const int roomID, const std::string& login) override;
     void AddUser(const int roomID, const std::string& login) override;
     void DisconnectFromRoom() override;
+    void ConnectToRoom(const int roomID, const std::string& login) override;
     void RefreshMainPage(const std::string& login) override;
 
     

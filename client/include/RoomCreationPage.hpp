@@ -1,5 +1,5 @@
-#ifndef ROOMCREATIONPAGE_HPP
-#define ROOMCREATIONPAGE_HPP
+#pragma once
+#include "IRoomCreationPage.hpp"
 
 #include <QWidget>
 #include <QListWidget>
@@ -13,13 +13,16 @@ namespace Ui {
 class RoomCreationPage;
 }
 
-class RoomCreationPage : public QWidget
+class RoomCreationPage : public QWidget,
+                         public IRoomCreationPage
 {
     Q_OBJECT
 
 public:
     explicit RoomCreationPage(QWidget *parent = nullptr);
     ~RoomCreationPage();
+
+    void ShowError(const std::string& error) override;
 
     void SetUseCase(IRoomUseCaseSPtr roomUseCase) {
         roomUseCase_ = roomUseCase;
@@ -41,5 +44,3 @@ private:
     IRoomUseCaseSPtr roomUseCase_;
     void ClearForm();
 };
-
-#endif // ROOMCREATIONPAGE_HPP

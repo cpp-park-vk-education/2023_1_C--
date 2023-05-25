@@ -12,7 +12,7 @@ public:
     void DisconnectFromHost() override;
 
 private:
-    QTcpSocket* socket;
+    QTcpSocket* socket;    
 };
 
 using ITcpConnectionUPtr = std::unique_ptr<ITcpConnection>;

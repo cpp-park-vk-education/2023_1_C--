@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="errorLabel">
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">color: red;</string>
      </property>
      <property name="text">
       <string/>

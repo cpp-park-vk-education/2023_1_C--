@@ -36,8 +36,10 @@ void AccountUseCase::OnLoginResponse(const int statusCode, UserData&& userData) 
 void AccountUseCase::OnSignupResponse(const int statusCode, UserData&& userData) {
     if (statusCode != 200)
         signupPage_->ShowError("Error:" + std::to_string(statusCode) + " status code");
-    else
+    else {
+        userInfo_ = userData.info;
         roomUseCase_->ShowMainPage(std::move(userData));
+    }
 }
 
 void AccountUseCase::OnUserSettingResponse(const int statusCode, UserData&& userData) {}

@@ -31,6 +31,7 @@ public:
     void ShowLastMessages(const std::vector<Message>& messages) override;
     // void ShowOldMessages(const std::vector<Message>& messages) override;
     void ShowNewMessage(const Message& message) override;
+    void ShowError(const std::string& error) override;
 
     void SetUseCase(IRoomUseCaseSPtr useCase) {
         useCase_ = useCase;

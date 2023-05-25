@@ -45,4 +45,4 @@ RUN cd ./build/server && make
 
 CMD [ "./build/server/server" ]
 
-EXPOSE 1488
+EXPOSE 8000 8080

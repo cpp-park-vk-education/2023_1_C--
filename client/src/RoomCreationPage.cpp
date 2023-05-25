@@ -1,5 +1,6 @@
 #include "RoomCreationPage.hpp"
 #include "ui_RoomCreationPage.h"
+#include <QString>
 
 RoomCreationPage::RoomCreationPage(QWidget *parent) :
     QWidget(parent),
@@ -52,4 +53,8 @@ void RoomCreationPage::ClearForm() {
     ui->members->clear();
     ui->name->setText("");
     ui->username->setText("");
+}
+
+void RoomCreationPage::ShowError(const std::string& error) {
+    ui->errorLabel->setText(QString::fromStdString(error));
 }

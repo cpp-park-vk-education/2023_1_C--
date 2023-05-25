@@ -60,6 +60,7 @@ AppController::AppController() {
     roomUseCaseSPtr->SetAccountUseCase(accountUseCaseSPtr);
     roomUseCaseSPtr->SetRoomPage(roomPage);
     roomUseCaseSPtr->SetMainPage(mainPage);
+    roomUseCaseSPtr->SetRoomCreationPage(roomCreationPage);
     roomUseCaseSPtr->SetWidgetController(mainWindow);
 
     roomNetworkSPtr->SetReplyHandler(roomUseCaseSPtr);

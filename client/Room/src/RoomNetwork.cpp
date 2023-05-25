@@ -40,19 +40,20 @@ RoomNetwork::RoomNetwork() {
         }
     );
 
-    requestNewMessage = std::function<void(const int)> (
-        [this](const int roomID) {
-            auto request = CreateRequest(GET_MESSAGE_URL);
-            auto byteArray = serializer_->SerializeID(roomID);
-            networkManager_->Post(request, GetQByteArray(byteArray), getNewMessageCallback);
-        }
-    );
-
     refreshMainPageCallback = Callback(
         [this](IResponseUPtr response) {
            return this->OnRefreshMainPageResponse(std::move(response));
         }
     );
+
+    requestNewMessage = std::function<void(const int)> (
+        [this](const int roomID) {
+            auto request = CreateRequest(GET_MESSAGE_URL);
+            auto byteArray = serializer_->SerializeID(roomID);
+            networkManager_->Post(request, GetQByteArray(byteArray), getNewMessageCallback); // Get request
+        }
+    );
+
 }
 
 void RoomNetwork::CreateRoom(std::string&& name, 
@@ -76,8 +77,7 @@ void RoomNetwork::GetNewMessage(const int roomID) {}
 void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
     auto request = CreateRequest(GET_ROOM_MESSAGES_URL);
     auto byteArray = serializer_->SerializeID(roomID);
-    networkManager_->Post(request, GetQByteArray(byteArray), getRoomMessagesCallback); // Get()
-    tcpConnection_->ConnectToHost(roomID, login, requestNewMessage);
+    networkManager_->Post(request, GetQByteArray(byteArray), getRoomMessagesCallback); // Get request
 }
 
 void RoomNetwork::RefreshMainPage(const std::string& login) {
@@ -85,18 +85,23 @@ void RoomNetwork::RefreshMainPage(const std::string& login) {
     LoginData data; 
     data.login = login;
     auto byteArray = serializer_->SerializeLoginData(data);
-    networkManager_->Post(request, GetQByteArray(byteArray), refreshMainPageCallback); // Get()
+    networkManager_->Post(request, GetQByteArray(byteArray), refreshMainPageCallback); // Get request
+}
+
+void RoomNetwork::AddUser(const int roomID, const std::string& login) {
+    auto request = CreateRequest(JOIN_URL);
+    auto byteArray = serializer_->SerializeJoiningUser(roomID, login);
+    networkManager_->Post(request, GetQByteArray(byteArray), addUserCallback);  
+}
+
+void RoomNetwork::ConnectToRoom(const int roomID, const std::string& login) {
+    tcpConnection_->ConnectToHost(roomID, login, requestNewMessage);
 }
 
 void RoomNetwork::DisconnectFromRoom() {
     tcpConnection_->DisconnectFromHost();
 }
 
-void RoomNetwork::AddUser(const int roomID, const std::string& login) {
-    auto request = CreateRequest(JOIN_URL);
-    auto byteArray = serializer_->SerializeJoiningUser(roomID, login);
-    networkManager_->Post(request, GetQByteArray(byteArray), addUserCallback); 
-}
 
 void RoomNetwork::OnCreateRoomResponse(IResponseUPtr response) {
     auto statusCode = response->GetStatus();

@@ -75,7 +75,8 @@ void RoomPage::ShowNewMessage(const Message& message) {
 }
 
 void RoomPage::ShowLastMessages(const std::vector<Message>& messages) {
-
+    ui->userErrorLabel->setText("");
+    ui->roomErrorLabel->setText("");
     for (const auto& message : messages) {
         QString nickname;
 
@@ -91,8 +92,7 @@ void RoomPage::ShowLastMessages(const std::vector<Message>& messages) {
     }
 }
 
-void RoomPage::OnBackButtonClicked() {
-    
+void RoomPage::OnBackButtonClicked() {    
     messagesList->clear();
     messagesListModel->setStringList(*messagesList);
     ui->listView->setModel(messagesListModel);
@@ -105,8 +105,8 @@ void RoomPage::OnBackButtonClicked() {
     //close thread
 }
 
-void RoomPage::OnSendButtonClicked()
-{
+void RoomPage::OnSendButtonClicked() {
+    ui->roomErrorLabel->setText("");
     tempContent = ui->messageLineEdit->text();
     Message message;
     message.roomID = roomInfo_.id;
@@ -119,13 +119,13 @@ void RoomPage::OnSendButtonClicked()
 void RoomPage::OnAddUserButtonClicked() {
     auto login = ui->userLineEdit->text();
     if (login.isEmpty())
-        ui->errorLabel->setText("Specify user login");
+        ui->userErrorLabel->setText("Specify user login");
     else {
         useCase_->AddUser(
             roomInfo_.id, login.toStdString()
         );
         ui->userLineEdit->setText("");
-        ui->errorLabel->setText("");
+        ui->userErrorLabel->setText("");
     }
 }
 
@@ -140,6 +140,10 @@ QStringList RoomPage::getWordList(const QString& path)
         fields.append(line.split(","));
     }
     return fields;
+}
+
+void RoomPage::ShowError(const std::string& error) {
+    ui->roomErrorLabel->setText(QString::fromStdString(error));
 }
 
 // void RoomPage::ShowOldMessages(const std::vector<Message>& messages){}
