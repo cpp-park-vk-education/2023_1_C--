@@ -25,5 +25,15 @@ void RegisterController::service(IHttpRequest* request, IHttpResponse* response)
         password.toStdString(),
         username.toStdString()
     );
+
+    QJsonObject responseJSONObject;
+
+    responseJSONObject.insert("UserInfo", QJsonValue({
+    qMakePair(QString::fromStdString("Login"), QJsonValue(login)),
+    qMakePair(QString::fromStdString("Nickname"), QJsonValue(username))
+        })
+    );
+
+    response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
     
 }

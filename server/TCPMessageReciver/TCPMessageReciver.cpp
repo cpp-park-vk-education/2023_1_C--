@@ -47,6 +47,8 @@ void TcpMessageReciver::slotNewConnection()
 {
     auto clientSocket = server->nextPendingConnection();
 
+    qDebug() << "socket was connected";
+
     connect(clientSocket, &QTcpSocket::readyRead, this, &TcpMessageReciver::slotServerRead);
     connect(clientSocket, &QTcpSocket::disconnected, this, [clientSocket, this]()
     {
@@ -80,7 +82,7 @@ void TcpMessageReciver::slotServerRead()
         qDebug() << data;
 
         auto splitted = data.split(
-            *const_cast<char*>(" ")
+            *const_cast<char*>(" ") // Я ради этого изучаю С++
         );
 
         auto user = UserConnection(splitted[1], socket);
