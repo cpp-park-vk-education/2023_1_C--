@@ -13,12 +13,10 @@ class AccountUseCase : public IAccountUseCase,
 public:
     void Login(ILoginFormUPtr form) override;
     void Signup(ISignupFormUPtr form) override;
-    void UserSetting(IUserSettingFormUPtr form) override;
-    void Logout(const std::string& token) override;
-    void OnLoginResponse(const int statusCode, UserData&& userData) override;
-    void OnSignupResponse(const int statusCode, UserData&& userData) override;
-    void OnUserSettingResponse(const int statusCode, UserData&& userData) override;
-    void OnLogoutResponse(const int statusCode) override;
+    void OnLoginResponse(UserData&& userData) override;
+    void OnLoginResponse(std::string&& userData) override;
+    void OnSignupResponse(UserData&& userData) override;
+    void OnSignupResponse(std::string&& error) override;
 
     void SetLoginPage(ILoginPage* loginPage) {
         loginPage_ = loginPage;

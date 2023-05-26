@@ -7,34 +7,38 @@
 
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent) {
     networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, 
-            this, &NetworkManager::ResponseHanler);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &NetworkManager::ResponseHanler);
 }
 
-NetworkManager::~NetworkManager() {}
+static QNetworkRequest fromIRequest(IRequestUPtr request) {
+    auto qRequest = QNetworkRequest(QUrl(QString::fromStdString(request->GetUrl())));
 
-void NetworkManager::Post(QNetworkRequest request, QByteArray data, Callback callback) {
-    QNetworkReply* reply = networkManager->post(request, data);
-    callback_ = callback;
-    qDebug() << "Post request was sent";
+    auto headers = request->GetHeaders();
+    for (auto it = headers.begin(); it != headers.end(); ++it)
+        qRequest.setRawHeader(QByteArray(it->first.c_str()), QByteArray(it->second.c_str()));
+
+    return qRequest;
 }
 
-void NetworkManager::Get(QNetworkRequest request, Callback callback) {
-    QNetworkReply* reply = networkManager->get(request);
+void NetworkManager::Post(IRequestUPtr request, Callback callback) {
     callback_ = callback;
-    qDebug() << "Get request was sent";
+    networkManager->post(fromIRequest(std::move(request)),
+                         QByteArray(request->GetBody().data()));
+}
+
+void NetworkManager::Get(IRequestUPtr request, Callback callback) {
+    callback_ = callback;
+    networkManager->get(fromIRequest(std::move(request)));
 }
 
 void NetworkManager::ResponseHanler(QNetworkReply* reply) {
-    auto status = reply->error();
-    if (status == QNetworkReply::NoError) {
-        qDebug() << "Status: 200";
-        QByteArray body = reply->readAll();
-        Response response(200, std::vector<char>(body.begin(), body.end()));
+    qDebug() << reply->error();
+    if (reply->error() == QNetworkReply::NoError) {
+        auto body = reply->readAll();
+        Response response(true, std::vector<char>(body.begin(), body.end()));
         callback_(std::make_unique<Response>(response));
     } else {
-        Response response(static_cast<const int>(status), std::vector<char>());
-        qDebug() << "Status: " << response.GetStatus();
+        Response response(false, reply->errorString().toStdString());
         callback_(std::make_unique<Response>(response));
     }
 }

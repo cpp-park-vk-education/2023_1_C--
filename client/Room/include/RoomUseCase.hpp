@@ -20,12 +20,16 @@ public:
     void RefreshMainPage() override;
     void ShowMainPage() override;
     void ShowMainPage(UserData&& userData) override;
-    void OnSendMessageResponse(const int statusCode) override;
-    void OnGetNewMessageResponse(const int statusCode, Message&& message) override;
-    void OnGetRoomMessagesResponse(const int statusCode, std::vector<Message>&& messages) override;
-    void OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo) override;
-    void OnAddUserResponse(const int statusCode, UserInfo&& userInfo) override;
-    void OnRefreshMainPage(const int statusCode, const UserData& data) override;
+    void OnSendMessageResponse();
+    void OnGetNewMessageResponse(Message&& message) override;
+    void OnGetRoomMessagesResponse(std::vector<Message>&& messages) override;
+    void OnCreateRoomResponse(RoomInfo&& roomInfo) override;
+    void OnAddUserResponse(UserInfo&& userInfo) override;
+    void OnRefreshMainPage(UserData&&) override;
+    void ShowMainPageError(std::string&& error) override;
+    void ShowRoomPageError(std::string&& error) override;
+    void ShowRoomCreationPageError(std::string&& error) override;
+
 
     void SetRoomNetwork(IRoomNetworkSPtr roomNetwork) {
         roomNetwork_ = roomNetwork;

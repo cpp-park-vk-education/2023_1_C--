@@ -10,12 +10,6 @@ public:
     AccountNetwork();
     void Login(const LoginData& data) override;
     void Signup(const SignupData& data) override;
-    void UserSetting(const UserSettingData& data) override;
-    void Logout(const LogoutData& data) override;
-    void OnLoginResponse(IResponseUPtr response);
-    void OnSignupResponse(IResponseUPtr response);
-    void OnUserSettingResponse(IResponseUPtr response);
-    void OnLogoutResponse(IResponseUPtr response);
     
     void SetNetworkManager(INetworkManagerSPtr networkManager) {
         networkManager_ = networkManager;
@@ -40,4 +34,6 @@ private:
     IDeserializerSPtr deserializer_;
     Callback loginCallback;
     Callback signupCallback;
+    void OnLoginResponse(IResponseUPtr response);
+    void OnSignupResponse(IResponseUPtr response);
 };

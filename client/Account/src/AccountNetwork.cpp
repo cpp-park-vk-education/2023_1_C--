@@ -22,41 +22,32 @@ AccountNetwork::AccountNetwork() {
 }
 
 void AccountNetwork::Login(const LoginData& data) {
-    auto request = CreateRequest(LOGIN_URL);
-    auto byteArray = serializer_->SerializeLoginData(data);
-    qDebug() << "Inside Login()";
-    networkManager_->Post(request, GetQByteArray(byteArray), loginCallback);
+    auto request = createRequest(LOGIN_URL);
+    request.SetBody(serializer_->SerializeLoginData(data));
+    networkManager_->Post(std::make_unique<Request>(request), loginCallback);
 }
 
 void AccountNetwork::Signup(const SignupData& data) {
-    auto request = CreateRequest(SIGNUP_URL);
-    auto byteArray = serializer_->SerializeSignupData(data);
-    networkManager_->Post(request, GetQByteArray(byteArray), signupCallback);
+    auto request = createRequest(LOGIN_URL);
+    request.SetBody(serializer_->SerializeSignupData(data));
+    networkManager_->Post(std::make_unique<Request>(request), signupCallback);
 }
 
-void AccountNetwork::UserSetting(const UserSettingData& data) {}
-void AccountNetwork::Logout(const LogoutData& data) {}
 
 void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
-    qDebug() << "Inside OnLoginResponse()";
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeUserData(response->GetBody());
-        replyHandler_->OnLoginResponse(200, std::move(data));
+        replyHandler_->OnLoginResponse(std::move(data));
     } else {
-        replyHandler_->OnLoginResponse(statusCode, UserData{});
+        replyHandler_->OnLoginResponse(response->GetDescreption());
     }
 }
 
 void AccountNetwork::OnSignupResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeUserData(response->GetBody());
-        replyHandler_->OnLoginResponse(200, std::move(data));
+        replyHandler_->OnSignupResponse(std::move(data));
     } else {
-        replyHandler_->OnSignupResponse(statusCode, UserData{});
+        replyHandler_->OnSignupResponse(response->GetDescreption());
     }
 }
-
-void AccountNetwork::OnUserSettingResponse(IResponseUPtr response) {}
-void AccountNetwork::OnLogoutResponse(IResponseUPtr response) {}

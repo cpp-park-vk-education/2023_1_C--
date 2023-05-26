@@ -48,50 +48,55 @@ RoomNetwork::RoomNetwork() {
 
     requestNewMessage = std::function<void(const int)> (
         [this](const int roomID) {
-            auto request = CreateRequest(GET_MESSAGE_URL);
+            auto request = createRequest(GET_MESSAGE_URL);
             auto byteArray = serializer_->SerializeID(roomID);
-            networkManager_->Post(request, GetQByteArray(byteArray), getNewMessageCallback); // Get request
+            request.SetBody(std::move(byteArray));
+            networkManager_->Post(std::make_unique<Request>(request), getNewMessageCallback); // Get request
         }
     );
-
 }
 
 void RoomNetwork::CreateRoom(std::string&& name, 
                              std::vector<std::string>&& members) 
 {
-    auto request = CreateRequest(CREATE_ROOM_URL);
+    auto request = createRequest(CREATE_ROOM_URL);
     auto byteArray = serializer_->SerializeRoomCreation(
         std::move(name), std::move(members)
     );
-    networkManager_->Post(request, GetQByteArray(byteArray), createRoomCallback);
+    request.SetBody(std::move(byteArray));
+    networkManager_->Post(std::make_unique<Request>(request), createRoomCallback);
 }
 
 void RoomNetwork::SendMessage(const Message& message) {
-    auto request = CreateRequest(SEND_MESSAGE_URL);
+    auto request = createRequest(SEND_MESSAGE_URL);
     auto byteArray = serializer_->SerializeMessage(message);
-    networkManager_->Post(request, GetQByteArray(byteArray), sendMessageCallback);    
+    request.SetBody(std::move(byteArray));
+    networkManager_->Post(std::make_unique<Request>(request), sendMessageCallback);
 }
 
 void RoomNetwork::GetNewMessage(const int roomID) {}
 
 void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
-    auto request = CreateRequest(GET_ROOM_MESSAGES_URL);
+    auto request = createRequest(GET_ROOM_MESSAGES_URL);
     auto byteArray = serializer_->SerializeID(roomID);
-    networkManager_->Post(request, GetQByteArray(byteArray), getRoomMessagesCallback); // Get request
+    request.SetBody(std::move(byteArray));
+    networkManager_->Post(std::make_unique<Request>(request), getRoomMessagesCallback); // Get request
 }
 
 void RoomNetwork::RefreshMainPage(const std::string& login) {
-    auto request = CreateRequest(REFRESH_URL);
+    auto request = createRequest(REFRESH_URL);
     LoginData data; 
     data.login = login;
     auto byteArray = serializer_->SerializeLoginData(data);
-    networkManager_->Post(request, GetQByteArray(byteArray), refreshMainPageCallback); // Get request
+    request.SetBody(std::move(byteArray));
+    networkManager_->Post(std::make_unique<Request>(request), refreshMainPageCallback); // Get request
 }
 
 void RoomNetwork::AddUser(const int roomID, const std::string& login) {
-    auto request = CreateRequest(JOIN_URL);
+    auto request = createRequest(JOIN_URL);
     auto byteArray = serializer_->SerializeJoiningUser(roomID, login);
-    networkManager_->Post(request, GetQByteArray(byteArray), addUserCallback);  
+    request.SetBody(std::move(byteArray));
+    networkManager_->Post(std::make_unique<Request>(request), addUserCallback);  
 }
 
 void RoomNetwork::ConnectToRoom(const int roomID, const std::string& login) {
@@ -102,57 +107,52 @@ void RoomNetwork::DisconnectFromRoom() {
     tcpConnection_->DisconnectFromHost();
 }
 
-
 void RoomNetwork::OnCreateRoomResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeCreateRoomResponse(response->GetBody());
-        replyHandler_->OnCreateRoomResponse(200, std::move(data));
+        replyHandler_->OnCreateRoomResponse(std::move(data));
     } else {
-        replyHandler_->OnCreateRoomResponse(statusCode, RoomInfo{});
+        replyHandler_->ShowRoomCreationPageError("Room wasn't created: " + response->GetDescreption());
     }
 }
 
 void RoomNetwork::OnSendMessageResponse(IResponseUPtr response) {
-    replyHandler_->OnSendMessageResponse(response->GetStatus());
+    if (response->GetStatus())
+        replyHandler_->OnSendMessageResponse();
+    else 
+        replyHandler_->ShowRoomPageError("Message wasn't sent: " + response->GetDescreption());
 }
 
 void RoomNetwork::OnGetNewMessageResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeMessage(response->GetBody());
-        replyHandler_->OnGetNewMessageResponse(200, std::move(data));
-    } else {
-        replyHandler_->OnGetNewMessageResponse(statusCode, Message{});
+        replyHandler_->OnGetNewMessageResponse(std::move(data));
     }
 }
 
 void RoomNetwork::OnGetRoomMessagesResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeRoomMessages(response->GetBody());    
-        replyHandler_->OnGetRoomMessagesResponse(200, std::move(data));
+        replyHandler_->OnGetRoomMessagesResponse(std::move(data));
     } else {
-        replyHandler_->OnGetRoomMessagesResponse(statusCode, std::vector<Message>{});
+        replyHandler_->ShowMainPageError("Room history wasn't recieved: " + response->GetDescreption());
     }
 }
 
 void RoomNetwork::OnAddUserResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeUserInfo(response->GetBody());    
-        replyHandler_->OnAddUserResponse(200, std::move(data));
+        replyHandler_->OnAddUserResponse(std::move(data));
     } else {
-        replyHandler_->OnAddUserResponse(statusCode, UserInfo{});
+        replyHandler_->ShowRoomPageError("User wasn't added: " + response->GetDescreption());
     }
 }
 
 void RoomNetwork::OnRefreshMainPageResponse(IResponseUPtr response) {
-    auto statusCode = response->GetStatus();
-    if (statusCode == 200) {
+    if (response->GetStatus()) {
         auto data = deserializer_->DeserializeUserData(response->GetBody());
-        replyHandler_->OnRefreshMainPage(200, std::move(data));
+        replyHandler_->OnRefreshMainPage(std::move(data));
     } else {
-        replyHandler_->OnRefreshMainPage(statusCode, UserData{});
+        replyHandler_->ShowMainPageError("Update wasn't complited: " + response->GetDescreption());
     }
 }

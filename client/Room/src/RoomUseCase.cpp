@@ -56,17 +56,13 @@ void RoomUseCase::RefreshMainPage() {
     roomNetwork_->RefreshMainPage(data.info.login);
 }
 
-void RoomUseCase::OnSendMessageResponse(const int statusCode) {
-    if (statusCode == 200) {
-        roomMessages.push_back(tempMessage);
-        roomPage_->ShowSentMessage();
-    } else {
-        roomPage_->ShowError("Message wasn't sent");
-    }
+void RoomUseCase::OnSendMessageResponse() {
+    roomMessages.push_back(tempMessage);
+    roomPage_->ShowSentMessage();
 }
 
-void RoomUseCase::OnGetNewMessageResponse(const int statusCode, Message&& message) {
-    if (statusCode == 200 && !message.content.empty() &&
+void RoomUseCase::OnGetNewMessageResponse(Message&& message) {
+    if (!message.content.empty() &&
         message.author != data.info.login &&
         (roomMessages.empty() || message.id != roomMessages.back().id)) 
     {
@@ -75,43 +71,42 @@ void RoomUseCase::OnGetNewMessageResponse(const int statusCode, Message&& messag
     }
 }
 
-void RoomUseCase::OnGetRoomMessagesResponse(const int statusCode, std::vector<Message>&& messages) {
-    if (statusCode == 200) {
-        roomNetwork_->ConnectToRoom(room.id, data.info.login);
-        roomMessages = messages;
-        controller_->ShowRoomPage();
-        roomPage_->SetUserInfo(data.info);
-        roomPage_->ShowRoomInfo(room);
-        roomPage_->ShowLastMessages(messages);
-    } else {
-        roomPage_->ShowError("Error: messages wasn't loaded");
-    }
+void RoomUseCase::OnGetRoomMessagesResponse(std::vector<Message>&& messages) {
+    roomNetwork_->ConnectToRoom(room.id, data.info.login);
+    roomMessages = messages;
+    controller_->ShowRoomPage();
+    roomPage_->SetUserInfo(data.info);
+    roomPage_->ShowRoomInfo(room);
+    roomPage_->ShowLastMessages(messages);
 }
 
-void RoomUseCase::OnCreateRoomResponse(const int statusCode, RoomInfo&& roomInfo) {
-    if (statusCode == 200) {
-        roomNetwork_->ConnectToRoom(roomInfo.id, data.info.login);
-        data.rooms.push_back(roomInfo);
-        roomPage_->ShowRoomInfo(roomInfo);
-        roomPage_->SetUserInfo(data.info);
-        mainPage_->ShowRooms(data.rooms); // Add new room on main page
-        controller_->ShowRoomPage();
-    } else {
-        roomPage_->ShowError("Error: Room wasn't created");
-    }
+void RoomUseCase::OnCreateRoomResponse(RoomInfo&& roomInfo) {
+    roomNetwork_->ConnectToRoom(roomInfo.id, data.info.login);
+    data.rooms.push_back(roomInfo);
+    roomPage_->ShowRoomInfo(roomInfo);
+    roomPage_->SetUserInfo(data.info);
+    mainPage_->ShowRooms(data.rooms); // Add new room on main page
+    controller_->ShowRoomPage();
 }
 
-void RoomUseCase::OnAddUserResponse(const int statusCode, UserInfo&& userInfo) {
-    if (statusCode == 200) {
-        roomPage_->ShowAddedUser(userInfo);
-        AddUserIntoRoom(std::move(userInfo));
-    }
+void RoomUseCase::OnAddUserResponse(UserInfo&& userInfo) {
+    roomPage_->ShowAddedUser(userInfo);
+    AddUserIntoRoom(std::move(userInfo));
 }
 
-void RoomUseCase::OnRefreshMainPage(const int statusCode, const UserData& userData) {
-    if (statusCode == 200) {
-        data.rooms = userData.rooms; // required only rooms
-        mainPage_->ShowRooms(data.rooms);
-    }
+void RoomUseCase::OnRefreshMainPage(UserData&& userData) {
+    data.rooms = userData.rooms; // required only rooms
+    mainPage_->ShowRooms(data.rooms);
 }
 
+void RoomUseCase::ShowMainPageError(std::string&& error) {
+    mainPage_->ShowError(error);
+}
+
+void RoomUseCase::ShowRoomPageError(std::string&& error) {
+    roomPage_->ShowError(error);
+}
+
+void RoomUseCase::ShowRoomCreationPageError(std::string&& error) {
+    roomCreationPage_->ShowError(error);
+}

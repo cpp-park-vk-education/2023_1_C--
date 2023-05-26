@@ -20,27 +20,20 @@ void AccountUseCase::Signup(ISignupFormUPtr form) {
     }
 }
 
-void AccountUseCase::UserSetting(IUserSettingFormUPtr form) {}
-void AccountUseCase::Logout(const std::string& token) {}
-
-void AccountUseCase::OnLoginResponse(const int statusCode, UserData&& userData) {
-    if (statusCode != 200) {
-        loginPage_->ShowError("Error:" + std::to_string(statusCode) + " status code");
-    }
-    else {
-        userInfo_ = userData.info;
-        roomUseCase_->ShowMainPage(std::move(userData));
-    }
+void AccountUseCase::OnLoginResponse(UserData&& userData) {
+    userInfo_ = userData.info;
+    roomUseCase_->ShowMainPage(std::move(userData));
 }
 
-void AccountUseCase::OnSignupResponse(const int statusCode, UserData&& userData) {
-    if (statusCode != 200)
-        signupPage_->ShowError("Error:" + std::to_string(statusCode) + " status code");
-    else {
-        userInfo_ = userData.info;
-        roomUseCase_->ShowMainPage(std::move(userData));
-    }
+void AccountUseCase::OnLoginResponse(std::string&& error) {
+    loginPage_->ShowError(error);
 }
 
-void AccountUseCase::OnUserSettingResponse(const int statusCode, UserData&& userData) {}
-void AccountUseCase::OnLogoutResponse(const int statusCode) {}
+void AccountUseCase::OnSignupResponse(UserData&& userData) {
+    userInfo_ = userData.info;
+    roomUseCase_->ShowMainPage(std::move(userData));
+}
+
+void AccountUseCase::OnSignupResponse(std::string&& error) {
+    signupPage_->ShowError(error);
+}

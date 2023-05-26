@@ -5,10 +5,10 @@
 class IAccountReplyHandler {
 public:
     virtual ~IAccountReplyHandler() {}
-    virtual void OnLoginResponse(const int statusCode, UserData&& userData) = 0;
-    virtual void OnSignupResponse(const int statusCode, UserData&& userData) = 0;
-    virtual void OnUserSettingResponse(const int statusCode, UserData&& userData) = 0;
-    virtual void OnLogoutResponse(const int statusCode) = 0;
+    virtual void OnLoginResponse(UserData&& userData) = 0;
+    virtual void OnLoginResponse(std::string&& error) = 0;
+    virtual void OnSignupResponse(UserData&& userData) = 0;
+    virtual void OnSignupResponse(std::string&& error) = 0;
 };
 
 using IAccountReplyHandlerSPtr = std::shared_ptr<IAccountReplyHandler>;
