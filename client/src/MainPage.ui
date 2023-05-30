@@ -13,11 +13,26 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>32</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>32</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
    <item>
     <widget class="QLabel" name="label">
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">font-size: 20px;</string>
      </property>
      <property name="text">
       <string>Your rooms</string>
@@ -28,22 +43,24 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="errorLabel">
-     <property name="styleSheet">
-      <string notr="true">color: red;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QListWidget" name="listWidget">
      <property name="enabled">
       <bool>true</bool>
      </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 20px;</string>
+      <string notr="true">QListWidget {
+	border: none;
+	padding: 20px;
+	background-color: transparent;
+	font: 18px &quot;&quot;;
+}
+QListWidget::item {
+	margin: 4px;
+}
+</string>
      </property>
      <property name="uniformItemSizes">
       <bool>false</bool>
@@ -101,6 +118,16 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="errorLabel">
+     <property name="styleSheet">
+      <string notr="true">color: red;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -5,12 +5,7 @@
 #include "NetworkManager.hpp"
 #include "Communication.hpp"
 
-NetworkManager::NetworkManager(QObject *parent) : QObject(parent) {
-    networkManager = new QNetworkAccessManager(this);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &NetworkManager::ResponseHanler);
-}
-
-static QNetworkRequest fromIRequest(IRequestUPtr request) {
+static QNetworkRequest convertToQRequest(IRequestUPtr request) {
     auto qRequest = QNetworkRequest(QUrl(QString::fromStdString(request->GetUrl())));
 
     auto headers = request->GetHeaders();
@@ -20,15 +15,20 @@ static QNetworkRequest fromIRequest(IRequestUPtr request) {
     return qRequest;
 }
 
+NetworkManager::NetworkManager(QObject *parent) : QObject(parent) {
+    networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &NetworkManager::ResponseHanler);
+}
+
 void NetworkManager::Post(IRequestUPtr request, Callback callback) {
     callback_ = callback;
-    networkManager->post(fromIRequest(std::move(request)),
+    networkManager->post(convertToQRequest(std::move(request)),
                          QByteArray(request->GetBody().data()));
 }
 
 void NetworkManager::Get(IRequestUPtr request, Callback callback) {
     callback_ = callback;
-    networkManager->get(fromIRequest(std::move(request)));
+    networkManager->get(convertToQRequest(std::move(request)));
 }
 
 void NetworkManager::ResponseHanler(QNetworkReply* reply) {

@@ -2,8 +2,9 @@
 #include <QWidget>
 #include <QStringListModel>
 #include <QCompleter>
-#include <QFile>
+#include <QHash>
 #include <QString>
+#include <QFile>
 #include <QTextStream>
 #include <QDebug>
 #include "IRoomUseCase.hpp"
@@ -16,10 +17,8 @@ class RoomPage;
 }
 
 class RoomPage : public QWidget, 
-                 public IRoomPage
-{
+                 public IRoomPage {
     Q_OBJECT
-
 public:
     explicit RoomPage(QWidget *parent = nullptr);
     ~RoomPage();
@@ -27,9 +26,7 @@ public:
     void ShowSentMessage() override;
     void ShowAddedUser(const UserInfo& info) override;
     void ShowRoomInfo(const RoomInfo& roomInfo) override;
-    // void ShowRoomName(const std::string& name) override;
     void ShowLastMessages(const std::vector<Message>& messages) override;
-    // void ShowOldMessages(const std::vector<Message>& messages) override;
     void ShowNewMessage(const Message& message) override;
     void ShowError(const std::string& error) override;
 
@@ -51,16 +48,17 @@ private:
     QString tempNickname;
 
     UserInfo userInfo_; //
-    RoomInfo roomInfo_; 
+    RoomInfo roomInfo_;
+
+    QMap<QString, QString> members;
 
     Ui::RoomPage *ui;
     IRoomUseCaseSPtr useCase_;
-
+    
     QStringListModel *messagesListModel;
     QStringList *messagesList;
     QStringListModel *membersListModel;
     QStringList *membersList;
     QCompleter *completer;
     QStringList getWordList(const QString& path);
-    QString getUserNickname(const std::string& login);
 };

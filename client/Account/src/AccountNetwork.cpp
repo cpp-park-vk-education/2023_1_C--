@@ -4,8 +4,6 @@
 
 const std::string LOGIN_URL = "login";
 const std::string SIGNUP_URL = "register";
-const std::string USER_SETTING_URL = "setting";
-const std::string LOGOUT_URL = "logout";
 
 AccountNetwork::AccountNetwork() {
     loginCallback = Callback(
@@ -28,7 +26,7 @@ void AccountNetwork::Login(const LoginData& data) {
 }
 
 void AccountNetwork::Signup(const SignupData& data) {
-    auto request = createRequest(LOGIN_URL);
+    auto request = createRequest(SIGNUP_URL);
     request.SetBody(serializer_->SerializeSignupData(data));
     networkManager_->Post(std::make_unique<Request>(request), signupCallback);
 }
@@ -39,7 +37,7 @@ void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
         auto data = deserializer_->DeserializeUserData(response->GetBody());
         replyHandler_->OnLoginResponse(std::move(data));
     } else {
-        replyHandler_->OnLoginResponse(response->GetDescreption());
+        replyHandler_->OnLoginResponse("Authorization failed: " + response->GetDescreption());
     }
 }
 
@@ -48,6 +46,6 @@ void AccountNetwork::OnSignupResponse(IResponseUPtr response) {
         auto data = deserializer_->DeserializeUserData(response->GetBody());
         replyHandler_->OnSignupResponse(std::move(data));
     } else {
-        replyHandler_->OnSignupResponse(response->GetDescreption());
+        replyHandler_->OnSignupResponse("Registration failed: " + response->GetDescreption());
     }
 }

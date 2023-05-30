@@ -6,45 +6,76 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>818</width>
     <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Teamgram</string>
   </property>
-  <widget class="QStackedWidget" name="stackedWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>480</height>
-    </rect>
-   </property>
-   <widget class="QWidget" name="page">
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>30</y>
-       <width>371</width>
-       <height>101</height>
-      </rect>
-     </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+	background-color: rgb(30, 35, 40);
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QStackedWidget" name="stackedWidget">
      <property name="styleSheet">
-      <string notr="true">font-size: 24px;
-color: white;</string>
+      <string notr="true">*{
+	padding: 4px;
+	margin: 4px;
+	color: #fff;
+}
+
+QPushButton {
+	padding: 8px 6px;
+	background-color: rgb(30, 35, 50);
+}
+
+QLineEdit {
+	border-radius: 5px;
+	padding: 8px 16px;
+	background-color: rgb(30, 35, 50);
+}
+
+QListWidget {
+	border-radius: 8px;
+	font: 14px &quot;&quot;;
+	background-color: rgb(30, 35, 50);
+}
+
+QListWidget::item {
+	margin: 8px 16px;
+	padding: 8px 16px;
+}
+
+QScrollArea {
+	border-radius: 8px;
+	font: 14px &quot;&quot;;
+	background-color: rgb(30, 35, 50);
+}
+
+QListView {
+	background-color: transparent;
+}
+
+QListView::item {
+	padding: 4px 12px;
+}
+</string>
      </property>
-     <property name="text">
-      <string>Welcome to Teamgram!</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <widget class="QWidget" name="page">
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
     </widget>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

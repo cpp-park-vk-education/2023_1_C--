@@ -15,7 +15,7 @@ void TcpConnection::ConnectToHost(const int roomID, const std::string& login,
                                   std::function<void(const int)> requestNewMessage) 
 {
     qDebug() << "ConnectToHost";
-    socket->connectToHost(QHostAddress("127.0.0.1"), 8080, QIODevice::ReadWrite);
+    socket->connectToHost(QHostAddress("127.0.0.1"), 1337, QIODevice::ReadWrite);
 
     auto data = std::to_string(roomID) + " " + login;
     qDebug() << QString::fromStdString(data);

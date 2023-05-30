@@ -39,9 +39,9 @@ public:
 
         connect(server, &QTcpServer::newConnection, this, &TcpMessageReciver::slotNewConnection);
 
-        if (!server->listen(QHostAddress("127.0.0.1"), 8080))
+        if (!server->listen(QHostAddress("127.0.0.1"), 1337))
             qDebug() << "Router error\n";
-        else qDebug() << "Router started on port 8080\n";
+        else qDebug() << "Router started on port 1337\n";
     }
 
     TcpMessageReciver& operator=(TcpMessageReciver&& other);

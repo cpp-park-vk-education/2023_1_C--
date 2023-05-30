@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 #include "IRoomPage.hpp"
 #include "IMainPage.hpp"
 #include "IRoomCreationPage.hpp"
@@ -8,13 +9,15 @@
 #include "IRoomNetwork.hpp"
 #include "IWidgetController.hpp"
 
+using Rooms = std::unordered_map<int, RoomInfo>;
+
 class RoomUseCase : public IRoomUseCase,
                     public IRoomReplyHandler {
 public:
     void CreateRoom(std::string&& name,
                     std::vector<std::string>&& members) override;
     void SendMessage(Message&& message) override;
-    void GetNewMessage(const int roomID) override;
+    // void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID) override;
     void AddUser(const int roomID, const std::string& login) override;
     void RefreshMainPage() override;
@@ -56,16 +59,18 @@ public:
     }
 
 private:
-    UserData data;
-    RoomInfo room;
+    int currentRoomID;
+
+    UserInfo userInfo;
+    Rooms userRooms;
+
     Message tempMessage;
     std::vector<Message> roomMessages;
+
     IRoomPage* roomPage_;
     IMainPage* mainPage_;
     IRoomCreationPage* roomCreationPage_;
     IAccountUseCaseSPtr accountUseCase_;
     IRoomNetworkSPtr roomNetwork_;
     IWidgetController* controller_;
-    RoomInfo FindRoomInfo(const int roomID);
-    void AddUserIntoRoom(UserInfo&& userInfo);
 };

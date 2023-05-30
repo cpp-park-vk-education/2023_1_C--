@@ -56,13 +56,9 @@ RoomNetwork::RoomNetwork() {
     );
 }
 
-void RoomNetwork::CreateRoom(std::string&& name, 
-                             std::vector<std::string>&& members) 
-{
+void RoomNetwork::CreateRoom(std::string&& name, std::vector<std::string>&& members) {
     auto request = createRequest(CREATE_ROOM_URL);
-    auto byteArray = serializer_->SerializeRoomCreation(
-        std::move(name), std::move(members)
-    );
+    auto byteArray = serializer_->SerializeRoomCreation(std::move(name), std::move(members));
     request.SetBody(std::move(byteArray));
     networkManager_->Post(std::make_unique<Request>(request), createRoomCallback);
 }
@@ -74,7 +70,7 @@ void RoomNetwork::SendMessage(const Message& message) {
     networkManager_->Post(std::make_unique<Request>(request), sendMessageCallback);
 }
 
-void RoomNetwork::GetNewMessage(const int roomID) {}
+// void RoomNetwork::GetNewMessage(const int roomID) {}
 
 void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
     auto request = createRequest(GET_ROOM_MESSAGES_URL);
@@ -83,7 +79,7 @@ void RoomNetwork::GetRoomMessages(const int roomID, const std::string& login) {
     networkManager_->Post(std::make_unique<Request>(request), getRoomMessagesCallback); // Get request
 }
 
-void RoomNetwork::RefreshMainPage(const std::string& login) {
+void RoomNetwork::RefreshMainPage(const std::string& login) { // cringe
     auto request = createRequest(REFRESH_URL);
     LoginData data; 
     data.login = login;

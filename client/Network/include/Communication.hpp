@@ -4,15 +4,12 @@
 
 class Response : public IResponse {
 public:
-    Response() {}
 
     Response(bool status, std::vector<char>&& body) 
         : status_(status), body_(body) {}
 
     Response(bool status, std::string&& description) 
         : status_(status), description_(description) {}
-
-    ~Response() {}
 
     bool GetStatus() override { return status_; }
 

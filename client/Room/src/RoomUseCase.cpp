@@ -1,40 +1,22 @@
 #include "RoomUseCase.hpp"
 
-RoomInfo RoomUseCase::FindRoomInfo(const int roomID) {
-    for (const auto& room : data.rooms)
-        if (room.id == roomID)
-            return room;
-    return RoomInfo{};
-}
-
-void RoomUseCase::AddUserIntoRoom(UserInfo&& userInfo) {
-    const auto roomID = room.id;
-    for (auto& room : data.rooms)
-        if (room.id == roomID) {
-            room.members.push_back(userInfo);
-            return;
-        }
-}
-
 void RoomUseCase::SendMessage(Message&& message) {
     tempMessage = message;
     roomNetwork_->SendMessage(message);
 }
 
-void RoomUseCase::CreateRoom(std::string&& name,
-                             std::vector<std::string>&& members) 
-{
-    members.push_back(data.info.login);
+void RoomUseCase::CreateRoom(std::string&& name, std::vector<std::string>&& members) {
+    members.push_back(userInfo.login);
     roomNetwork_->CreateRoom(std::move(name), std::move(members));
 }
 
-void RoomUseCase::GetNewMessage(const int roomID) {
-    roomNetwork_->GetNewMessage(roomID);
-}
+// void RoomUseCase::GetNewMessage(const int roomID) {
+//     roomNetwork_->GetNewMessage(roomID);
+// }
 
 void RoomUseCase::GetRoomMessages(const int roomID) {
-    room = FindRoomInfo(roomID);
-    roomNetwork_->GetRoomMessages(roomID, data.info.login);
+    currentRoomID = roomID;
+    roomNetwork_->GetRoomMessages(roomID, userInfo.login);
 }
 
 void RoomUseCase::ShowMainPage() {
@@ -43,9 +25,12 @@ void RoomUseCase::ShowMainPage() {
 }
 
 void RoomUseCase::ShowMainPage(UserData&& userData) {
-    data = userData;
+    userInfo = userData.info;
+    auto rooms = userData.rooms;
+    for (auto it = rooms.begin(); it != rooms.end(); ++it)
+        userRooms.insert({it->id, *it}); // cringe
     controller_->ShowMainPage();
-    mainPage_->ShowRooms(userData.rooms);
+    mainPage_->ShowRooms(userRooms);
 }
 
 void RoomUseCase::AddUser(const int roomID, const std::string& login) {
@@ -53,7 +38,7 @@ void RoomUseCase::AddUser(const int roomID, const std::string& login) {
 }
 
 void RoomUseCase::RefreshMainPage() {
-    roomNetwork_->RefreshMainPage(data.info.login);
+    roomNetwork_->RefreshMainPage(userInfo.login);
 }
 
 void RoomUseCase::OnSendMessageResponse() {
@@ -61,9 +46,9 @@ void RoomUseCase::OnSendMessageResponse() {
     roomPage_->ShowSentMessage();
 }
 
-void RoomUseCase::OnGetNewMessageResponse(Message&& message) {
+void RoomUseCase::OnGetNewMessageResponse(Message&& message) { // think about it
     if (!message.content.empty() &&
-        message.author != data.info.login &&
+        message.author != userInfo.login &&
         (roomMessages.empty() || message.id != roomMessages.back().id)) 
     {
         roomMessages.push_back(message);
@@ -72,31 +57,33 @@ void RoomUseCase::OnGetNewMessageResponse(Message&& message) {
 }
 
 void RoomUseCase::OnGetRoomMessagesResponse(std::vector<Message>&& messages) {
-    roomNetwork_->ConnectToRoom(room.id, data.info.login);
+    roomNetwork_->ConnectToRoom(currentRoomID, userInfo.login);
     roomMessages = messages;
     controller_->ShowRoomPage();
-    roomPage_->SetUserInfo(data.info);
-    roomPage_->ShowRoomInfo(room);
+    roomPage_->SetUserInfo(userInfo);
+    roomPage_->ShowRoomInfo(userRooms[currentRoomID]);
     roomPage_->ShowLastMessages(messages);
 }
 
 void RoomUseCase::OnCreateRoomResponse(RoomInfo&& roomInfo) {
-    roomNetwork_->ConnectToRoom(roomInfo.id, data.info.login);
-    data.rooms.push_back(roomInfo);
+    roomNetwork_->ConnectToRoom(roomInfo.id, userInfo.login);
+    userRooms.insert({roomInfo.id, roomInfo});
     roomPage_->ShowRoomInfo(roomInfo);
-    roomPage_->SetUserInfo(data.info);
-    mainPage_->ShowRooms(data.rooms); // Add new room on main page
+    roomPage_->SetUserInfo(userInfo);
+    mainPage_->ShowRooms(userRooms); // Add new room on main page
     controller_->ShowRoomPage();
 }
 
 void RoomUseCase::OnAddUserResponse(UserInfo&& userInfo) {
+    userRooms[currentRoomID].members.push_back(userInfo);
     roomPage_->ShowAddedUser(userInfo);
-    AddUserIntoRoom(std::move(userInfo));
 }
 
 void RoomUseCase::OnRefreshMainPage(UserData&& userData) {
-    data.rooms = userData.rooms; // required only rooms
-    mainPage_->ShowRooms(data.rooms);
+    auto rooms = userData.rooms;
+    for (auto it = rooms.begin(); it != rooms.end(); ++it)
+        userRooms.insert({it->id, *it}); // cringe
+    mainPage_->ShowRooms(userRooms);
 }
 
 void RoomUseCase::ShowMainPageError(std::string&& error) {

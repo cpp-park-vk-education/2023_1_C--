@@ -103,7 +103,6 @@ std::vector<Message> Deserializer::DeserializeRoomMessages(std::vector<char> byt
 }
 
 UserInfo Deserializer::DeserializeUserInfo(std::vector<char> byteArray) {
-    // auto debugData = QJsonDocument(ByteArrayToJsonObj(byteArray)).toJson(QJsonDocument::Compact).toStdString();
     auto userInfoJsonValue = ByteArrayToJsonObj(byteArray);
     auto userInfoJsonObj = userInfoJsonValue[USER_INFO_KEY].toObject();
     return DeserializeUserInfoInternal(userInfoJsonObj);

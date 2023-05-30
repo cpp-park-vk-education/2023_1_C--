@@ -1,6 +1,6 @@
 #include "Communication.hpp"
 
-const std::string ROOT_URL = "http://127.0.0.1:1488/"; // cringe
+const std::string ROOT_URL = "http://127.0.0.1:8080/"; // cringe
 
 Request createRequest(const std::string& url, Headers headers) {
     Request request;

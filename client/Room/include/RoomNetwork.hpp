@@ -8,12 +8,11 @@
 
 class RoomNetwork : public IRoomNetwork {
 public:
-
     RoomNetwork();
     void SendMessage(const Message& message) override;
     void CreateRoom(std::string&& name, 
                     std::vector<std::string>&& members) override;
-    void GetNewMessage(const int roomID) override;
+    // void GetNewMessage(const int roomID) override;
     void GetRoomMessages(const int roomID, const std::string& login) override;
     void AddUser(const int roomID, const std::string& login) override;
     void DisconnectFromRoom() override;

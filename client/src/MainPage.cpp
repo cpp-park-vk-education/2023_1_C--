@@ -5,12 +5,10 @@
 
 const int ROOM_ID_ROLE = 1;
 
-MainPage::MainPage(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::MainPage)
-{
+MainPage::MainPage(QWidget *parent)
+    : QWidget(parent), ui(new Ui::MainPage) {
     ui->setupUi(this);
-    connect(ui->listWidget, &QListWidget::itemDoubleClicked, this, &MainPage::OnSelectRoom);
+    connect(ui->listWidget, &QListWidget::itemActivated, this, &MainPage::OnSelectRoom);
     connect(ui->createButton, &QAbstractButton::clicked, this, &MainPage::OnCreateRoom);
     connect(ui->refreshButton, &QAbstractButton::clicked, this, &MainPage::OnRefreshMainPage);
 }
@@ -20,14 +18,13 @@ MainPage::~MainPage()
     delete ui;
 }
 
-void MainPage::ShowRooms(const std::vector<RoomInfo>& rooms) {
-    ui->errorLabel->setText("");
-    ui->listWidget->clear();
-    for(const auto& room : rooms) {
-        QListWidgetItem* roomWidget = new QListWidgetItem(ui->listWidget);
-        roomWidget->setText(QString::fromStdString(room.name));
-        roomWidget->setData(ROOM_ID_ROLE, room.id);
-        ui->listWidget->addItem(roomWidget);
+void MainPage::ShowRooms(const Rooms& rooms) {
+    ClearPage();
+    for(auto it = rooms.begin(); it != rooms.end(); ++it) {
+        auto roomListWidget = new QListWidgetItem(ui->listWidget);
+        roomListWidget->setText(QString::fromStdString(it->second.name));
+        roomListWidget->setData(ROOM_ID_ROLE, it->first);
+        ui->listWidget->addItem(roomListWidget);
     }
 }
 
@@ -47,4 +44,9 @@ void MainPage::OnCreateRoom() {
 
 void MainPage::OnRefreshMainPage() {
     useCase_->RefreshMainPage();
+}
+
+void MainPage::ClearPage() {
+    ui->errorLabel->setText("");
+    ui->listWidget->clear();
 }

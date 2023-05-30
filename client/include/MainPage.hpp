@@ -18,7 +18,7 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
     ~MainPage();
 
-    void ShowRooms(const std::vector<RoomInfo>& rooms) override;
+    void ShowRooms(const Rooms& rooms) override;
     void ShowError(const std::string& error) override;
 
     void SetController(IWidgetController* controller) {
@@ -39,8 +39,8 @@ public slots:
     
 private:
     Ui::MainPage *ui;
-
     IRoomUseCaseSPtr useCase_;
     IWidgetController* controller_;
+    void ClearPage();
 };
 
