@@ -6,15 +6,38 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>480</height>
+    <width>720</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QListWidget {
+	border: none;
+	background-color: transparent;
+	font: 20px &quot;&quot;;
+	outline: 0;
+}
+
+QListWidget::item {
+	margin: 8px 12px;
+	padding: 12px 12px;
+}
+
+QListWidget::item:selected {
+	margin: 8px 0px;
+	padding: 12px 0px;
+	background-color: transparent;
+}
+
+QListWidget::item:hover{
+	margin: 8px 0px;
+	padding: 12px 0px;
+	background-color: rgb(30, 35, 50);
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
@@ -51,16 +74,7 @@
       <bool>true</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QListWidget {
-	border: none;
-	padding: 20px;
-	background-color: transparent;
-	font: 18px &quot;&quot;;
-}
-QListWidget::item {
-	margin: 4px;
-}
-</string>
+      <string notr="true"/>
      </property>
      <property name="uniformItemSizes">
       <bool>false</bool>

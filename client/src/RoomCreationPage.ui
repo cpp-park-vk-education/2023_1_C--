@@ -6,30 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>480</height>
+    <width>720</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QListWidget {
+	border: none;
+	background-color: transparent;
+	font: 14px &quot;&quot;;
+	outline: 0;
+	margin: 8px 20px;
+}
+
+QListWidget::item {
+	padding: 8px 20px;
+}
+
+QListWidget::item:selected {
+	padding: 8px 20px;
+	background-color: transparent;
+}
+
+</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>32</number>
-   </property>
-   <property name="topMargin">
-    <number>16</number>
-   </property>
-   <property name="rightMargin">
-    <number>32</number>
-   </property>
-   <property name="bottomMargin">
-    <number>16</number>
-   </property>
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
     <widget class="QLabel" name="errorLabel">
      <property name="styleSheet">
       <string notr="true">color: red;</string>
@@ -39,15 +44,8 @@
      </property>
     </widget>
    </item>
-   <item>
+   <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="name">
-       <property name="placeholderText">
-        <string>Enter the name of the room</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QPushButton" name="addButton">
        <property name="text">
@@ -81,15 +79,11 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="username">
-       <property name="placeholderText">
-        <string>Enter the username</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="1">
       <widget class="QListWidget" name="members">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -115,10 +109,49 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="MCLineEdit" name="username" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="placeholderText" stdset="0">
+        <string notr="true">Enter the username</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="MCLineEdit" name="name" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="placeholderText" stdset="0">
+        <string notr="true">Enter the username</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MCLineEdit</class>
+   <extends>QWidget</extends>
+   <header location="global">../include/mclineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

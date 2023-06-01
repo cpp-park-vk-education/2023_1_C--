@@ -3,9 +3,9 @@
 #include <QAbstractItemView>
 #include <QScrollBar>
 
-MCLineEdit::MCLineEdit(QWidget *parent) :
-    QLineEdit(parent)
-{}
+MCLineEdit::MCLineEdit(QWidget *parent) 
+    : QLineEdit(parent) {
+}
 
 void MCLineEdit::keyPressEvent(QKeyEvent *e)
 {
@@ -46,4 +46,8 @@ void MCLineEdit::setMultipleCompleter(QCompleter* completer)
     c->setWidget(this);
     connect(c, SIGNAL(activated(QString)),
             this, SLOT(insertCompletion(QString)));
+    auto popup = c->popup();
+    popup->setStyleSheet("background: #1E2328;"
+                         "selection-background-color: #1E2332;"
+                         "color: #fff;");
 }

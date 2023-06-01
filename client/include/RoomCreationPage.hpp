@@ -1,9 +1,12 @@
 #pragma once
 #include "IRoomCreationPage.hpp"
-
 #include <QWidget>
-#include <QListWidget>
-#include <string>
+#include <QStringListModel>
+#include <QCompleter>
+#include <QHash>
+#include <QString>
+#include <QFile>
+#include <QTextStream>
 #include <vector>
 #include <optional>
 #include "IWidgetController.hpp"
@@ -28,9 +31,6 @@ public:
         roomUseCase_ = roomUseCase;
     }
 
-    void SetController(IWidgetController* controller) {
-        controller_ = controller;
-    }
 
 private slots:
     void OnCreateRoomButtonClicked();
@@ -40,7 +40,9 @@ private slots:
 private:
     Ui::RoomCreationPage *ui;
     std::vector<std::string> members;
-    IWidgetController* controller_;
     IRoomUseCaseSPtr roomUseCase_;
+    QCompleter *userCompleter;
+    QCompleter *nameCompleter;
     void ClearForm();
+    QStringList getWordList(const QString& path);
 };

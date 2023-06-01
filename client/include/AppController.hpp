@@ -30,5 +30,4 @@ private:
     MainPage* mainPage;
     RoomPage* roomPage;
     RoomCreationPage* roomCreationPage;
-    RoomSearchPage* roomSearchPage;
 };

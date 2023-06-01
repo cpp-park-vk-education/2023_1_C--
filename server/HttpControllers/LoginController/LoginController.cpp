@@ -23,8 +23,6 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
 
     auto password = requestJSONObject.value("Password").toString();
 
-    qDebug() << password.isEmpty();
-
     auto hashPassword = QCryptographicHash::hash(
         password.toUtf8(), QCryptographicHash::Algorithm::Sha256
     );

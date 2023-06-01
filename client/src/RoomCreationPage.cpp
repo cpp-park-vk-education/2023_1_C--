@@ -10,6 +10,15 @@ RoomCreationPage::RoomCreationPage(QWidget *parent) :
     connect(ui->createButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnCreateRoomButtonClicked);
     connect(ui->backButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnBackButtonClicked);
     connect(ui->addButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnAddUserButtonClicked);
+
+    userCompleter = new QCompleter(getWordList("../../client/etc/users.txt"), this);
+    userCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->username->setMultipleCompleter(userCompleter);
+
+    nameCompleter = new QCompleter(getWordList("../../client/etc/wordlist.txt"), this);
+    nameCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->name->setMultipleCompleter(nameCompleter);
+
 }
 
 RoomCreationPage::~RoomCreationPage()
@@ -29,7 +38,7 @@ void RoomCreationPage::OnAddUserButtonClicked() {
 
 void RoomCreationPage::OnBackButtonClicked() {
     ClearForm();
-    controller_->ShowMainPage();
+    roomUseCase_->ShowMainPage();
 }
 
 void RoomCreationPage::OnCreateRoomButtonClicked() {    
@@ -57,4 +66,16 @@ void RoomCreationPage::ClearForm() {
 
 void RoomCreationPage::ShowError(const std::string& error) {
     ui->errorLabel->setText(QString::fromStdString(error));
+}
+
+QStringList RoomCreationPage::getWordList(const QString& path) {
+    QFile file(path);
+    file.open(QIODevice::ReadOnly);
+    QTextStream in(&file);
+    QStringList fields;
+    while(!in.atEnd()) {
+        QString line = in.readLine();
+        fields.append(line.split(","));
+    }
+    return fields;
 }

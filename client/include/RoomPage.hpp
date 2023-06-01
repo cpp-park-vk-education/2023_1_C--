@@ -9,7 +9,6 @@
 #include <QDebug>
 #include "IRoomUseCase.hpp"
 #include "IRoomPage.hpp"
-#include "IWidgetController.hpp"
 #include "RoomData.hpp"
 
 namespace Ui {
@@ -59,6 +58,8 @@ private:
     QStringList *messagesList;
     QStringListModel *membersListModel;
     QStringList *membersList;
-    QCompleter *completer;
+    QCompleter *messageCompleter;
+    QCompleter *userCompleter;
     QStringList getWordList(const QString& path);
+    void  ClearPage();
 };

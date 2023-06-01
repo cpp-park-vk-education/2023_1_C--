@@ -20,7 +20,6 @@ AppController::AppController() {
     mainPage = new MainPage(mainWindow);
     roomPage = new RoomPage(mainWindow);
     roomCreationPage = new RoomCreationPage(mainWindow);
-    roomSearchPage = new RoomSearchPage(mainWindow);
 
     mainPage->SetUseCase(roomUseCaseSPtr);
     mainPage->SetController(mainWindow);
@@ -34,17 +33,12 @@ AppController::AppController() {
     roomPage->SetUseCase(roomUseCaseSPtr);
 
     roomCreationPage->SetUseCase(roomUseCaseSPtr);
-    roomCreationPage->SetController(mainWindow);
-
-    roomSearchPage->SetUseCase(roomUseCaseSPtr);
-    roomSearchPage->SetController(mainWindow);
 
     mainWindow->SetLoginPage(loginPage);
     mainWindow->SetSignupPage(signupPage);
     mainWindow->SetMainPage(mainPage);
     mainWindow->SetRoomPage(roomPage);
     mainWindow->SetRoomCreationPage(roomCreationPage);
-    mainWindow->SetRoomSearchPage(roomSearchPage);
 
     accountUseCaseSPtr->SetLoginPage(loginPage);
     accountUseCaseSPtr->SetSignupPage(signupPage);

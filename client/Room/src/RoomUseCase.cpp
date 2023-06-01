@@ -21,14 +21,15 @@ void RoomUseCase::GetRoomMessages(const int roomID) {
 
 void RoomUseCase::ShowMainPage() {
     roomNetwork_->DisconnectFromRoom();
+    RefreshMainPage();
     controller_->ShowMainPage();    
 }
 
 void RoomUseCase::ShowMainPage(UserData&& userData) {
     userInfo = userData.info;
     auto rooms = userData.rooms;
-    for (auto it = rooms.begin(); it != rooms.end(); ++it)
-        userRooms.insert({it->id, *it}); // cringe
+    for (const auto& room : userData.rooms)
+        userRooms.insert({room.id, room});
     controller_->ShowMainPage();
     mainPage_->ShowRooms(userRooms);
 }
@@ -46,7 +47,7 @@ void RoomUseCase::OnSendMessageResponse() {
     roomPage_->ShowSentMessage();
 }
 
-void RoomUseCase::OnGetNewMessageResponse(Message&& message) { // think about it
+void RoomUseCase::OnGetNewMessageResponse(Message&& message) {
     if (!message.content.empty() &&
         message.author != userInfo.login &&
         (roomMessages.empty() || message.id != roomMessages.back().id)) 
@@ -80,9 +81,9 @@ void RoomUseCase::OnAddUserResponse(UserInfo&& userInfo) {
 }
 
 void RoomUseCase::OnRefreshMainPage(UserData&& userData) {
-    auto rooms = userData.rooms;
-    for (auto it = rooms.begin(); it != rooms.end(); ++it)
-        userRooms.insert({it->id, *it}); // cringe
+    userRooms.clear();
+    for (const auto& room : userData.rooms)
+        userRooms.insert({room.id, room});
     mainPage_->ShowRooms(userRooms);
 }
 

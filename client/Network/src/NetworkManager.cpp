@@ -10,7 +10,8 @@ static QNetworkRequest convertToQRequest(IRequestUPtr request) {
 
     auto headers = request->GetHeaders();
     for (auto it = headers.begin(); it != headers.end(); ++it)
-        qRequest.setRawHeader(QByteArray(it->first.c_str()), QByteArray(it->second.c_str()));
+        qRequest.setRawHeader(QByteArray(it->first.c_str(), it->first.size()),
+                              QByteArray(it->second.c_str(), it->second.size()));
 
     return qRequest;
 }
@@ -23,7 +24,7 @@ NetworkManager::NetworkManager(QObject *parent) : QObject(parent) {
 void NetworkManager::Post(IRequestUPtr request, Callback callback) {
     callback_ = callback;
     networkManager->post(convertToQRequest(std::move(request)),
-                         QByteArray(request->GetBody().data()));
+                         QByteArray(request->GetBody().data(), request->GetBody().size()));
 }
 
 void NetworkManager::Get(IRequestUPtr request, Callback callback) {
@@ -33,7 +34,7 @@ void NetworkManager::Get(IRequestUPtr request, Callback callback) {
 
 void NetworkManager::ResponseHanler(QNetworkReply* reply) {
     qDebug() << reply->error();
-    if (reply->error() == QNetworkReply::NoError) {
+    if (!reply->error()) {
         auto body = reply->readAll();
         Response response(true, std::vector<char>(body.begin(), body.end()));
         callback_(std::make_unique<Response>(response));
