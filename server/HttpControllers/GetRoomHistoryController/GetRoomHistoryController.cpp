@@ -2,14 +2,20 @@
 
 void GetRoomHistoryController::service(IHttpRequest* request, IHttpResponse* response)
 {
-    auto jsonStr = request->getBody();
+    // auto jsonStr = request->getBody();
 
-    auto requestJSONObject = QJsonDocument::fromJson(
-        QByteArray::fromStdString(jsonStr)
-    ).object();
+    // auto requestJSONObject = QJsonDocument::fromJson(
+    //     QByteArray::fromStdString(jsonStr)
+    // ).object();
 
+    // auto messages = historyService->getMessages(
+    //     requestJSONObject.value("ID").toInt()
+    // );
+
+    auto parameters = request->getParameters();
+    
     auto messages = historyService->getMessages(
-        requestJSONObject.value("ID").toInt()
+        std::stoi(parameters.at("ID"))
     );
 
     QJsonObject responseJSONObject;

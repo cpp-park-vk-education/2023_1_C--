@@ -48,27 +48,3 @@ private:
     std::string lastname_;
     std::string nickname_;
 };
-
-class UserSettingForm : public IUserSettingForm{
-public:
-    UserSettingForm(const std::string& nickname) 
-        : nickname_(nickname) {}
-
-    void SetFirstname(const std::string& firstname) {
-        firstname_ = firstname;
-    }
-
-    void SetLastname(const std::string& lastname) {
-        lastname_ = lastname;
-    }
-
-    void validate() const override;
-
-    UserSettingData getUserSettingData() const;
-
-private:
-    std::string nickname_;
-    std::string firstname_;
-    std::string lastname_;
-};
-

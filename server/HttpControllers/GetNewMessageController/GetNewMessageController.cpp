@@ -2,15 +2,22 @@
 
 void GetNewMessageController::service(IHttpRequest* request, IHttpResponse* response)
 {
-    auto jsonStr = request->getBody();
+    // auto jsonStr = request->getBody();
 
-    auto requestJSONObject = QJsonDocument::fromJson(
-        QByteArray::fromStdString(jsonStr)
-    ).object();
+    // auto requestJSONObject = QJsonDocument::fromJson(
+    //     QByteArray::fromStdString(jsonStr)
+    // ).object();
 
+    // auto msg = getMessageService->getNewMessage(
+    //     requestJSONObject.value("ID").toInt()
+    // );
+
+    auto parameters = request->getParameters();
+    
     auto msg = getMessageService->getNewMessage(
-        requestJSONObject.value("ID").toInt()
+        std::stoi(parameters.at("ID"))
     );
+
 
     QJsonObject responseJSONObject;
 

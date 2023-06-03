@@ -16,6 +16,15 @@ HttpMethods HttpRequestAdapter::getMethod() const
     return HttpMethods::UNK;
 }
 
+std::map<std::string, std::string> HttpRequestAdapter::getParameters() const
+{
+    std::map<std::string, std::string> parameters;
+    auto parameterMap = request->getParameterMap();
+    for (const auto& param : parameterMap.toStdMap())
+        parameters.insert({param.first.toStdString(), param.second.toStdString()});
+    return parameters;
+}
+
 std::string HttpRequestAdapter::getPath() const
 {
     return request->getPath().toStdString();

@@ -1,9 +1,7 @@
 #include "AccountNetwork.hpp"
-#include "Communication.hpp"
-#include "AccountData.hpp"
 
-const std::string LOGIN_URL = "login";
-const std::string SIGNUP_URL = "register";
+const std::string LOGIN_URL = "/login";
+const std::string SIGNUP_URL = "/register";
 
 AccountNetwork::AccountNetwork() {
     loginCallback = Callback(
@@ -20,17 +18,16 @@ AccountNetwork::AccountNetwork() {
 }
 
 void AccountNetwork::Login(const LoginData& data) {
-    auto request = createRequest(LOGIN_URL);
+    auto request = requestCreator_->CreateRequest(LOGIN_URL);
     request.SetBody(serializer_->SerializeLoginData(data));
     networkManager_->Post(std::make_unique<Request>(request), loginCallback);
 }
 
 void AccountNetwork::Signup(const SignupData& data) {
-    auto request = createRequest(SIGNUP_URL);
+    auto request = requestCreator_->CreateRequest(SIGNUP_URL);
     request.SetBody(serializer_->SerializeSignupData(data));
     networkManager_->Post(std::make_unique<Request>(request), signupCallback);
 }
-
 
 void AccountNetwork::OnLoginResponse(IResponseUPtr response) {
     if (response->GetStatus()) {

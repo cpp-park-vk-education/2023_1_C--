@@ -4,6 +4,7 @@
 #include "ISerializer.hpp"
 #include "IDeserializer.hpp"
 #include "INetworkManager.hpp"
+#include "IHttpRequestCreator.hpp"
 
 class AccountNetwork : public IAccountNetwork {
 public:
@@ -27,7 +28,12 @@ public:
         deserializer_ = serializer;
     }
 
+    void SetHttpRequestCreator(IHttpRequestCreatorSPtr requestCreator) {
+        requestCreator_ = requestCreator;
+    }
+
 private:
+    IHttpRequestCreatorSPtr requestCreator_;
     INetworkManagerSPtr networkManager_;
     IAccountReplyHandlerSPtr replyHandler_;
     ISerializerSPtr serializer_;

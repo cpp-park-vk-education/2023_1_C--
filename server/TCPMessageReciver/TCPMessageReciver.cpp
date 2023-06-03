@@ -40,7 +40,7 @@ void TcpMessageReciver::sendSignalToUsersFromRoom(const int roomId, const QStrin
 
     for (const auto& elem : *roomCell)
         if (elem.login != login)
-            elem.socket->write("i am gay");
+            elem.socket->write(std::to_string(roomId).c_str());
 }
 
 void TcpMessageReciver::slotNewConnection()

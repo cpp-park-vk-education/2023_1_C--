@@ -1,5 +1,5 @@
-Admin
-Anastasia
-Oleg
-Maksim
-Dima
+admin
+nastya
+oleg
+maksim
+dima

@@ -72,17 +72,3 @@ SignupData SignupForm::getSignupData() const {
     signupData.lastName = firstname_;
     return signupData;
 }
-
-void UserSettingForm::validate() const {
-    validateNickname(nickname_);
-    validateName(firstname_, lastname_);
-}
-
-UserSettingData UserSettingForm::getUserSettingData() const {
-    UserSettingData userSettingData{};
-    userSettingData.nickname = nickname_;
-    userSettingData.firstname = firstname_;
-    userSettingData.lastname = lastname_;
-    return userSettingData;
-}
-

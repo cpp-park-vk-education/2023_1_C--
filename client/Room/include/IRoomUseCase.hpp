@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include "RoomData.hpp"
-#include "AccountData.hpp"
+#include "UserData.hpp"
+#include "Message.hpp"
 
 class IRoomUseCase {
 public:

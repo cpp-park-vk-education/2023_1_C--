@@ -15,17 +15,27 @@ if(BUILD_TESTS)
     # add_subdirectory(Room/tests)
 endif()
   
-find_package(Qt5 REQUIRED COMPONENTS Widgets
-                                     Network
-                                     Core)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Network Core)
 
-include_directories(
-    Account/include
-    Network/include  
-    Room/include
-    include
-    etc
-)
+include_directories(Account/include
+                    AppController
+                    DataStructures
+                    GUI
+                    GUI/LoginPage
+                    GUI/MainPage
+                    GUI/MainWindow
+                    GUI/MCLineEdit
+                    GUI/RoomPage
+                    GUI/RoomCreationPage
+                    GUI/RoomSearchPage
+                    GUI/SignupPage
+                    Network/NetworkManager
+                    Network/Request
+                    Network/RequestCreator
+                    Network/Response
+                    Network/Serialization/include
+                    Network/TcpConnection
+                    Room/include)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -36,46 +46,39 @@ set(ACCOUNT_SOURCES Account/src/AccountNetwork.cpp
                     Account/src/Forms.cpp)
 
 set(ROOM_SOURCES    Room/src/RoomNetwork.cpp
-                    Room/src/RoomUseCase.cpp
-                    Room/include/RoomData.hpp
-                    Room/include/RoomNetwork.hpp
-                    Room/include/RoomUseCase.hpp
-                    src/MCLineEdit.cpp
-                    include/mclineedit.h)
+                    Room/src/RoomUseCase.cpp)
 
-set(NETWORK_SOURCES Network/src/NetworkManager.cpp
-                    Network/src/Communication
-                    Network/src/Serializer
-                    Network/src/Deserializer
-                    Network/src/TcpConnection.cpp)  
+set(NETWORK_SOURCES Network/NetworkManager/NetworkManager.cpp
+                    Network/Serialization/src/Serializer.cpp
+                    Network/Serialization/src/Deserializer.cpp
+                    Network/TcpConnection/TcpConnection.cpp)  
 
-SET(UI_SOURCES      include/MainWindow.hpp
-                    src/MainWindow.cpp
-                    src/MainWindow.ui
-                    include/LoginPage.hpp
-                    src/LoginPage.cpp
-                    src/LoginPage.ui
-                    include/SignupPage.hpp
-                    src/SignupPage.cpp
-                    src/SignupPage.ui
-                    include/MainPage.hpp
-                    src/MainPage.cpp
-                    src/MainPage.ui
-                    include/RoomPage.hpp
-                    src/RoomPage.cpp
-                    src/RoomPage.ui
-                    include/RoomPage.hpp
-                    src/RoomPage.cpp
-                    src/RoomPage.ui
-                    include/RoomCreationPage.hpp
-                    src/RoomCreationPage.cpp
-                    src/RoomCreationPage.ui
-                    include/RoomSearchPage.hpp
-                    src/RoomSearchPage.cpp
-                    src/RoomSearchPage.ui)
+SET(UI_SOURCES      GUI/MainWindow/MainWindow.hpp
+                    GUI/MainWindow/MainWindow.cpp
+                    GUI/MainWindow/MainWindow.ui
+                    GUI/LoginPage/LoginPage.hpp
+                    GUI/LoginPage/LoginPage.cpp
+                    GUI/LoginPage/LoginPage.ui
+                    GUI/SignupPage/SignupPage.hpp
+                    GUI/SignupPage/SignupPage.cpp
+                    GUI/SignupPage/SignupPage.ui
+                    GUI/MainPage/MainPage.hpp
+                    GUI/MainPage/MainPage.cpp
+                    GUI/MainPage/MainPage.ui
+                    GUI/RoomPage/RoomPage.hpp
+                    GUI/RoomPage/RoomPage.cpp
+                    GUI/RoomPage/RoomPage.ui
+                    GUI/RoomCreationPage/RoomCreationPage.hpp
+                    GUI/RoomCreationPage/RoomCreationPage.cpp
+                    GUI/RoomCreationPage/RoomCreationPage.ui
+                    GUI/RoomSearchPage/RoomSearchPage.hpp
+                    GUI/RoomSearchPage/RoomSearchPage.cpp
+                    GUI/RoomSearchPage/RoomSearchPage.ui
+                    GUI/MCLineEdit/MCLineEdit.cpp
+                    GUI/MCLineEdit/mclineedit.h)
 
-add_executable(client src/main.cpp
-                      src/AppController.cpp
+add_executable(client main.cpp
+                      AppController/AppController.cpp
                       ${ACCOUNT_SOURCES}
                       ${ROOM_SOURCES}
                       ${NETWORK_SOURCES}

@@ -1,9 +1,7 @@
 #pragma once
-#include "AccountData.hpp"
-#include "IAccountNetwork.hpp"
-#include <string>
-#include <unordered_map>
 #include <memory>
+#include "LoginData.hpp"
+#include "SignupData.hpp"
 
 class IAccountNetwork {
 public:

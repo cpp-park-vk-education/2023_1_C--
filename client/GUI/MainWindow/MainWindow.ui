@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QWidget" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>720</width>
+    <height>425</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Teamgram</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+	background-color: rgb(30, 35, 40);
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>420</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">*{
+	padding: 4px;
+	margin: 4px;
+	color: #fff;
+}
+
+QPushButton {
+	padding: 8px 6px;
+	background-color: rgb(30, 35, 50);
+}
+
+QLineEdit {
+	border-radius: 5px;
+	padding: 8px 16px;
+	background-color: rgb(30, 35, 50);
+}
+
+QScrollArea {
+	border-radius: 8px;
+	font: 14px &quot;&quot;;
+	background-color: rgb(30, 35, 50);
+}
+
+QListView {
+	outline: 0;
+	background-color: transparent;
+}
+
+QListView::item {
+	padding: 4px 12px;
+}
+</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

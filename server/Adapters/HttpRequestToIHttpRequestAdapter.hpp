@@ -21,6 +21,8 @@ public:
 
     std::string getPath() const override;
 
+    std::map<std::string, std::string> getParameters() const override;
+
     std::string getHeader(const std::string& name) const override;
 
     std::string getBody() const override;
