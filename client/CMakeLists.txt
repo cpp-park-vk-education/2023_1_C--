@@ -75,7 +75,7 @@ SET(UI_SOURCES      GUI/MainWindow/MainWindow.hpp
                     GUI/RoomSearchPage/RoomSearchPage.cpp
                     GUI/RoomSearchPage/RoomSearchPage.ui
                     GUI/MCLineEdit/MCLineEdit.cpp
-                    GUI/MCLineEdit/mclineedit.h)
+                    GUI/MCLineEdit/MCLineEdit.hpp)
 
 add_executable(client main.cpp
                       AppController/AppController.cpp

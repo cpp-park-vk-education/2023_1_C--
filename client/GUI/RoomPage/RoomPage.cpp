@@ -1,6 +1,6 @@
 #include "RoomPage.hpp"
 #include "ui_RoomPage.h"
-#include "mclineedit.h"
+#include "MCLineEdit.hpp"
 
 const QString MESSAGE_DELIMITER = ": ";
 const QString YOUR_NAME = "You";
@@ -23,6 +23,9 @@ RoomPage::RoomPage(QWidget *parent)
     connect(ui->sendBtn, &QAbstractButton::clicked, this, &RoomPage::OnSendButtonClicked);
     connect(ui->addUserButton, &QAbstractButton::clicked, this, &RoomPage::OnAddUserButtonClicked);
 
+    messageCompleter = new QCompleter(this);
+    userCompleter = new QCompleter(this);
+
 }
 
 RoomPage::~RoomPage() {
@@ -31,11 +34,13 @@ RoomPage::~RoomPage() {
     delete membersList;
 }
 
-void RoomPage::SetMessageCompleter(QCompleter* messageCompleter) {
+void RoomPage::SetMessageCompleter(const QStringList& wordsList) {
+    messageCompleter->setModel(new QStringListModel(wordsList, messageCompleter));
     ui->messageLineEdit->setMultipleCompleter(messageCompleter);
 }
 
-void RoomPage::SetUserCompleter(QCompleter* userCompleter) {
+void RoomPage::SetUserCompleter(const QStringList& usersList) {
+    userCompleter->setModel(new QStringListModel(usersList, userCompleter));
     ui->userLineEdit->setMultipleCompleter(userCompleter);
 }
 

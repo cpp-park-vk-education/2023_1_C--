@@ -149,7 +149,7 @@ QListWidget::item:selected {
   <customwidget>
    <class>MCLineEdit</class>
    <extends>QWidget</extends>
-   <header location="global">../include/mclineedit.h</header>
+   <header location="global">../MCLineEdit/MCLineEdit.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

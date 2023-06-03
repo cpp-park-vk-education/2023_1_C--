@@ -99,13 +99,11 @@ AppController::AppController() {
     auto wordList = getWordList("../../client/etc/wordlist.txt");
     auto usersList = getWordList("../../client/etc/users.txt");
     
-#pragma region cringe
-    roomPage->SetMessageCompleter(new QCompleter(wordList));
-    roomPage->SetUserCompleter(new QCompleter(usersList));
+    roomPage->SetMessageCompleter(wordList);
+    roomPage->SetUserCompleter(usersList);
 
-    roomCreationPage->SetWordCompleter(new QCompleter(wordList));
-    roomCreationPage->SetUserCompleter(new QCompleter(usersList));
-#pragma endregion
+    roomCreationPage->SetWordCompleter(wordList);
+    roomCreationPage->SetUserCompleter(usersList);
 } 
 
 AppController::~AppController() {

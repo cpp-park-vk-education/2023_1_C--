@@ -26,8 +26,9 @@ public:
         roomUseCase_ = roomUseCase;
     }
 
-    void SetWordCompleter(QCompleter* wordCompleter);
-    void SetUserCompleter(QCompleter* userCompleter);
+    void SetWordCompleter(const QStringList& wordsList);
+
+    void SetUserCompleter(const QStringList& usersList);
 
 private slots:
     void OnCreateRoomButtonClicked();
@@ -35,6 +36,8 @@ private slots:
     void OnAddUserButtonClicked();
 
 private:
+    QCompleter* completer;
+    QCompleter* userCompleter;  
     Ui::RoomCreationPage *ui;
     QVector<QString> members;
     IRoomUseCaseSPtr roomUseCase_;

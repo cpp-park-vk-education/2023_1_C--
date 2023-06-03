@@ -31,8 +31,9 @@ public:
         userInfo_ = userInfo;
     }
 
-    void SetMessageCompleter(QCompleter* messageCompleter);
-    void SetUserCompleter(QCompleter* userCompleter);
+    void SetMessageCompleter(const QStringList& wordsList);
+
+    void SetUserCompleter(const QStringList& usersList);
 
 private slots:
     void OnBackButtonClicked();
@@ -40,6 +41,9 @@ private slots:
     void OnAddUserButtonClicked();
 
 private:
+    QCompleter* messageCompleter;
+    QCompleter* userCompleter;
+
     QString tempContent;
     QString tempNickname;
 

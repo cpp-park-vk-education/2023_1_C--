@@ -1,9 +1,14 @@
 #include "RoomCreationPage.hpp"
 #include "ui_RoomCreationPage.h"
+#include <QStringListModel>
 
 RoomCreationPage::RoomCreationPage(QWidget *parent)
     : QWidget(parent), ui(new Ui::RoomCreationPage) {
     ui->setupUi(this);
+
+    completer = new QCompleter(this);
+    userCompleter = new QCompleter(this);
+
     connect(ui->createButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnCreateRoomButtonClicked);
     connect(ui->backButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnBackButtonClicked);
     connect(ui->addButton, &QAbstractButton::clicked, this, &RoomCreationPage::OnAddUserButtonClicked);
@@ -14,11 +19,13 @@ RoomCreationPage::~RoomCreationPage()
     delete ui;
 }
 
-void RoomCreationPage::SetWordCompleter(QCompleter* wordCompleter) {
-    ui->name->setMultipleCompleter(wordCompleter);
+void RoomCreationPage::SetWordCompleter(const QStringList& wordsList) {
+    completer->setModel(new QStringListModel(wordsList, completer));
+    ui->name->setMultipleCompleter(completer);
 }
 
-void RoomCreationPage::SetUserCompleter(QCompleter* userCompleter) {
+void RoomCreationPage::SetUserCompleter(const QStringList& usersList) {
+    userCompleter->setModel(new QStringListModel(usersList, userCompleter));
     ui->username->setMultipleCompleter(userCompleter);
 }
 
