@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
     map.insert(
         std::make_pair("/send", std::make_unique<SendMessageController>(
-            std::make_unique<SendMessageService>(roomDb)
+            std::make_unique<SendMessageService>(roomDb), &app
         ))
     );
 

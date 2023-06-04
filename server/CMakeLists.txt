@@ -8,6 +8,8 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Network Sql)
 
+find_package(SFML REQUIRED system network)
+
 include_directories(
     HttpRequest
     HttpResponse
@@ -67,7 +69,7 @@ add_executable(server
 
 target_include_directories(server PUBLIC ../DB/include)
 
-target_link_libraries(server DB /usr/local/lib/libQtWebApp.so.1.8.6 Qt5::Core Qt5::Network Qt5::Sql)
+target_link_libraries(server DB /usr/local/lib/libQtWebApp.so.1.8.6 Qt5::Core Qt5::Network Qt5::Sql sfml-system sfml-network)
 
 install(TARGETS server
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

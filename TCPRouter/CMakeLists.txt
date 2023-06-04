@@ -9,7 +9,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Network)
-
 include_directories(
   include
 )

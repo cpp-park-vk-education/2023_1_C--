@@ -33,6 +33,8 @@ void TcpMessageRouter::insert(const int roomId, UserConnection&& userConnection)
 
 void TcpMessageRouter::sendSignalToUsersFromRoom(const int roomId, const QString& login)
 {
+    qDebug() << roomId;
+
     auto roomCell = connectionMap.find(roomId);
 
     if (roomCell == connectionMap.end())
@@ -103,6 +105,7 @@ void TcpMessageRouter::slotPrimeSocketRead()
 {
     while (primeSocket->bytesAvailable() > 0)
     {
+
         auto data = primeSocket->readAll();
 
         qDebug() << data;
@@ -118,12 +121,20 @@ void TcpMessageRouter::configurePrimeSocket(QTcpSocket* socket)
 {
     primeSocket = socket;
 
+    qDebug() << primeSocket->state();
+
+    connect(primeSocket, &QTcpSocket::stateChanged, this, [this](){
+        qDebug() << primeSocket->state();
+    });
+
     qDebug() << "prime socket was connected";
 
     connect(primeSocket, &QTcpSocket::readyRead, this, &TcpMessageRouter::slotPrimeSocketRead);
     connect(primeSocket, &QTcpSocket::disconnected, this, [this]()
     {
         this->primeSocket->close();
+
+        primeSocket = nullptr;
 
         qDebug() << "prime socket was closed\n";
     });

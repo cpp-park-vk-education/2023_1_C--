@@ -4,7 +4,7 @@ make:
 client:
 	cmake -B ./build -S . && cd ./build/client && make && cd ../../
 
-build:
+comp_build:
 	docker compose build
 
 run:

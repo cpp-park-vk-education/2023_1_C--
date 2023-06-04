@@ -16,7 +16,7 @@ public:
     }
     
     void SetConfiguration(const std::string& host, unsigned short port) {
-        host_ = QString::fromStdString(host);
+        host_ = "172.17.0.1"; // hard code
         port_ = port;
     }
 

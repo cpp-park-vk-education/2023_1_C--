@@ -32,7 +32,7 @@ void SendMessageController::service(IHttpRequest* request, IHttpResponse* respon
     {
         std::lock_guard _(m);
 
-        socket->write(data.toUtf8());
+        socket->send(data.toUtf8(), data.size());
     }
-    
+
 }
