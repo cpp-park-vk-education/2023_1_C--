@@ -34,15 +34,3 @@ RUN cp -r /QtWebApp/QtWebApp-1.8.6/QtWebApp/build/libQtWebApp.so.1 /usr/local/li
 RUN cp -r /QtWebApp/QtWebApp-1.8.6/QtWebApp/ /usr/local/include
 
 RUN cd /usr/local/include/QtWebApp/ && rm -r build doc Dox* *.pro && cd /src
-
-COPY . /src/
-
-RUN rm -rf ./build
-
-RUN cmake -B ./build -S .
-
-RUN cd ./build/server && make
-
-CMD [ "./build/server/server" ]
-
-EXPOSE 8080 1337

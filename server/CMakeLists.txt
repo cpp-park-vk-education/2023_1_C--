@@ -14,7 +14,6 @@ include_directories(
     HttpHandlers
     Services
     Adapters
-    TCPMessageReciver
     Services/CreateRoomService
     Services/GetRoomHistoryService
     Services/LoginService
@@ -24,6 +23,7 @@ include_directories(
     Services/SendMessageService
     Services/RegisterService
     Services/SearchRoomService
+    Services/RefreshRoomService
     HttpControllers
     HttpControllers/CreateRoomController
     HttpControllers/LoginController
@@ -34,6 +34,7 @@ include_directories(
     HttpControllers/GetRoomHistoryController
     HttpControllers/RegisterController
     HttpControllers/SearchRoomController
+    HttpControllers/RefreshRoomController
 )
 
 add_executable(server
@@ -51,6 +52,7 @@ add_executable(server
     Services/GetRoomHistoryService/GetRoomHistoryService.cpp
     Services/RegisterService/RegisterService.cpp
     Services/SearchRoomService/SearchRoomService.cpp
+    Services/RefreshRoomService/RefreshRoomService.cpp
     HttpControllers/CreateRoomController/CreateController.cpp
     HttpControllers/LoginController/LoginController.cpp
     HttpControllers/JoinRoomController/JoinRoomController.cpp
@@ -60,7 +62,7 @@ add_executable(server
     HttpControllers/GetRoomHistoryController/GetRoomHistoryController.cpp
     HttpControllers/RegisterController/RegisterController.cpp
     HttpControllers/SearchRoomController/SearchRoomController.cpp
-    TCPMessageReciver/TCPMessageReciver.cpp
+    HttpControllers/RefreshRoomController/RefreshRoomController.cpp
 )
 
 target_include_directories(server PUBLIC ../DB/include)

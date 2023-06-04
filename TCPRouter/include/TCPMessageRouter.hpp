@@ -8,6 +8,7 @@
 #include <memory>
 #include <QTcpServer>
 #include <QQueue>
+#include <QSettings>
 
 class UserConnection
 {
@@ -19,7 +20,7 @@ public:
 
     friend bool operator!=(const QString& l, const UserConnection& r);
 
-    friend class TcpMessageReciver;
+    friend class TcpMessageRouter;
 
 private:
     QString login;
@@ -27,24 +28,23 @@ private:
     QTcpSocket* socket;
 };
 
-class TcpMessageReciver : public QObject
+class TcpMessageRouter : public QObject
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(TcpMessageReciver)
+    Q_DISABLE_COPY(TcpMessageRouter)
 public:
 
-    explicit TcpMessageReciver(QObject* parent = (QObject*)nullptr) : QObject(parent)
+    explicit TcpMessageRouter(QObject* parent = (QObject*)nullptr) : QObject(parent)
     {
         server = new QTcpServer(this);
 
-        connect(server, &QTcpServer::newConnection, this, &TcpMessageReciver::slotNewConnection);
+        connect(server, &QTcpServer::newConnection, this, &TcpMessageRouter::slotNewConnection);
 
-        if (!server->listen(QHostAddress("127.0.0.1"), 1337))
+        if (!server->listen(QHostAddress("0.0.0.0"), 1337))
             qDebug() << "Router error\n";
         else qDebug() << "Router started on port 1337\n";
     }
 
-    TcpMessageReciver& operator=(TcpMessageReciver&& other);
+    TcpMessageRouter& operator=(TcpMessageRouter&& other);
 
     void sendSignalToUsersFromRoom(const int roomId, const QString& login);
 
@@ -53,10 +53,16 @@ public slots:
 
     void slotServerRead();
 
+    void slotPrimeSocketRead();
+
 private:
     void insert(const int roomId, UserConnection&& userConnection);
 
+    void configurePrimeSocket(QTcpSocket* socket);
+
     QTcpServer* server;
+
+    QTcpSocket* primeSocket = nullptr;
 
     QQueue<QTcpSocket*> socketQueue;
 

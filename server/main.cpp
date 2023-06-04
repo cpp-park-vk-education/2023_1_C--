@@ -12,10 +12,10 @@
 #include "GetRoomHistoryController.hpp"
 #include "RegisterController.hpp"
 #include "SearchRoomController.hpp"
+#include "RefreshRoomController.hpp"
 #include "DBManager.hpp"
 #include "ClientDBManager.hpp"
 #include "RoomDBManager.hpp"
-#include "TCPMessageReciver.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -23,15 +23,9 @@ int main(int argc, char *argv[])
 
     app.setApplicationName("Teamgram Server");
 
-    auto settings = new QSettings("../../server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini"
+    auto settings = new QSettings("./server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini" ../../server/config.ini
 
     settings->beginGroup("listener");
-
-    // Возможно эту часть нужно выносить в отдельный модуль и делать depends on для осноного сервера
-
-    // auto messageRouter = std::make_unique<TcpMessageReciver>(&app);
-
-    // -------------------------------------------------
 
     auto manager = std::make_shared<DBManager>();
 
@@ -90,8 +84,8 @@ int main(int argc, char *argv[])
     );
 
     map.insert(
-        std::make_pair("/refresh", std::make_unique<LoginController>(
-            std::make_unique<LoginService>(clientDb, roomDb)
+        std::make_pair("/refresh", std::make_unique<RefreshRoomController>(
+            std::make_unique<RefreshRoomService>(clientDb, roomDb)
         ))
     );
     

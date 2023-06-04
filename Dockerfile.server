@@ -1,0 +1,13 @@
+FROM builderimage:latest
+
+COPY . /src/
+
+RUN rm -rf ./build
+
+RUN cmake -B ./build -S .
+
+RUN cd ./build/ && make
+
+CMD [ "./build/server/server" ]
+
+EXPOSE 8080

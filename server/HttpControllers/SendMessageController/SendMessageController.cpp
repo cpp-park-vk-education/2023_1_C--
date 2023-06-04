@@ -27,5 +27,12 @@ void SendMessageController::service(IHttpRequest* request, IHttpResponse* respon
         content.toStdString()
     );
 
-    messageRouter->sendSignalToUsersFromRoom(id, login);  
+    auto data = QString::number(id) + " " + login;
+
+    {
+        std::lock_guard _(m);
+
+        socket->write(data.toUtf8());
+    }
+    
 }

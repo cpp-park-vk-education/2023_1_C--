@@ -1,4 +1,4 @@
-#include "TCPMessageReciver.hpp"
+#include "TCPMessageRouter.hpp"
 
 bool operator==(const QString& l, const UserConnection& r)
 {
@@ -10,14 +10,14 @@ bool operator!=(const QString& l, const UserConnection& r)
     return !(l == r.login);
 }
 
-TcpMessageReciver& TcpMessageReciver::operator=(TcpMessageReciver&& other)
+TcpMessageRouter& TcpMessageRouter::operator=(TcpMessageRouter&& other)
 {
     this->connectionMap = std::move(other.connectionMap);
 
     return *this;
 }
 
-void TcpMessageReciver::insert(const int roomId, UserConnection&& userConnection)
+void TcpMessageRouter::insert(const int roomId, UserConnection&& userConnection)
 {
     auto roomCell = connectionMap.find(roomId);
 
@@ -31,7 +31,7 @@ void TcpMessageReciver::insert(const int roomId, UserConnection&& userConnection
     (*roomCell).push_back(std::move(userConnection));
 }
 
-void TcpMessageReciver::sendSignalToUsersFromRoom(const int roomId, const QString& login)
+void TcpMessageRouter::sendSignalToUsersFromRoom(const int roomId, const QString& login)
 {
     auto roomCell = connectionMap.find(roomId);
 
@@ -43,13 +43,20 @@ void TcpMessageReciver::sendSignalToUsersFromRoom(const int roomId, const QStrin
             elem.socket->write(std::to_string(roomId).c_str());
 }
 
-void TcpMessageReciver::slotNewConnection()
+void TcpMessageRouter::slotNewConnection()
 {
     auto clientSocket = server->nextPendingConnection();
 
+    if (!primeSocket)
+    {
+        configurePrimeSocket(clientSocket);
+
+        return;
+    }
+
     qDebug() << "socket was connected";
 
-    connect(clientSocket, &QTcpSocket::readyRead, this, &TcpMessageReciver::slotServerRead);
+    connect(clientSocket, &QTcpSocket::readyRead, this, &TcpMessageRouter::slotServerRead);
     connect(clientSocket, &QTcpSocket::disconnected, this, [clientSocket, this]()
     {
         for (auto it = connectionMap.begin(); it != connectionMap.end(); ++it)
@@ -71,7 +78,7 @@ void TcpMessageReciver::slotNewConnection()
     socketQueue.enqueue(clientSocket);
 }
 
-void TcpMessageReciver::slotServerRead()
+void TcpMessageRouter::slotServerRead()
 {
     auto socket = socketQueue.dequeue();
 
@@ -90,4 +97,34 @@ void TcpMessageReciver::slotServerRead()
         insert(splitted[0].toInt(), std::move(user));
 
     }
+}
+
+void TcpMessageRouter::slotPrimeSocketRead()
+{
+    while (primeSocket->bytesAvailable() > 0)
+    {
+        auto data = primeSocket->readAll();
+
+        qDebug() << data;
+
+        auto splitted = data.split(' ');
+
+        sendSignalToUsersFromRoom(splitted[0].toInt(), splitted[1]);
+
+    }
+}
+
+void TcpMessageRouter::configurePrimeSocket(QTcpSocket* socket)
+{
+    primeSocket = socket;
+
+    qDebug() << "prime socket was connected";
+
+    connect(primeSocket, &QTcpSocket::readyRead, this, &TcpMessageRouter::slotPrimeSocketRead);
+    connect(primeSocket, &QTcpSocket::disconnected, this, [this]()
+    {
+        this->primeSocket->close();
+
+        qDebug() << "prime socket was closed\n";
+    });
 }

@@ -7,10 +7,12 @@
 #include <QJsonArray>
 #include <QPair>
 #include <QJsonValue>
+#include <QTcpSocket>
+#include <mutex>
 
 #include "IHttpRequestHandler.hpp"
 #include "SendMessageService.hpp"
-#include "TCPMessageReciver.hpp"
+
 
 class SendMessageController : public IHttpRequestHandler
 {
@@ -18,7 +20,9 @@ public:
     SendMessageController(std::unique_ptr<SendMessageService> service)
     : sendService(std::move(service))
     {
-        messageRouter = std::make_unique<TcpMessageReciver>();
+        socket = std::make_unique<QTcpSocket>();
+
+        socket->connectToHost("172.17.0.1", 1337);
     }
 
     void service(IHttpRequest*, IHttpResponse*) override;
@@ -26,5 +30,7 @@ public:
 private:
     std::unique_ptr<SendMessageService> sendService;
 
-    std::unique_ptr<TcpMessageReciver> messageRouter;
+    std::unique_ptr<QTcpSocket> socket;
+
+    std::mutex m;
 };

@@ -1,18 +1,13 @@
-#include "LoginController.hpp"
+#include "RefreshRoomController.hpp"
 #include <QVector>
 #include <QDebug>
 
-void LoginController::service(IHttpRequest* request, IHttpResponse* response)
+void RefreshRoomController::service(IHttpRequest* request, IHttpResponse* response)
 {
 
-    auto jsonStr = request->getBody();
+    auto parameters = request->getParameters();
 
-    auto requestJSONObject = QJsonDocument::fromJson(
-        QByteArray::fromStdString(jsonStr)
-    ).object();
-
-
-    auto client = loginService->getClient(requestJSONObject.value("Login").toString().toStdString());
+    auto client = refreshService->getClient(parameters.at("login"));
 
     if (!client.login.size())
     {
@@ -21,20 +16,7 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
         return;
     }
 
-    auto password = requestJSONObject.value("Password").toString();
-
-    auto hashPassword = QCryptographicHash::hash(
-        password.toUtf8(), QCryptographicHash::Algorithm::Sha256
-    );
-
-    if (client.password != hashPassword)
-    {
-        response->setStatus(401, "password missmatch");
-
-        return;
-    }
-
-    auto rooms = loginService->getClientRooms(client.login.toStdString());
+    auto rooms = refreshService->getClientRooms(client.login.toStdString());
 
     QJsonObject responseJSONObject;
 
@@ -45,7 +27,7 @@ void LoginController::service(IHttpRequest* request, IHttpResponse* response)
     response->setBody(QJsonDocument(responseJSONObject).toJson(QJsonDocument::Compact).toStdString());
 }
 
-void LoginController::fillJsonClient(QJsonObject& json, const Client& client)
+void RefreshRoomController::fillJsonClient(QJsonObject& json, const Client& client)
 {
     json.insert("UserInfo", QJsonValue({
         qMakePair(QString::fromStdString("Login"), QJsonValue(client.login)),
@@ -56,13 +38,13 @@ void LoginController::fillJsonClient(QJsonObject& json, const Client& client)
     );
 }
 
-void LoginController::fillJsonRooms(QJsonObject& json, const QVector<Room>& rooms)
+void RefreshRoomController::fillJsonRooms(QJsonObject& json, const QVector<Room>& rooms)
 {
     QJsonArray roomArray;
 
     for (const auto& room : rooms)
     {
-        auto clientsInRoom = loginService->getClients(room.ID);
+        auto clientsInRoom = refreshService->getClients(room.ID);
         
         QJsonArray members;
         
