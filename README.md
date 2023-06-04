@@ -5,10 +5,11 @@
 
 ## Для сборки сервера использовать:
 ```bash
-make && make run
+make && make comp_build && make run
 ```
 
 PS: Если изображение builderimage уже есть (использовать docker images), то достаточно только make run
+UPD: Для сборки compose использовать make comp_build
 
 # Клиент
 
