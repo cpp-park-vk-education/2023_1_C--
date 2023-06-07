@@ -78,7 +78,7 @@ static std::vector<RoomInfo> DeserializeVectorOfRooms(const QJsonArray& roomsJso
     return rooms;
 }
 
-UserData Deserializer::DeserializeUserData(std::vector<char> byteArray) {
+UserData Deserializer::DeserializeUserData(const std::vector<char>& byteArray) {
     UserData data;
     auto jsonObj = ByteArrayToJsonObj(byteArray);
     auto info = DeserializeUserInfoInternal(jsonObj[USER_INFO_KEY].toObject());
@@ -88,7 +88,7 @@ UserData Deserializer::DeserializeUserData(std::vector<char> byteArray) {
     return data;    
 }
 
-RoomInfo Deserializer::DeserializeCreateRoomResponse(std::vector<char> byteArray) {
+RoomInfo Deserializer::DeserializeCreateRoomResponse(const std::vector<char>& byteArray) {
     RoomInfo roomInfo_;
     auto jsonObj = ByteArrayToJsonObj(byteArray);
     auto roomInfo = DeserializeRoomInfo(jsonObj);
@@ -97,7 +97,7 @@ RoomInfo Deserializer::DeserializeCreateRoomResponse(std::vector<char> byteArray
     return roomInfo_;
 }
 
-Message Deserializer::DeserializeMessage(std::vector<char> byteArray) {
+Message Deserializer::DeserializeMessage(const std::vector<char>& byteArray) {
     Message message_;
     auto responseJsonObj = ByteArrayToJsonObj(byteArray);
     auto message = DeserializeMessageInternal(responseJsonObj[MESSAGE_KEY].toObject());
@@ -106,12 +106,12 @@ Message Deserializer::DeserializeMessage(std::vector<char> byteArray) {
     return message_;
 }
 
-std::vector<Message> Deserializer::DeserializeRoomMessages(std::vector<char> byteArray) {
+std::vector<Message> Deserializer::DeserializeRoomMessages(const std::vector<char>& byteArray) {
     auto jsonObj = ByteArrayToJsonObj(byteArray);
     return DeserializeVectorOfMessages(jsonObj.value(MESSAGES_KEY).toArray());
 }
 
-UserInfo Deserializer::DeserializeUserInfo(std::vector<char> byteArray) {
+UserInfo Deserializer::DeserializeUserInfo(const std::vector<char>& byteArray) {
     UserInfo info_;
     auto userInfoJsonObj = ByteArrayToJsonObj(byteArray);
     auto info = DeserializeUserInfoInternal(userInfoJsonObj[USER_INFO_KEY].toObject());

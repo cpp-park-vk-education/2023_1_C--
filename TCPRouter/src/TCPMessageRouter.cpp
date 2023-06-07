@@ -12,6 +12,9 @@ bool operator!=(const QString& l, const UserConnection& r)
 
 TcpMessageRouter& TcpMessageRouter::operator=(TcpMessageRouter&& other)
 {
+    if (this == &other)
+        return *this;
+
     this->connectionMap = std::move(other.connectionMap);
 
     return *this;
@@ -28,7 +31,7 @@ void TcpMessageRouter::insert(const int roomId, UserConnection&& userConnection)
         return;
     }
 
-    (*roomCell).push_back(std::move(userConnection));
+    roomCell->push_back(std::move(userConnection));
 }
 
 void TcpMessageRouter::sendSignalToUsersFromRoom(const int roomId, const QString& login)

@@ -10,6 +10,10 @@ struct Message {
           author(other.author), sendingData(other.sendingData) {}
            
     Message& operator=(const Message& other) {
+        
+        if (this == &other)
+            return *this;
+
         id = other.id;
         content = other.content;
         author = other.author;

@@ -29,10 +29,6 @@ void SendMessageController::service(IHttpRequest* request, IHttpResponse* respon
 
     auto data = QString::number(id) + " " + login;
 
-    {
-        std::lock_guard _(m);
-
-        socket->send(data.toUtf8(), data.size());
-    }
+    socket->send(data.toUtf8(), data.size());
 
 }

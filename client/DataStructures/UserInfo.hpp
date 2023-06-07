@@ -11,6 +11,10 @@ struct UserInfo {
         firstName(other.firstName), lastName(other.lastName) {}
 
     UserInfo& operator=(const UserInfo& other) {
+
+        if (this == &other)
+            return *this;
+
         login = other.login;
         nickname = other.nickname;
         firstName = other.firstName; 

@@ -12,6 +12,10 @@ struct RoomInfo {
         : id(other.id), name(other.name), members(other.members) {}
 
     RoomInfo& operator=(const RoomInfo& other) {
+
+        if (this == &other)
+            return *this;
+
         id = other.id;
         name = other.name;
         members = other.members;

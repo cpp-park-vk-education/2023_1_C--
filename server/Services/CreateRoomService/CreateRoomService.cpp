@@ -4,13 +4,13 @@ bool CreateRoomService::isClientExists(const std::string& login)
 {
     auto client = clientManager->getClient(QString::fromStdString(login));
 
-    if (!client.login.size())
+    if (client.login.isEmpty())
         return false;
     
     return true;
 }
 
-Room CreateRoomService::CreateRoomWithUsers(const std::vector<std::string>& logins, const std::string roomName)
+Room CreateRoomService::CreateRoomWithUsers(const std::vector<std::string>& logins, const std::string& roomName)
 {
     auto it = logins.begin();
 

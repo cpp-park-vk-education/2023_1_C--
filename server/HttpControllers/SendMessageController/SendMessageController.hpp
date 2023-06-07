@@ -8,7 +8,6 @@
 #include <QPair>
 #include <QJsonValue>
 #include <QTcpSocket>
-#include <mutex>
 
 #include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Network/Packet.hpp>
@@ -34,6 +33,4 @@ private:
     std::unique_ptr<SendMessageService> sendService;
 
     std::unique_ptr<sf::TcpSocket> socket;
-
-    std::mutex m;
 };
