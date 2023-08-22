@@ -19,6 +19,7 @@
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication app(argc, argv);
 
     app.setApplicationName("Teamgram Server");
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     auto settings = new QSettings("./server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini" ../../server/config.ini
 
     settings->beginGroup("listener");
+    
 
     auto manager = std::make_shared<DBManager>();
 
@@ -33,68 +35,32 @@ int main(int argc, char *argv[])
 
     auto roomDb = std::make_shared<RoomDBManager>(manager);
 
-    std::map<std::string, std::unique_ptr<IHttpRequestHandler>> map;
+    auto mapper = std::make_unique<HttpRequestMapper>();
 
-    map.insert(
-        std::make_pair("/login", std::make_unique<LoginController>(
-            std::make_unique<LoginService>(clientDb, roomDb)
-        ))
-    );
+    mapper->addController<LoginController, LoginService>("/login", clientDb, roomDb);
 
-    map.insert(
-        std::make_pair("/join", std::make_unique<JoinRoomController>(
-            std::make_unique<JoinRoomService>(clientDb, roomDb)
-        ))
-    );
+    mapper->addController<JoinRoomController, JoinRoomService>("/join", clientDb, roomDb);
 
-    map.insert(
-        std::make_pair("/send", std::make_unique<SendMessageController>(
-            std::make_unique<SendMessageService>(roomDb), &app
-        ))
-    );
+    mapper->addController<SendMessageController, SendMessageService>("/send", roomDb);
 
-    map.insert(
-        std::make_pair("/getmsg", std::make_unique<GetNewMessageController>(
-            std::make_unique<GetNewMessageService>(roomDb)
-        ))
-    );
+    mapper->addController<GetNewMessageController, GetNewMessageService>("/getmsg", roomDb);
 
-    map.insert(
-        std::make_pair("/create", std::make_unique<CreateRoomController>(
-            std::make_unique<CreateRoomService>(clientDb, roomDb)
-        ))
-    );
+    mapper->addController<CreateRoomController, CreateRoomService>("/create", clientDb, roomDb);
 
-    map.insert(
-        std::make_pair("/history", std::make_unique<GetRoomHistoryController>(
-            std::make_unique<GetRoomHistoryService>(roomDb)
-        ))
-    );
+    mapper->addController<GetRoomHistoryController, GetRoomHistoryService>("/history", roomDb);
 
-    map.insert(
-        std::make_pair("/register", std::make_unique<RegisterController>(
-            std::make_unique<RegisterService>(clientDb)
-        ))
-    );
+    mapper->addController<SearchRoomController, SearchRoomService>("/search", clientDb, roomDb);
 
-    map.insert(
-        std::make_pair("/search", std::make_unique<SearchRoomController>(
-            std::make_unique<SearchRoomService>(clientDb, roomDb)
-        ))
-    );
+    mapper->addController<RefreshRoomController, RefreshRoomService>("/refresh", clientDb, roomDb);
 
-    map.insert(
-        std::make_pair("/refresh", std::make_unique<RefreshRoomController>(
-            std::make_unique<RefreshRoomService>(clientDb, roomDb)
-        ))
-    );
+    mapper->addController<RegisterController, RegisterService>("/register", clientDb);
     
     try
     {
         new HttpListener(
             settings, 
             new RequestMapperAdapter(
-                std::make_unique<HttpRequestMapper>(std::move(map)), &app
+                std::move(mapper), &app
             ),
             &app);
     }
