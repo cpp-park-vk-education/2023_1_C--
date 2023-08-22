@@ -1,5 +1,10 @@
 #include "HttpRequestMapper.hpp"
 
+HttpRequestMapper::HttpRequestMapper()
+{
+    controllerMap = decltype(controllerMap)();
+}
+
 void HttpRequestMapper::service(IHttpRequest* request, IHttpResponse* response)
 {
     auto path = request->getPath();
