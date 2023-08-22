@@ -19,6 +19,7 @@
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication app(argc, argv);
 
     app.setApplicationName("Teamgram Server");
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     auto settings = new QSettings("./server/config.ini", QSettings::IniFormat, &app); // "./server/config.ini" ../../server/config.ini
 
     settings->beginGroup("listener");
+    
 
     auto manager = std::make_shared<DBManager>();
 
@@ -35,7 +37,7 @@ int main(int argc, char *argv[])
 
     auto mapper = std::make_unique<HttpRequestMapper>();
 
-    mapper->addController<LoginController, LoginService>("/path", clientDb, roomDb);
+    mapper->addController<LoginController, LoginService>("/login", clientDb, roomDb);
 
     mapper->addController<JoinRoomController, JoinRoomService>("/join", clientDb, roomDb);
 
@@ -51,7 +53,7 @@ int main(int argc, char *argv[])
 
     mapper->addController<RefreshRoomController, RefreshRoomService>("/refresh", clientDb, roomDb);
 
-    mapper->addController<RegisterController, RegisterService>("/refresh", clientDb);
+    mapper->addController<RegisterController, RegisterService>("/register", clientDb);
     
     try
     {
